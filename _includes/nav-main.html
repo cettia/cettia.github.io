@@ -1,0 +1,29 @@
+<div class="bar">
+	<div class="row">
+	    <div class="large-12 columns">
+        {% assign post = site.posts.first %}
+        {% if post %}
+		    <div data-alert class="alert-box">
+                {{ post.author }} wrote <a href="{{ post.url }}">{{ post.title }}</a> on {{ post.date | date: "%B %-d, %Y" }}.
+			</div>
+        {% endif %}
+	    </div>
+	</div>
+</div>
+<div class="top-bar-wrapper">
+    <div class="row">
+        <nav class="top-bar" data-topbar>
+            <ul class="title-area">
+                <li class="name">
+                    <h1><a href="/">Cettia</a></h1>
+                </li>
+                <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+            </ul>
+            <section class="top-bar-section">
+                <ul class="left">
+                    <li><a href="/blog">Blog</a></li>
+                </ul>
+            </section>
+        </nav>
+    </div>
+</div>

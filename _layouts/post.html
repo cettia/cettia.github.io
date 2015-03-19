@@ -1,0 +1,16 @@
+---
+layout: blog
+---
+
+<article>
+    <h2>{{ page.title }}</h2>
+    <div class="information">
+        <p>
+            <a href="https://github.com/{{ page.author }}" class="post-author">
+                <img src="https://github.com/{{ page.author }}.png" alt="{{ page.author }}" width="24" height="24"> {{ page.author }}
+            </a>
+            wrote this on <time>{{ page.date | date_to_string }}</time>
+        </p>
+    </div>
+    <div class="content">{{ content }}</div>
+</article>

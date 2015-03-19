@@ -1,0 +1,57 @@
+---
+---
+
+@import "normalize";
+@import "settings";
+@import "foundation";
+@import url("//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700");
+
+.bar {
+  min-height: 5px;
+  background: linear-gradient(45deg, #444 0, #333 100%);
+  .alert-box {
+    background: inherit;
+    border: none;
+    margin: 0;
+  }
+}
+div.highlight {
+  margin-bottom: 1.25rem; 
+  line-height: normal;
+  pre {
+    border-left: 0.3rem solid #eee;
+    padding-left: 1rem;
+    code {
+      border: none;
+      background-color: inherit;
+      padding: 0;
+    }
+  }
+}
+div.top-bar-wrapper {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  .version-dropdown code {
+    border: none;
+    background-color: inherit;
+  }
+}
+div.row > div.columns > div.top-bar-wrapper {
+  margin-top: -1rem;
+}
+div.copyright {
+  color: #777;
+  p, ul {
+    font-size: 0.9rem;
+  }
+}
+article {
+  .information {
+    color: #888;
+    .post-author {
+      height: 24px;
+      display: inline-block;
+    }
+  }
+}
+a code {color: inherit;}
