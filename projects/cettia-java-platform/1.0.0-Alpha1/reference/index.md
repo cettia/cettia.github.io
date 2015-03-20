@@ -240,7 +240,7 @@ public class Bootstrap {
 
 **Note**
 
-* With the current implementation written in Play Java API, it's not possible to send and receive text frame and binary frame together via a WebSocket connection. It will be fixed by rewriting implementation in Play Scala API.
+* With the current implementation written in Play Java API, it's not possible to send and receive text frame and binary frame together via a WebSocket connection. It will be fixed by rewriting implementation in Play Scala API. [cettia-java-platform#3](https://github.com/cettia/cettia-java-platform/issues/3)
 
 **[Example](https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/play2)**
 
@@ -395,9 +395,9 @@ public class Bootstrap extends Verticle {
 ---
 
 ## Platform on platform
-Some platform is based on the other platform and allows to deal with the underlying platform so that it's possible to run application on such platform wihout creating an additional bridge if the corresponding bridge is available.
+Some platform, A, is based on the other platform, B, and allows to deal with the underlying platform, B, so that if a bridge for B is available, without creating an additional bridge for A, it's possible to run application on A through B.
 
-The general pattern is to share application between the platform and the underlying platform using `static` keyword, sharing application holder or adopting dependency injection.
+The general pattern is to share an application instance between the platform and the underlying platform using `static` keyword, sharing application holder or adopting dependency injection.
 
 ### JAX-RS 2
 [JAX-RS 2](https://docs.oracle.com/javaee/7/tutorial/doc/jaxws.htm) from Java EE 7. JAX-RS allows to deploy JAX-RS resources to several servers, and one of them is Servlet. That means, you can run application written in JAX-RS through Servlet. The same approach may be applied to JAX-RS 1. [Example](https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform-on-platform/jaxrs2-atmosphere2).
@@ -416,7 +416,7 @@ To write HTTP application, add the following dependency to your build or include
 ```
 
 ### `ServerHttpExchange` 
-It represents a server-side HTTP request-response exchange and is given when request headers is opened. Note that is is not thread safe.
+It represents a server-side HTTP request-response exchange and is given when request headers is read. Note that is is not thread safe.
 
 #### Request properties
 These are read only and might not be available in some platforms after `onend` or `onclose`.
@@ -459,7 +459,7 @@ for (String name : http.headerNames()) {
 </div>
 
 #### Reading request
-`read` initiates reading the request body and read chunk is passed to `onchunk`. Whether to read as text or binary is determined by the content-type request header in conformance with [RFC 2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec7.html#sec7.2.1). If the header starts with `text/`, chunk will be read as text following the specified charset in the header (`ISO-8859-1` if not specified) and passed as `String`. If not, chunk will be read as binary and passed as `ByteBuffer`. But you can force the request to how to the body using `readAsText` and `readAsBinary`. Finally, the request is fully read. Then, `onend` is fired which is the end of the request.
+`read` initiates reading the request body and a read chunk is passed to `onchunk`. Whether to read as text or binary is determined by the content-type request header in conformance with [RFC 2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec7.html#sec7.2.1). If the header starts with `text/`, chunk will be read as text following the specified charset in the header (`ISO-8859-1` if not specified) and passed as `String`. If not, chunk will be read as binary and passed as `ByteBuffer`. But you can force the request to how to read the body using `readAsText` and `readAsBinary`. Finally, the request is fully read. Then, `onend` is fired which is the end of the request.
 
 ```java
 Stringbuilder bodyBuilder = new Stringbuilder();

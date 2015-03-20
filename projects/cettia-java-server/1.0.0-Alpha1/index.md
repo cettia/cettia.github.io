@@ -3,7 +3,7 @@ layout: project
 title: Cettia Java Server
 ---
 
-Cettia Java Server <sup><strong>A</strong></sup> is a simple <sup><strong>B</strong></sup>, scalable <sup><strong>C</strong></sup> Java server designed to run any framework or platform on Java Virtual Machine <sup><strong>D</strong></sup>.
+Cettia Java Server <sup><strong>A</strong></sup> is a simple <sup><strong>B</strong></sup> and scalable <sup><strong>C</strong></sup> Java server designed to run any framework or platform on Java Virtual Machine <sup><strong>D</strong></sup>.
 
 <dl>
     <dt>A</dt>
@@ -11,7 +11,7 @@ Cettia Java Server <sup><strong>A</strong></sup> is a simple <sup><strong>B</str
     <dt>B</dt>
     <dd>All the interfaces you need to know are <code>Server</code> and <code>ServerSocket</code>. Indeed.</dd>
     <dt>C</dt>
-    <dd>Shared nothing architecture is adopted to help scale application horizontally with ease.</dd>
+    <dd>Because servers don't share any data, you can scale application horizontally with ease.</dd>
     <dt>D</dt>
     <dd>Because it is built on Cettia Java Platform, you can run your application on any platform where it supports seamlessly i.e. Atmosphere, Grizzly, Java WebSocket API, Netty, Play, Servlet and Vert.x.</dd>
 </dl> 
@@ -60,9 +60,8 @@ import javax.websocket.server.*;
 public class Bootstrap implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
-        // Server consumes transport and produces socket
+        // Server produces and manages socket
         final Server server = new DefaultServer();
-        // This part can be reused in other platform transparently
         server.onsocket(new Action<ServerSocket>() {
             @Override
             public void on(final ServerSocket socket) {
@@ -97,20 +96,16 @@ public class Bootstrap implements ServletContextListener {
             }
         });
         
-        // TransportServer consumes platform resources and produces transport
+        // HttpTransportServer consumes HTTP request-response exchanges and produces HTTP transports 
         HttpTransportServer httpTransportServer = new HttpTransportServer().ontransport(server);
-        WebSocketTransportServer wsTransportServer = new WebSocketTransportServer().ontransport(server);
-        
-        // This part is about how to integrate the above transport servers
         ServletContext context = event.getServletContext();
-        
-        // with a platform, Servlet 3, to feed HTTP exchange resources
         Servlet servlet = new CettiaServlet().onhttp(httpTransportServer);
         ServletRegistration.Dynamic reg = context.addServlet(CettiaServlet.class.getName(), servlet);
         reg.setAsyncSupported(true);
         reg.addMapping("/cettia");
-        
-        // with a platform, Java WebSocket API 1, to feed WebSocket resources
+
+        // WebSocketTransportServer consumes WebSocket resource and produces WebSocket transports 
+        final WebSocketTransportServer wsTransportServer = new WebSocketTransportServer().ontransport(server);
         ServerContainer container = (ServerContainer) context.getAttribute(ServerContainer.class.getName());
         ServerEndpointConfig config = ServerEndpointConfig.Builder.create(CettiaServerEndpoint.class, "/cettia")
         .configurator(new Configurator() {
@@ -125,6 +120,8 @@ public class Bootstrap implements ServletContextListener {
         } catch (DeploymentException e) {
             throw new RuntimeException(e);
         }
+        
+        // As you can see, any transport technology can be used to bridge client and server
     }
 
     @Override
@@ -135,6 +132,6 @@ public class Bootstrap implements ServletContextListener {
 ### Further Reading
 
 * To play something right now, start with [archetype example](https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server) on your favorite platform.
-* To take a brief look at API, check out the [testee](https://github.com/cettia/cettia-java-server/blob/v1.0.0-Alpha1/server/src/test/java/io/cettia/ProtocolTest.java#L48-L102).
+* To take a brief look at API, check out the [testee](https://github.com/cettia/cettia-java-server/blob/1.0.0-Alpha1/server/src/test/java/io/cettia/ProtocolTest.java#L53-L107).
 * To get details of API, see [API document](/projects/cettia-java-server/1.0.0-Alpha1/apidocs/).
 * To have a thorough knowledge of the implementation, read out the [reference](/projects/cettia-java-server/1.0.0-Alpha1/reference/).

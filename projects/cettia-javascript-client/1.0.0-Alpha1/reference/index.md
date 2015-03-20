@@ -74,7 +74,7 @@ cettia.js is available on [npm](https://npmjs.org/package/cettia-client) under t
 npm install cettia-client --save
 ```
 
-It will install the latest version adding it to dependencies entry in `package.json` in the current project folder. If you are on Windows, you may have trouble in installing Contextify. See a [installation guide](https://github.com/tmpvar/jsdom#contextify) from jsdom.
+It will install the latest version adding it to dependencies entry in `package.json` in the current project folder. If you are on Windows, you may have trouble in installing Contextify. See a [installation guide](https://github.com/tmpvar/jsdom/tree/3.x#contextify) from jsdom.
 
 Then load it as a Node.js module.
 

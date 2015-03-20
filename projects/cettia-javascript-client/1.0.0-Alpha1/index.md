@@ -19,7 +19,7 @@ Cettia JavaScript Client <sup><strong>A</strong></sup> is a lightweight <sup><st
 ---
 
 ## Quick Start
-Cettia JavaScript Client is distributed at two places according to runtime engine: browser version through this web site in [compressed](/projects/cettia-javascript-client/1.0.0-Alpha1/cettia.min.js) and [uncompressed](/projects/cettia-javascript-client/1.0.0-Alpha1/cettia.js) forms and node version through npm.
+Cettia JavaScript Client is distributed at two places according to runtime engine: browser version through this web site in [compressed](/projects/cettia-javascript-client/1.0.0-Alpha1/cettia.min.js) and [uncompressed](/projects/cettia-javascript-client/1.0.0-Alpha1/cettia.js) forms and node version through [npm](https://www.npmjs.com/package/cettia-client).
 
 Once you've loaded the module, you will be able to write the following [echo and chat](/projects/cettia-protocol/1.0.0-Alpha1/reference/#example) client. This page already loaded the uncompressed version, hence you can run and debug it directly here by using a JavaScript console and doing copy and paste.
 
@@ -54,6 +54,6 @@ socket.on("connecting", function() {
 ### Further Reading
 
 * To play something right now, start with [archetype example](https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-javascript-client).
-* To take a brief look at API, check out the [testee](https://github.com/cettia/cettia-javascript-client/blob/v1.0.0-Alpha1/Gruntfile.js#L61-L91).
+* To take a brief look at API, check out the [testee](https://github.com/cettia/cettia-javascript-client/blob/1.0.0-Alpha1/Gruntfile.js#L22-L52).
 * To get details of API, see [API document](/projects/cettia-javascript-client/1.0.0-Alpha1/api/).
 * To have a thorough knowledge of the implementation, read out the [reference](/projects/cettia-javascript-client/1.0.0-Alpha1/reference/).

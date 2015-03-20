@@ -128,9 +128,9 @@ public class EchoHandler {
 }
 ```
 
-Of course, you can use plain getter instead of public final field. Now to run this handler on the specific platform, we need to transform HTTP and WebSocket resources the platform produced into `ServerHttpExchange` and `ServerWebSocket` and feed them into an instance of `EchoHandler`. The module playing such roles is called bridge and Cettia Java Platform provides various bridges which matches well with each platform's usage.
+Now to run this handler on the specific platform, we need to wrap HTTP resources and WebSocket resources provided by that specific platform into `ServerHttpExchange` and `ServerWebSocket` and feed them into an instance of `EchoHandler`. A module playing such roles is called bridge and various bridges are provided which matches well with each platform's usage .
 
-For example, to run `EchoHandler` on Servlet 3 and Java WebSocket API 1 together, you can use Atmosphere 2 platform. Let's add the following bridge dependency.
+For example, to run `EchoHandler` on an implementation of Servlet 3 and Java WebSocket API 1, you can use Atmosphere 2 platform. Let's add the following bridge dependency.
 
 ```xml
 <dependency>
@@ -140,7 +140,7 @@ For example, to run `EchoHandler` on Servlet 3 and Java WebSocket API 1 together
 </dependency>
 ```
 
-Then, through `CettiaAtmosphereServlet`, you can configure `EchoHandler` and run it on an implementation of Servlet 3 and Java WebSocket API 1 such as Jetty 9 and Tomcat 8.
+Then, through `CettiaAtmosphereServlet`, you can configure `EchoHandler` and run it on an implementation of Servlet 3 and Java WebSocket API 1 that Atmosphere 2 supports such as Jetty 9 and Tomcat 8.
 
 ```java
 import io.cettia.platform.bridge.atmosphere2.CettiaAtmosphereServlet;
@@ -154,7 +154,9 @@ import org.atmosphere.cpr.ApplicationConfig;
 public class Bootstrap implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
+        // An application
         EchoHandler handler = new EchoHandler();
+        // How to bridge application and platform 
         ServletContext context = event.getServletContext();
         Servlet servlet = new CettiaAtmosphereServlet().onhttp(handler.httpAction).onwebsocket(handler.websocketAction);
         ServletRegistration.Dynamic reg = context.addServlet(CettiaAtmosphereServlet.class.getName(), servlet);

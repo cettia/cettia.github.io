@@ -7,11 +7,11 @@ Cettia Protocol is a protocol based on web standards <sup><strong>A</strong></su
 
 <dl>
     <dt>A</dt>
-    <dd>As component of the specification, RFC and W3C standards are mostly adopted.</dd>
+    <dd>As component of the specification, RFC and W3C standards are mostly adopted. You don't need to reinvent the wheel.</dd>
     <dt>B</dt>
-    <dd>It is designed considering their known issues and best practices of real-time web so that it's possible to write a real-time application running on from modern browsers to old browsers like Internet Explorer 6 seamlessly.</dd>
+    <dd>It is designed considering their known issues and best practices of real-time web so that it's possible to write a real-time application running on from modern browsers to old browsers like IE 6 seamlessly.</dd>
     <dt>C</dt>
-    <dd>It provides a useful suite of extensions that making modern real-time application development fast and enjoyable.</dd>
+    <dd>It provides a useful suite of features on the top of transport that making modern web application development fast and enjoyable.</dd>
     <dt>D</dt>
-    <dd>You don't need to take trouble to demonstrate your implementation works correctly. Just show test arguments and result.</dd>
+    <dd>You don't need to take trouble to demonstrate your implementation works correctly. Just show test arguments and test results.</dd>
 </dl>

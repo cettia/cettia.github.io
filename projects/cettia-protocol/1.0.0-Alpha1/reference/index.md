@@ -191,7 +191,7 @@ Test suite is provided to help write and verify implementation. Tests are writte
 ### Testee
 To run the test suite, you need to write a testee, a web server which brokers between test and your implementation to be tested. Because through writing testee, you will use most API of your implementation, showing your testee is good for explaining how to use your implementation.
 
-The reference implementation is still under active development and it's not easy to maintain documentation. If you want to try out though, please see [server testee](https://github.com/cettia/cettia-protocol/blob/v1.0.0-Alpha1/test/testee/server.js) and [client testee](https://github.com/cettia/cettia-protocol/blob/v1.0.0-Alpha1/test/testee/client.js). 
+The reference implementation is still under active development and it's not easy to maintain documentation. If you want to try out though, please see [server testee](https://github.com/cettia/cettia-protocol/blob/1.0.0-Alpha1/test/testee/server.js) and [client testee](https://github.com/cettia/cettia-protocol/blob/1.0.0-Alpha1/test/testee/client.js). 
 
 ### Running Test
 First you need to install [Node.js](http://nodejs.org). Then create a `package.json` in an empty directory: 
@@ -210,9 +210,9 @@ First you need to install [Node.js](http://nodejs.org). Then create a `package.j
 And type `npm install` to install modules locally and `npm install mocha -g` to install Mocha globally for convenience. Then, run your testee and execute `mocha` passing the following arguments:
 
 * `--cettia.transports`
-    * A set of transport to be tested in a comma-separated value. As transport name, `websocket`, `httpstream` and `httplongpoll` are available.
+    * A set of transport to be tested in a comma-separated value. As transport name, `websocket`, `httpstream` and `httplongpoll` are available. By default, it has `websocket,httpstream,httplongpoll`.
 
-_Testing a client which implements WebSocket transport only._
+_Testing a client implementing WebSocket transport only._
 
 ```bash
 mocha ./node_modules/cettia-protocol/test/client.js --cettia.transports websocket
@@ -220,4 +220,4 @@ mocha ./node_modules/cettia-protocol/test/client.js --cettia.transports websocke
 
 **Note**
 
-* Because Node.js is small and can be installed locally, you can automate the protocol test programmatically by downloading and installing Node.js, installing modules through npm, running tests through spawning a process and checking that process' exit code that is the number of failed tests.
+* Because Node.js is small and can be installed locally, you can automate the protocol test programmatically by downloading and installing Node.js, installing npm modules, running tests through spawning a process and checking that process' exit code that is the number of failed tests.
