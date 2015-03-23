@@ -136,7 +136,7 @@ public class Bootstrap {
 ### Java WebSocket API 1
 [Java WebSocket API 1](http://docs.oracle.com/javaee/7/tutorial/doc/websocket.htm#GKJIQ5) (JWA) from Java EE 7.
 
-**[Example](https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/servlet3-jwa1)**
+**[Example](https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/jwa1)**
 
 Add the following dependency to your build or include it on your classpath manually.
 
@@ -151,15 +151,12 @@ Add the following dependency to your build or include it on your classpath manua
 Then, you should register an endpoint of `CettiaServerEndpoint`. Note that each WebSocket session is supposed to have each endpoint instance so an instance of `CettiaServerEndpoint` can't be shared among `ServerEndpointConfig`s.
 
 ```java
-@WebListener
-public class Bootstrap implements ServletContextListener {
+public class Bootstrap implements ServerApplicationConfig {
     @Override
-    public void contextInitialized(ServletContextEvent event) {
+    public Set<ServerEndpointConfig> getEndpointConfigs(Set<Class<? extends Endpoint>> _) {
         // Your application
         Action<ServerWebSocket> websocketAction = ws -> {};
         
-        ServletContext context = event.getServletContext();
-        ServerContainer container = (ServerContainer) context.getAttribute(ServerContainer.class.getName());
         ServerEndpointConfig config = ServerEndpointConfig.Builder.create(CettiaServerEndpoint.class, "/cettia")
         .configurator(new Configurator() {
             @Override
@@ -168,17 +165,17 @@ public class Bootstrap implements ServletContextListener {
             }
         })
         .build();
-        try {
-            container.addEndpoint(config);
-        } catch (DeploymentException e) {
-            throw new RuntimeException(e);
-        }
+        return Collections.singleton(config);
     }
 
     @Override
-    public void contextDestroyed(ServletContextEvent sce) {}
+    public Set<Class<?>> getAnnotatedEndpointClasses(Set<Class<?>> scanned) {
+        return null;
+    }
 }
 ```
+
+With this bridge, you have no way to handle HTTP resource unless your web server implements Servlet 3 as well as Java WebSocket API 1 like Tomcat or Jetty. If you have such server, see [an example demonstrating how to use Java WebSocket API 1 bridge and Servlet 3 bridge together on the same server](https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/servlet3-jwa1).
 
 ### Netty 4
 [Netty 4](http://netty.io/) is an asynchronous event-driven network application framework.
@@ -315,7 +312,7 @@ object Global extends GlobalSettings {
 
 * Servlet can't detect disconnection so that `ServerHttpExchange`'s `onclose` doesn't work.
 
-**[Example](https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/servlet3-jwa1)**
+**[Example](https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/servlet3)**
 
 Add the following dependency to your build or include it on your classpath manually.
 
@@ -348,6 +345,8 @@ public class Bootstrap implements ServletContextListener {
     public void contextDestroyed(ServletContextEvent sce) {}
 }
 ```
+
+With this bridge, you have no way to handle WebSocket resource unless your web server implements Java WebSocket API 1 as well as Servlet 3 like Tomcat or Jetty. If you have such server, see [an example demonstrating how to use Servlet 3 bridge and Java WebSocket API 1 bridge together on the same server](https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/servlet3-jwa1).
 
 ### Vert.x 2
 [Vert.x 2](http://vertx.io/) is a lightweight, high performance application platform for the JVM 
