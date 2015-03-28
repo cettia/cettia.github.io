@@ -570,9 +570,9 @@ public class Clock {
 ```
 
 ### Clustering
-All of the Message Oriented Middleware (MOM) supporting publish and subscribe model can be used to cluster multiple cettia applications with `ClusteredServer`. `ClusteredServer` intercepts a method invocation to `all` and `byTag`, converts the call into a message and execute actions added via `publishAction(Action<Map<String,Object>> action)` with that message.
+All of the Message Oriented Middleware (MOM) supporting publish and subscribe model can be used to cluster multiple cettia applications with `ClusteredServer`. `ClusteredServer` intercepts a method invocation to `all` and `byTag`, converts the call into a message and execute actions added via `onpublish(Action<Map<String,Object>> action)` with that message.
 
-All you need is to add an action to `publishAction(Action<Map<String,Object>> action)` to publish message to all servers in the cluster including the one issued and to pass them to `messageAction().on(Map<String,Object> message)` when receiving such messages from other server.
+All you need is to add an action to `onpublish(Action<Map<String,Object>> action)` to publish message to all servers in the cluster including the one issued and to pass them to `messageAction().on(Map<String,Object> message)` when receiving such messages from other server.
 
 **Note**
 
@@ -611,7 +611,7 @@ public class Bootstrap implements ServletContextListener {
         });
         // This local server got a method call from all or byTag and created a message
         // Publish it to every server in the cluster
-        server.publishAction(new Action<Map<String, Object>>() {
+        server.onpublish(new Action<Map<String, Object>>() {
             @Override
             public void on(Map<String, Object> message) {
                 System.out.println("publishing a message: " + message);
