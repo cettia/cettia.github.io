@@ -90,5 +90,3 @@ And here is the roadmap of Cettia 1.0:
 For full documentation and information on Cettia, please visit the [website](http://cettia.io).
 
 Thanks for all the feedback from early adopters. The feedback has been and will be very important to us, so please feel free to get in touch with us, [Cettia Groups](http://groups.google.com/group/cettia), if you have any question or feedback.
-
-Last but not least, I, the creator of Cettia, am looking for a job. If you are interested in working with me whether it is about Cettia or not, please contact me - flowersinthesand@gmail.com, github: https://github.com/flowersinthesand, linkedin: https://linkedin.com/in/flowersinthesand
