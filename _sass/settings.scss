@@ -1,4 +1,4 @@
-@import "foundation/functions";
+@import "foundation/_functions";
 $base-font-size: 90%;
 $row-width: 80em;
 $body-font-color: #444;
@@ -25,5 +25,3 @@ $topbar-dropdown-label-color: #888;
 $topbar-dropdown-label-bg: #fff;
 $topbar-menu-link-color: #000;
 $topbar-menu-icon-color: #000;
-$topbar-breakpoint: 9999px; // Change to 9999px for always mobile layout
-$topbar-divider-border-bottom: solid 1px  scale-color($topbar-bg-color, $lightness: -50%);
