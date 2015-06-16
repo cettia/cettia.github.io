@@ -370,6 +370,8 @@ function logState() {
 cettia.open(uri).on("connecting", logState).on("open", logState).on("close", logState).on("waiting", logState);
 ```
 
+---
+
 ## `module cettia.transport`
 As a sub module of cettia, it is used to create and manage transport and transport is used to build socket on top of itself by `cettia.open`. This module is useful to those who want to write their own transport. If you are happy with default transports, you don't need to look at it. The module is accessible through `cettia.transport`.
 

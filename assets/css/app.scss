@@ -4,45 +4,36 @@
 @import "normalize";
 @import "settings";
 @import "foundation";
-@import url("//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700");
+@import url("//fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,200italic,300italic,400italic,600italic,700italic");
 
-.bar {
-  min-height: 5px;
-  background: linear-gradient(45deg, #444 0, #333 100%);
-  .alert-box {
-    background: inherit;
-    border: none;
-    margin: 0;
+code {
+  font-size: 0.875rem; // A balance between Source Sans Pro and Consolas
+}
+h1, h2, h3, h4, h5, h6 {
+  code {
+    font-size: inherit;
   }
 }
-div.highlight {
-  margin-bottom: 1.25rem; 
-  line-height: normal;
-  pre {
-    border-left: 0.3rem solid #eee;
-    padding-left: 1rem;
-    code {
-      border: none;
-      background-color: inherit;
-      padding: 0;
-    }
+a {
+  code {
+    color: inherit;
   }
 }
-div.top-bar-wrapper {
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-  .version-dropdown code {
-    border: none;
-    background-color: inherit;
+pre {
+  code {
+    display: block;
+    padding: 0.375rem 0.625rem;
+    margin-bottom: $paragraph-margin-bottom;
   }
 }
-div.row > div.columns > div.top-bar-wrapper {
-  margin-top: -1rem;
+.version-dropdown code {
+  border: inherit;
+  background: inherit;
 }
-div.copyright {
+.copyright {
   color: #777;
   p, ul {
-    font-size: 0.9rem;
+    font-size: 0.875rem;
   }
 }
 article {
@@ -54,4 +45,6 @@ article {
     }
   }
 }
-a code {color: inherit;}
+#content, .content {
+  margin-top: 2rem;
+}
