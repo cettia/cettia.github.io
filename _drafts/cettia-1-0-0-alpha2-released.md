@@ -4,13 +4,13 @@ title: "Cettia 1.0.0-Alpha2 released"
 author: flowersinthesand
 ---
 
-I'm pleased to announce that Cetita Protocol 1.0.0-Alpha2, Cettia JavaScript Client 1.0.0-Alpha2 and Cettia Java Server 1.0.0-Alpha2 have been released. The theme of this release is [offline application](https://github.com/cettia/cettia-protocol/issues/1), which provides a flexible way to deal with temporary disconnection or persistent disconnection.
+I'm pleased to announce that Cetita Protocol 1.0.0-Alpha2, Cettia JavaScript Client 1.0.0-Alpha2 and Cettia Java Server 1.0.0-Alpha2 have been released. The theme of this release is [offline application](https://github.com/cettia/cettia-protocol/issues/1), which provides a flexible way to deal with temporary disconnection or permanent disconnection.
 
 In the real world, losing connection is not uncommon so that it is pretty important to make web applications relying on full-duplex connection functional while offline in some way. For example, users lose connection every time they navigate from one page to another page and may lose network while on the move. Even if the time between disconnection and reconnection is very short, it's true that any message can't be sent and received after disconnection and authentication which is a process to verify a user is who they say they are should be done after reconnection and messages which couldn't be sent and received meanwhile should be synchronized. Also if reconnection doesn't occur for a long time, these messages may have to be sent through each user's email.
 
 To solve such problems, it has been required to design and implement user own protocol on top of full duplex connection using cookie or something like that. With this feature, you can handle sockets regardless of their online/offline state as well as deal with such issues with ease just by handling some reserved socket events. Therefore, a reference to socket is not affected by disconnection and reconnection at all and doing authentication once is enough for socket. Of course, it applies to every transport not just HTTP based ones.
 
-Let's take a look the new feature through code snippet.
+Let's take a look at the new feature through code snippet.
 
 **JavaScript Client**
 
@@ -18,7 +18,7 @@ Let's take a look the new feature through code snippet.
 var socket = cettia.open(uri, {
     // Only for browser. This option allows to maintain this socket's life cycle even after navigation.
     // That means events which couldn't be sent to this socket due to navigation will be arriving in the next page.
-    // Therefore, you don't need to follow single page application model to wrokaround such issues.
+    // Therefore, you don't need to follow single page application model to workaround such issues.
     name: "main"
 });
 
