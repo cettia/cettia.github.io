@@ -6,14 +6,53 @@ title: Cettia
     <div class="large-12 columns">
         <div class="content">
 	        <h1>Cettia</h1>
-	        <h4 class="subheader">A real-time web application framework</h4>
-	        <p>Cettia is a new web framework to write real-time web application and service based on its own polyglot protocol built over transport such as HTTP and WebSocket. Cettia focuses on providing reliable full duplex connection and making the best use of it for modern enterprise applications so that teams can focus on event handling itself without unnecessary ties to low-level details and integrate application with any high-level technologies or patterns for enterprise application with ease.</p>
+	        <h4 class="subheader">A real-time application framework</h4>
+	        <p>Cettia is a real-time application framework that allows you to focus on event handling itself by providing full duplex connection and elegant patterns.</p>
 	        <p>Explore the Cettia subprojects:</p>
 	        <ul class="inline-list">
 	           <li><a href="/projects/cettia-protocol">Cettia Protocol</a></li>
                <li><a href="/projects/cettia-java-server">Cettia Java Server</a></li>
                <li><a href="/projects/cettia-javascript-client">Cettia JavaScript Client</a></li>
 	        </ul>
+	        <hr />
+	        <h3>Event handling</h3>
+	        <p>All you need is to write event handlers.</p>
+			<div class="row">
+			<div class="large-4 columns">
+{% capture panel %}
+```java
+// When a socket is created
+server.onsocket(socket -> {});
+```
+{% endcapture %}{{ panel | markdownify }}
+            </div>
+            <div class="large-4 columns">
+{% capture panel %}
+```java
+// Runs for every socket in the server
+server.all(socket -> {});
+```
+{% endcapture %}{{ panel | markdownify }}
+            </div>
+            <div class="large-4 columns">
+{% capture panel %}
+```java
+// When a socket sends some event
+socket.on("echo", data -> {});
+```
+{% endcapture %}{{ panel | markdownify }}
+            </div>
+            </div>
+            <p>The most important thing is what you are trying to achieve in real-time, not to manage connections and write boilerplate code. TODO</p>
+            <hr />
+	        <h3>Full duplex connection</h3>
+	        <p>TODO</p>
+            <hr />
+	        <h3>Elegant patterns</h3>
+	        <p>TODO</p>
+            <hr />
+	        <h3>Examples</h3>
+	        <p>TODO</p>
         </div>
     </div>
 </div>
