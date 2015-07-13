@@ -7,18 +7,21 @@ title: Cettia
         <div class="content">
 	        <h1>Cettia</h1>
 	        <h4 class="subheader">A real-time application framework</h4>
-	        <p>Cettia is a real-time application framework that allows you to focus on event handling itself by providing full duplex connection and elegant patterns.</p>
+	        <p>Cettia is a real-time application framework that allows you to focus on event handling itself. It provides reliable full duplex connection which frees you from the pitfalls of traditional real-time programming and elegant patterns which eliminates the boilerplate code involved with full duplex connection. Besides, it's designed to work well with any transport technology, any I/O framework, and any scaling methods, which is critical for modern enterprise applications.</p>
 	        <p>Explore the Cettia subprojects:</p>
 	        <ul class="inline-list">
 	           <li><a href="/projects/cettia-protocol">Cettia Protocol</a></li>
                <li><a href="/projects/cettia-java-server">Cettia Java Server</a></li>
                <li><a href="/projects/cettia-javascript-client">Cettia JavaScript Client</a></li>
 	        </ul>
-	        <hr />
-	        <h3>Event handling</h3>
-	        <p>All you need is to write event handlers.</p>
-			<div class="row">
-			<div class="large-4 columns">
+	        {% assign post = site.posts.first %}
+            <hr />
+            <p><a href="https://github.com/{{ post.author }}"><img src="https://github.com/{{ post.author }}.png" alt="{{ post.author }}" width="24" height="24"> {{ post.author }}</a> wrote <a href="{{ post.url }}">{{ post.title }}</a> on {{ post.date | date: "%B %-d, %Y" }}.</p>
+            <hr />
+            <h2>Features</h2>
+            <p>The most important thing is not managing connections or writing boilerplate code, but what you are trying to achieve in real-time.</p>
+            <div class="row">
+            <div class="large-4 columns">
 {% capture panel %}
 ```java
 // When a socket is created
@@ -43,16 +46,18 @@ socket.on("echo", data -> {});
 {% endcapture %}{{ panel | markdownify }}
             </div>
             </div>
-            <p>The most important thing is what you are trying to achieve in real-time, not to manage connections and write boilerplate code. TODO</p>
-            <hr />
-	        <h3>Full duplex connection</h3>
-	        <p>TODO</p>
-            <hr />
-	        <h3>Elegant patterns</h3>
-	        <p>TODO</p>
-            <hr />
-	        <h3>Examples</h3>
-	        <p>TODO</p>
+            <p>Here is a summary of key features in Cettia overall:</p>
+			<ul>
+				<li><strong>Automatic fallback</strong> - In the real world, it has turned out that WebSocket has many issues with coporate proxies, firewalls, antivirus softwares, cloud platforms, and so on. But, Cettia also has automatic fallback mechanisms which support even IE 6 so that you don't need to worry.</li>
+				<li><strong>I/O framework agnostic</strong> - Your application can run on almost any platform on the Java Virtual Machine seamlessly. Now Atmosphere, Grizzly, Java WebSocket API, Netty, Play, Servlet and Vert.x are supported.</li>
+				<li><strong>Scalable</strong> - A publish-subscribe messaging system is enough to scale your application horizontally. Because servers don't share any data, you can scale application horizontally with ease as well as don't need to prepare for key-value caches, NoSQL solutions or in-memory data grids.</li>
+                <li><strong>Transport agnostic</strong> - Any transport technology besides WebSocket and HTTP can be used to bridge client and server as long as it meets requirements of Cettia transport. In this manner, you can build real-time applications optimized for Internet of Things at least in theory.</li>
+				<li><strong>Event-based</strong> - The unit of data to be sent and received from the semantic point of view is an event object associated with a customizable type, which is easy to compose a controller from MVC.</li>
+				<li><strong>Remote Procedure Call</strong> - It also allows to handle the result of the remote event processing through callback like Ajax. It's useful where request-response model is more suited than notification model.</li>
+				<li><strong>Entity handling</strong> - Tag gives you a way to model a specific entity in the real world as an identifier of a group of sockets. For example, you can use it to model a user logged in using multiple devices.</li>
+				<li><strong>Offline application</strong> - It is pretty important to make applications relying on full-duplex connection functional while offline. This feature enables you to handle socket as stateless object by providing various events to deal with disconnection.</li>
+				<li><strong>100% open source</strong> - All projects are distributed under the Apache Software License 2.0 which is one of the most flexible open source licenses.</li>
+			</ul>
         </div>
     </div>
 </div>
