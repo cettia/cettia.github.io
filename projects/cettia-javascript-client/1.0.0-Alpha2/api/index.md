@@ -29,7 +29,7 @@ title: Cettia JavaScript Client API
             * [waiting (delay: number, attempts: number): void](#waiting--delay:-number--attempts:-number-:-void)
             * [[event: string]: (data?: any, reply?: {resolve: (data?: any) => void; reject: (data?: any) => void}) => void](#-event:-string-:--data-:-any--reply-:--resolve:--data-:-any-----void--reject:--data-:-any-----void------void)
         * [once(event: string, handler: Function): Socket](#once-event:-string--handler:-function-:-socket)
-        * [send(event: string, data?: any, resolved?: (data?: any) => void, rejected?: (data?: any) => void): Socket](#send-event:-string--data-:-any--resolved-:--data-:-any-----void--rejected-:--data-:-any-----void-:-socket)
+        * [send(event: string, data?: any, fulfilled?: (data?: any) => void, rejected?: (data?: any) => void): Socket](#send-event:-string--data-:-any--fulfilled-:--data-:-any-----void--rejected-:--data-:-any-----void-:-socket)
         * [state(): string](#state--:-string )
 * [module cettia.transport](#module-cettia.transport)
     * [export function createWebSocketTransport(uri: string, options?: TransportOptions): Transport](#export-function-createwebsockettransport-uri:-string--options-:-transportoptions-:-transport)
@@ -254,13 +254,13 @@ A pseudo event fired if some event is sent through this socket while offline. It
 A pseudo event fired if a reconnection has been scheduled by `reconnect` option. `delay` is the reconnection delay in milliseconds and `attempts` is the total number of reconnection attempts.
 
 ##### `[event: string]: (data?: any, reply?: {resolve: (data?: any) => void; reject: (data?: any) => void}) => void`
-All the other event are message event and fired every time the server sends that event. `data` is data of the server sent event and `reply` is a controller to reply the server and not `null` only if server attaches resolved or rejected callback. Generally this type of event is used heavily, to manage such many events systematically, use some format like [URI](http://tools.ietf.org/html/rfc3986) to event naming.
+All the other event are message event and fired every time the server sends that event. `data` is data of the server sent event and `reply` is a controller to reply the server and not `null` only if server attaches fulfilled or rejected callback. Generally this type of event is used heavily, to manage such many events systematically, use some format like [URI](http://tools.ietf.org/html/rfc3986) to event naming.
 
-_Handling resolved and rejected callbacks._
+_Handling fulfilled and rejected callbacks._
 
 ```javascript
 var socket = cettia.open(uri);
-// Using resolved or rejected callback is a kind of contract
+// Using fulfilled or rejected callback is a kind of contract
 // If some event is supposed to use such callbacks, both the server and the client should handle them
 socket.on("/talk/request", function(account, reply) {
     // Imaginary helper to open dialog
@@ -291,15 +291,15 @@ socket.on("close", function() {
 });
 ```
 
-#### `send(event: string, data?: any, resolved?: (data?: any) => void, rejected?: (data?: any) => void): Socket`
-Sends the event with data attaching resolved and rejected callbacks. If a socket is not opened, arguments used to call the method will be passed to `cache` event, hence, you can cache it on `cache` event and send it on `open` event.
+#### `send(event: string, data?: any, fulfilled?: (data?: any) => void, rejected?: (data?: any) => void): Socket`
+Sends the event with data attaching fulfilled and rejected callbacks. If a socket is not opened, arguments used to call the method will be passed to `cache` event, hence, you can cache it on `cache` event and send it on `open` event.
 
 _Finding data from the server._
 
 ```javascript
 var socket = cettia.open(uri);
 socket.on("open", function() {
-    // Using resolved or rejected callback is a kind of contract
+    // Using fulfilled or rejected callback is a kind of contract
     // If some event is supposed to use such callbacks, both the server and the client should handle them
     this.send("/account/find", "flowersinthesand", function(account) {
         console.dir(account);

@@ -443,12 +443,12 @@ server.onsocket(new Action<ServerSocket>() {
 ```
 
 ### Handling the result of the remote event processing
-You can get the result of event processing from the client in sending event using `send(String event, Object data, Action<T> resolved)` and `send(String event, Object data, Action<T> resolved, Action<U> rejected)` where the allowed Java types, `T`, are the same with in receiving event, and set the result of event processing to the client in receiving event by using `Reply` as data type in an asynchronous manner. You can apply this functionality to Acknowledgements, Remote Procedure Call and so on.
+You can get the result of event processing from the client in sending event using `send(String event, Object data, Action<T> onFulfilled)` and `send(String event, Object data, Action<T> onFulfilled, Action<U> onRejected)` where the allowed Java types, `T`, are the same with in receiving event, and set the result of event processing to the client in receiving event by using `Reply` as data type in an asynchronous manner. You can apply this functionality to Acknowledgements, Remote Procedure Call and so on.
 
 **Note**
 
-* If the client doesn't call either attached resolved or rejected callback, these callbacks won't be executed in any way. It is the same for the server. Therefore, it should be dealt with as a kind of contract.
-* Beforehand determine whether to use rejected callback or not to avoid writing unnecessary rejected callbacks. For example, if required resource is not available, you can execute either resolved callback with `null` or rejected callback with exception e.g. `ResourceNotFoundException`.
+* If the client doesn't call either attached fulfilled or rejected callback, these callbacks won't be executed in any way. It is the same for the server. Therefore, it should be dealt with as a kind of contract.
+* Beforehand determine whether to use rejected callback or not to avoid writing unnecessary rejected callbacks. For example, if required resource is not available, you can execute either fulfilled callback with `null` or rejected callback with exception e.g. `ResourceNotFoundException`.
 
 _The client sends an event attaching callbacks and the server executes one of them with the result of event processing._
 
@@ -486,9 +486,9 @@ server.onsocket(new Action<ServerSocket>() {
 cettia.open("http://localhost:8080/cettia")
 .on("open", function(data) {
     this.send("/account/find", "flowersinthesand", function(data) {
-        console.log("resolved with " + data);
+        console.log("fulfilled", data);
     }, function(data) {
-        console.log("rejected with " + data);
+        console.log("rejected", data);
     });
 });
 ```
@@ -513,12 +513,12 @@ server.onsocket(new Action<ServerSocket>() {
                 socket.send("/account/find", "flowersinthesand", new Action<Map<String, Object>>() {
                     @Override
                     public void on(Map<String, Object> data) {
-                        System.out.println("resolved with " + data);
+                        System.out.println("fulfilled " + data);
                     }
                 }, new Action<String>() {
                     @Override
                     public void on(String data) {
-                        System.out.println("rejected with " + data);
+                        System.out.println("rejected " + data);
                     }
                 });
             }

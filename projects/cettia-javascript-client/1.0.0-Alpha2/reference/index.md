@@ -301,12 +301,12 @@ To extend the lifecycle of the socket to the next page, that is to say, for the 
 * This features monopolizes `window.name` as a storage for the browsing context. Make sure that none of your application use `window.name`.
 
 ### Handling the result of the remote event processing
-You can get the result of event processing from the server in sending event using `send(event: string, data?: any, onResolved?: (data?: any) => void, onRejected?: (data?: any) => void)` and set the result of event processing to the server in receiving event using `on(event: string, handler:(data?: any, reply?: {resolve: (data?: any) => void; reject: (data?: any) => void}) => void)` in an asynchronous manner. You can apply this functionality to Acknowledgements, Remote Procedure Call and so on.
+You can get the result of event processing from the server in sending event using `send(event: string, data?: any, onFulfilled?: (data?: any) => void, onRejected?: (data?: any) => void)` and set the result of event processing to the server in receiving event using `on(event: string, handler:(data?: any, reply?: {resolve: (data?: any) => void; reject: (data?: any) => void}) => void)` in an asynchronous manner. You can apply this functionality to Acknowledgements, Remote Procedure Call and so on.
 
 **Note**
 
-* If the server doesn't call either attached resolved or rejected callback, these callbacks won't be executed in any way. It is the same for the client. Therefore, it should be dealt with as a kind of contract.
-* Beforehand determine whether to use rejected callback or not to avoid writing unnecessary rejected callbacks. For example, if required resource is not available, you can execute either resolved callback with `null` or rejected callback with error e.g. `ResourceNotFoundError`.
+* If the server doesn't call either attached fulfilled or rejected callback, these callbacks won't be executed in any way. It is the same for the client. Therefore, it should be dealt with as a kind of contract.
+* Beforehand determine whether to use rejected callback or not to avoid writing unnecessary rejected callbacks. For example, if required resource is not available, you can execute either fulfilled callback with `null` or rejected callback with error e.g. `ResourceNotFoundError`.
 
 _The client sends an event attaching callbacks and the server executes one of them with the result of event processing._
 
@@ -319,9 +319,9 @@ _The client sends an event attaching callbacks and the server executes one of th
 cettia.open("http://localhost:8080/cettia", {reconnect: false})
 .on("open", function(data) {
     this.send("/account/find", "flowersinthesand", function(data) {
-        console.log("resolved with ", data);
+        console.log("fulfilled", data);
     }, function(data) {
-        console.log("rejected with ", data);
+        console.log("rejected", data);
     });
 });
 ```
@@ -375,9 +375,9 @@ cettia.open("http://localhost:8080/cettia", {reconnect: false})
 server.on("socket", function(socket) {
     socket.on("open", function() {
         socket.send("/account/find", "flowersinthesand", function(data) {
-            console.log("resolved with ", data);
+            console.log("fulfilled", data);
         }, function(data) {
-            console.log("rejected with ", data);
+            console.log("rejected", data);
         });
     });
 });
