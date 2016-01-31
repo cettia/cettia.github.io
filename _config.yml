@@ -1,6 +1,9 @@
 name: Cettia
 description: Cettia, the real-time web application framework.
-url: http://cettia.io/
+url: http://cettia.io
+author:
+  name: Donghwan Kim
+  email: flowersinthesand@gmail.com
 relative_permalinks: false
 permalink: /blog/:title/
 paginate: 5
@@ -14,3 +17,7 @@ redcarpet:
     - strikethrough
     - fenced_code_blocks
     - tables
+gems:
+  - jekyll-redirect-from
+  - jekyll-sitemap
+  - jekyll-feed
