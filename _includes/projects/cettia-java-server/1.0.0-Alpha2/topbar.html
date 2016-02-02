@@ -1,23 +1,24 @@
-<div class="contain-to-grid">
-    <nav class="top-bar" data-topbar role="navigation">
-        <ul class="title-area">
-            <li class="name">
-                <h1><a href="/projects/cettia-java-server">Cettia Java Server</a></h1>
-            </li>
-            <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-        </ul>
-        <section class="top-bar-section">
-            <ul class="left">
-                <li class="has-dropdown version-dropdown">
-                    <a href="/projects/cettia-java-server/1.0.0-Alpha2"><code>1.0.0-Alpha2</code></a>
-                    {% include projects/cettia-java-server/dropdown.html %}
-                </li>
-            </ul>
-            <ul class="right">
-                <li><a href="/projects/cettia-java-server/1.0.0-Alpha2/reference">Reference</a></li>
-                <li><a href="/projects/cettia-java-server/1.0.0-Alpha2/apidocs">API</a></li>
-                <li><a href="https://github.com/cettia/cettia-java-server/tree/1.0.0-Alpha2">Source</a></li>
-            </ul>
-        </section>
-    </nav>
+<div class="top-bar-wrapper">
+    <div class="row">
+        <div class="large-12 columns">
+            <div class="top-bar">
+                <div class="top-bar-left">
+                    <ul class="dropdown menu" data-dropdown-menu>
+                        <li><a href="/projects/cettia-java-server">Cettia Java Server</a></li>
+                        <li>
+                            <a href="#">1.0.0-Alpha2</a>
+                            {% include projects/cettia-java-server/dropdown.html %}
+                        </li>
+                    </ul>
+                </div>
+                <div class="top-bar-right">
+                    <ul class="menu">
+                        <li><a href="/projects/cettia-java-server/1.0.0-Alpha2/reference">Reference</a></li>
+                        <li><a href="/projects/cettia-java-server/1.0.0-Alpha2/apidocs">API</a></li>
+                        <li><a href="https://github.com/cettia/cettia-java-server/tree/1.0.0-Alpha2">Source</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

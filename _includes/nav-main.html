@@ -1,31 +1,33 @@
-<div class="contain-to-grid">
-    <nav class="top-bar" data-topbar role="navigation">
-        <ul class="title-area">
-            <li class="name">
-                <h1><a href="/">Cettia</a></h1>
-            </li>
-            <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-        </ul>
-        <section class="top-bar-section">
-            <ul class="left">
-			    <li class="has-dropdown">
-                    <a href="#">Projects</a>
-			        <ul class="dropdown">
-                        <li><a href="/projects/cettia-protocol">Cettia Protocol</a></li>
-                        <li><a href="/projects/cettia-java-server">Cettia Java Server</a></li>
-                        <li><a href="/projects/cettia-javascript-client">Cettia JavaScript Client</a></li>
+<div class="top-bar-wrapper">
+    <div class="row">
+        <div class="large-12 columns">
+            <div class="top-bar">
+                <div class="top-bar-left">
+                    <ul class="dropdown menu" data-dropdown-menu>
+                        <li><a href="/">Cettia</a></li>
+                        <li>
+                            <a href="#">Projects</a>
+                            <ul class="menu">
+                                <li><a href="/projects/cettia-protocol">Cettia Protocol</a></li>
+                                <li><a href="/projects/cettia-java-server">Cettia Java Server</a></li>
+                                <li><a href="/projects/cettia-java-platform">Cettia Java Platform</a></li>
+                                <li><a href="/projects/cettia-javascript-client">Cettia JavaScript Client</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/blog">Blog</a></li>
                     </ul>
-                </li>
-                <li><a href="/blog">Blog</a></li>
-			</ul>
-            <ul class="right">
-				<li class="has-form">
-					<form action="http://www.google.com/search">
-						<input type="hidden" name="sitesearch" value="{{ site.url }}" />
-						<input type="search" name="q" placeholder="Search" />
-					</form>
-				</li>
-			</ul>
-        </section>
-    </nav>
+                </div>
+                <div class="top-bar-right">
+                    <ul class="menu">
+                        <li>
+                            <form action="http://www.google.com/search">
+                                <input type="hidden" name="sitesearch" value="{{ site.url }}"/>
+                                <input type="search" name="q" placeholder="Search"/>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

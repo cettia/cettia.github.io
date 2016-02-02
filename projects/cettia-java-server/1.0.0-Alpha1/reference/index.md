@@ -48,7 +48,7 @@ Cettia Java Server requires Java 7 and is distributed through Maven Central. Add
 
 **Examples**
 
-<ul class="inline-list">
+<ul class="menu">
 <li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/atmosphere2">Atmosphere 2</a></li>
 <li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/grizzly2">Grizzly 2</a></li>
 <li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/jwa1">Java WebSocket API 1</a></li>
@@ -59,7 +59,7 @@ Cettia Java Server requires Java 7 and is distributed through Maven Central. Add
 <li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/vertx2">Vert.x 2</a></li>
 </ul>
 
-<ul class="inline-list">
+<ul class="menu">
 <li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform-on-platform/jaxrs2-atmosphere2">JAX-RS 2 on Atmosphere 2</a></li>
 </ul>
 
@@ -503,7 +503,7 @@ With Dependency Injection, you can inject server wherever you need. Registers a 
 
 **Examples**
 
-<ul class="inline-list">
+<ul class="menu">
 <li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/dependency-injection/cdi1">CDI 1</a></li>
 <li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/dependency-injection/dagger1">Dagger 1</a></li>
 <li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/dependency-injection/guice3">Guice 3</a></li>
@@ -580,7 +580,7 @@ All you need is to add an action to `onpublish(Action<Map<String,Object>> action
 
 **Examples**
 
-<ul class="inline-list">
+<ul class="menu">
 <li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/clustering/amqp1">AMQP 1</a></li>
 <li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/clustering/hazelcast3">Hazelcast 3</a></li>
 <li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/clustering/jgroups3">jGroups 3</a></li>
@@ -651,7 +651,7 @@ TODO more explanation and examples will be added.
 
 **Examples**
 
-<ul class="inline-list">
+<ul class="menu">
 <li>Apache Shiro</li>
 <li>JAAS</li>
 <li>Play</li>

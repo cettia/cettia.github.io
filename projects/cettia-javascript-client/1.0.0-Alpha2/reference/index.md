@@ -37,7 +37,7 @@ title: Cettia JavaScript Client Reference
 ### As a browser client
 Download cettia.js the way you want.
 
-<ul class="inline-list">
+<ul class="menu">
 <li><a href="/projects/cettia-javascript-client/1.0.0-Alpha2/cettia.min.js">The compressed for production</a></li>
 <li><a href="/projects/cettia-javascript-client/1.0.0-Alpha2/cettia.js">The uncompressed for development</a></li>
 <li><code>bower install cettia</code></li>
