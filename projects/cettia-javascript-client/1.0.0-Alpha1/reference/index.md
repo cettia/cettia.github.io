@@ -9,23 +9,8 @@ title: Cettia JavaScript Client Reference
 
 **Table of Contents**
 
-* [Installation](#installation)
-    * [As browser client](#as-browser-client)
-    * [As Node.js client](#as-node.js-client)
-* [Socket](#socket)
-    * [Life Cycle](#life-cycle)
-    * [Error Handling](#error-handling)
-    * [Sending and Receiving Event](#sending-and-receiving-event)
-    * [Getting and Setting Result of Event Processing](#getting-and-setting-result-of-event-processing)
-    * [Reconnection](#reconnection)
-* [Transport](#transport) 
-    * [Implementation](#implementation)
-    * [Compatibility](#compatibility)
-        * [Browser](#browser)
-        * [Node.js](#node.js)
-* [Quirks](#quirks)
-    * [The browser limits the number of simultaneous connections](#the-browser-limits-the-number-of-simultaneous-connections)
-    * [Sending an event emits a clicking sound](#sending-an-event-emits-a-clicking-sound)
+* TOC
+{:toc}
 
 ---
 

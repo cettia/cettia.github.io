@@ -9,40 +9,8 @@ title: Cettia JavaScript Client API
 
 **Table of Contents**
 
-* [module cettia](#module-cettia)
-    * [export function open(uri: string, options?: SocketOptions): Socket](#export-function-open-uri:-string--options-:-socketoptions-:-socket)
-    * [export function open(uris: string[], options?: SocketOptions): Socket](#export-function-open-uris:-string----options-:-socketoptions-:-socket)
-    * [interface SocketOptions](#interface-socketoptions)
-        * [reconnect? (lastDelay: number, attempts: number): any](#reconnect---lastdelay:-number--attempts:-number-:-any)
-        * [transports?: ((uri: string, options: TransportOptions) => Transport)[]](#transports-:---uri:-string--options:-transportoptions-----transport---)
-    * [interface Socket](#interface-socket)
-        * [close(): Socket](#close--:-socket)
-        * [off(event: string, handler: Function): Socket](#off-event:-string--handler:-function-:-socket)
-        * [on(event: string, handler: Function): Socket](#on-event:-string--handler:-function-:-socket)
-            * [connecting (): void](#connecting---:-void)
-            * [open (): void](#open---:-void)
-            * [error (error: Error): void](#error--error:-error-:-void)
-            * [close (): void](#close---:-void)
-            * [waiting (delay: number, attempts: number): void](#waiting--delay:-number--attempts:-number-:-void)
-            * [[event: string]: (data?: any, reply?: {resolve: (data?: any) => void; reject: (data?: any) => void}) => void](#-event:-string-:--data-:-any--reply-:--resolve:--data-:-any-----void--reject:--data-:-any-----void------void)
-        * [once(event: string, handler: Function): Socket](#once-event:-string--handler:-function-:-socket)
-        * [send(event: string, data?: any, resolved?: (data?: any) => void, rejected?: (data?: any) => void): Socket](#send-event:-string--data-:-any--resolved-:--data-:-any-----void--rejected-:--data-:-any-----void-:-socket)
-        * [state(): string](#state--:-string )
-* [module cettia.transport](#module-cettia.transport)
-    * [export function createWebSocketTransport(uri: string, options?: TransportOptions): Transport](#export-function-createwebsockettransport-uri:-string--options-:-transportoptions-:-transport)
-    * [export function createHttpStreamTransport(uri: string, options?: TransportOptions): Transport](#export-function-createhttpstreamtransport-uri:-string--options-:-transportoptions-:-transport)
-    * [export function createHttpLongpollTransport(uri: string, options?: TransportOptions): Transport](#export-function-createhttplongpolltransport-uri:-string--options-:-transportoptions-:-transport)
-    * [interface TransportOptions](#interface-transportoptions)
-        * [timeout?: number](#timeout-:-number)
-        * [xdrURL? (uri: string): string](#xdrurl---uri:-string-:-string)
-    * [interface Transport](#interface-transport)
-        * [close(): Transport](#close--:-transport)
-        * [off(event: string, handler: Function): Transport](#off-event:-string--handler:-function-:-transport)
-        * [on(event: string, handler: Function): Transport](#on-event:-string--handler:-function-:-transport)
-        * [open(): Transport](#open--:-transport)
-        * [send(message: string): Transport](#send-message:-string-:-transport)
-        * [send(message: ArrayBuffer): Transport](#send-message:-arraybuffer-:-transport)
-        * [send(message: Buffer): Transport](#send-message:-buffer-:-transport)
+* TOC
+{:toc}
 
 ---
 

@@ -9,19 +9,8 @@ title: Cettia Java Platform Reference
 
 **Table of Contents**
 
-* [Installation](#installation)
-* [Platform](#platform)
-    * [Atmosphere 2](#atmosphere-2)
-    * [Grizzly 2](#grizzly-2)
-    * [Java WebSocket API 1](#java-websocket-api-1)
-    * [Netty 4](#netty-4)
-    * [Play 2](#play-2)
-    * [Servlet 3](#servlet-3)
-    * [Vert.x 2](#vert.x-2)
-* [Platform on platform](#platform-on-platform)
-    * [JAX-RS 2](#jax-rs-2)
-* [HTTP](#http)
-* [WebSocket](#websocket)
+* TOC
+{:toc}
         
 ---
 

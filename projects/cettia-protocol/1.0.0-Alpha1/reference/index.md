@@ -9,14 +9,8 @@ title: Cettia Protocol Reference
 
 **Table of Contents**
 
-* [Specification](#specification)
-* [Reference Implementation](#reference-implementation)
-    * [Installation](#installation)
-    * [Interactive Mode](#interactive-mode)
-    * [Example](#example)
-* [Test Suite](#test-suite)
-    * [Testee](#testee)
-    * [Running Test](#running-test)
+* TOC
+{:toc}
 
 ---
 

@@ -9,25 +9,9 @@ title: Cettia Java Server Reference
 
 **Table of Contents**
 
-* [Installation](#installation)
-* [Server](#server)
-    * [Configuring a Server](#configuring-a-server)
-    * [Handling a Socket](#handling-a-socket) 
-    * [Selecting Sockets](#selecting-sockets)
-    * [Writing a Sentence](#writing-a-sentence)
-* [Socket](#socket)
-    * [Properties](#properties)
-    * [Lifecycle](#lifecycle)
-    * [Handling errors](#handling-errors)
-    * [Sending and receiving events](#sending-and-receiving-events)
-    * [Offline handling](#offline-handling)
-    * [Tagging](#tagging)
-    * [Handling the result of the remote event processing](#handling-the-result-of-the-remote-event-processing)
-    * [Accessing underlying objects](#accessing-underlying-objects)
-* [Integration](#integration)
-    * [Dependency Injection](#dependency-injection)
-    * [Clustering](#clustering)
-    
+* TOC
+{:toc}
+
 ---
 
 ## Installation

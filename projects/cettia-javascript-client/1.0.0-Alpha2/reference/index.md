@@ -9,31 +9,13 @@ title: Cettia JavaScript Client Reference
 
 **Table of Contents**
 
-* [Installation](#installation)
-    * [As a browser client](#as-a-browser-client)
-    * [As a Node.js client](#as-a-node.js-client)
-* [Socket](#socket)
-    * [Opening a Socket](#opening-a-socket)
-    * [Properties](#properties)
-    * [Lifecycle](#lifecycle)
-    * [Handling errors](#handling-errors)
-    * [Sending and receiving events](#sending-and-receiving-events)
-    * [Reconnection](#reconnection)
-    * [Offline handling](#offline-handling)
-    * [Extending the lifecycle to the next page](#extending-the-lifecycle-to-the-next-page)
-    * [Handling the result of the remote event processing](#handling-the-result-of-the-remote-event-processing)
-* [Transport](#transport) 
-    * [Implementation](#implementation)
-    * [Compatibility](#compatibility)
-        * [Browser](#browser)
-        * [Node.js](#node.js)
-* [Quirks](#quirks)
-    * [The browser limits the number of simultaneous connections](#the-browser-limits-the-number-of-simultaneous-connections)
-    * [Sending an event emits a clicking sound](#sending-an-event-emits-a-clicking-sound)
+* TOC
+{:toc}
 
 ---
 
 ## Installation
+
 ### As a browser client
 Download cettia.js the way you want.
 
@@ -219,7 +201,6 @@ _The server sends an event and the client echoes back to the server._
 **Client**
 
 ```javascript
-
 cettia.open("http://localhost:8080/cettia", {reconnect: false})
 .on("echo", function(data) {
     console.log(data);
