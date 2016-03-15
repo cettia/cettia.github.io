@@ -150,10 +150,15 @@ socket.on("waiting", function(delay, attempts) {
 
 // echo and chat events
 socket.on("open", function() {
-  socket.send("echo", "An echo");
-  socket.send("echo", new Buffer("An echo"));
-  socket.send("chat", "A chat");
-  socket.send("chat", new Buffer("A chat"));
+  // Text data
+  socket.send("echo", "echo");
+  socket.send("chat", "chat");
+  // Binary data
+  socket.send("echo", new Buffer("echo"));
+  socket.send("chat", new Buffer("chat"));
+  // Composite data
+  socket.send("echo", {text: "echo", binary: new Buffer("echo")});
+  socket.send("chat", {text: "chat", binary: new Buffer("chat")});
 });
 socket.on("echo", function(data) {
   console.log("on echo", data);
