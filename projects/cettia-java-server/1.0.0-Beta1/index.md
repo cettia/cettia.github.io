@@ -124,6 +124,5 @@ public class Bootstrap implements ServletContextListener {
 ### Further Reading
 
 * To play something right now, start with [archetype example](https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server) on your favorite platform.
-* To take a brief look at API, check out the [testee](https://github.com/cettia/cettia-java-server/blob/1.0.0-Beta1/server/src/test/java/io/cettia/ProtocolTest.java#L55-L110).
 * To get details of API, see [API document](/projects/cettia-java-server/1.0.0-Beta1/apidocs/).
 * To have a thorough knowledge of the implementation, read out the [reference](/projects/cettia-java-server/1.0.0-Beta1/reference/).
