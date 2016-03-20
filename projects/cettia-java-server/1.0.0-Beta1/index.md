@@ -121,8 +121,48 @@ public class Bootstrap implements ServletContextListener {
 }
 ```
 
-### Further Reading
+### Example
+Here are working examples.
 
-* To play something right now, start with [archetype example](https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server) on your favorite platform.
-* To get details of API, see [API document](/projects/cettia-java-server/1.0.0-Beta1/apidocs/).
-* To have a thorough knowledge of the implementation, read out the [reference](/projects/cettia-java-server/1.0.0-Beta1/reference/).
+#### Platform
+Run a cettia application on any platform seamlessly.
+
+<ul class="menu">
+<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/atmosphere2">Atmosphere 2</a></li>
+<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/grizzly2">Grizzly 2</a></li>
+<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/jwa1">Java WebSocket API 1</a></li>
+<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/netty4">Netty 4</a></li>
+<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/play2">Play 2</a></li>
+<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/servlet3">Servlet 3</a></li>
+<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/servlet3-jwa1">Servlet 3 and Java WebSocket API 1</a></li>
+<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/vertx2">Vert.x 2</a></li>
+</ul>
+
+<ul class="menu">
+<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform-on-platform/jaxrs2-atmosphere2">JAX-RS 2 on Atmosphere 2</a></li>
+</ul>
+
+#### Depdnency injection
+Inject a server wherever you need.
+
+<ul class="menu">
+<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/dependency-injection/cdi1">CDI 1</a></li>
+<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/dependency-injection/dagger1">Dagger 1</a></li>
+<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/dependency-injection/guice3">Guice 3</a></li>
+<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/dependency-injection/hk2">HK 2</a></li>
+<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/dependency-injection/picocontainer2">PicoContainer 2</a></li>
+<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/dependency-injection/spring4">Spring 4</a></li>
+<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/dependency-injection/tapestry5">Tapestry 5</a></li>
+</ul>
+
+#### Clustering
+Scale a cettia application horizontally.
+
+<ul class="menu">
+<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/clustering/amqp1">AMQP 1</a></li>
+<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/clustering/hazelcast3">Hazelcast 3</a></li>
+<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/clustering/jgroups3">jGroups 3</a></li>
+<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/clustering/jms2">JMS 2</a></li>
+<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/clustering/redis2">Redis 2</a></li>
+<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/clustering/vertx2">Vert.x 2</a></li>
+</ul>

@@ -97,8 +97,5 @@ socket.on("chat", function(data) {
 });
 ```
 
-### Further Reading
-
-* To play something right now, start with [archetype example](https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-javascript-client).
-* To get details of API, see [API document](/projects/cettia-javascript-client/1.0.0-Beta1/api/).
-* To have a thorough knowledge of the implementation, read out the [reference](/projects/cettia-javascript-client/1.0.0-Beta1/reference/).
+### Example
+Here is working example -- [echo and chat](http://jsbin.com/ruquvasevo/edit?html,js,console)
