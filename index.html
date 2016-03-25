@@ -31,28 +31,22 @@ title: Cettia
         you are trying to achieve in real-time.</p>
       <div class="row">
         <div class="large-4 columns">
-          {% capture panel %}
-          ```java
-          // When a socket is created
-          server.onsocket(socket -> {});
-          ```
-          {% endcapture %}{{ panel | markdownify }}
+{% highlight java %}
+// When a socket is created
+server.onsocket(socket -> {});
+{% endhighlight %}
         </div>
         <div class="large-4 columns">
-          {% capture panel %}
-          ```java
-          // Runs for every socket in the server
-          server.all(socket -> {});
-          ```
-          {% endcapture %}{{ panel | markdownify }}
+{% highlight java %}
+// Runs for every socket in the server
+server.all(socket -> {});
+{% endhighlight %}
         </div>
         <div class="large-4 columns">
-          {% capture panel %}
-          ```java
-          // When a socket sends some event
-          socket.on("echo", data -> {});
-          ```
-          {% endcapture %}{{ panel | markdownify }}
+{% highlight java %}
+// When a socket sends some event
+socket.on("echo", data -> {});
+{% endhighlight %}
         </div>
       </div>
       <p>Here is a summary of key features in Cettia overall:</p>

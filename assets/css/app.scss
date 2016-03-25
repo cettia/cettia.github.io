@@ -35,11 +35,14 @@ a {
   }
 }
 
-pre {
-  code {
-    margin-bottom: $paragraph-margin-bottom;
-    display: block;
-    padding: 0.375rem 0.625rem;
+div.highlighter-rouge, figure.highlight {
+  margin: 0;
+  pre {
+    code {
+      margin-bottom: $paragraph-margin-bottom;
+      display: block;
+      padding: 0.375rem 0.625rem;
+    }
   }
 }
 
