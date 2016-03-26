@@ -53,12 +53,14 @@ socket.on("echo", data -> {});
       <ul>
         <li><strong>Automatic fallback</strong> - In the real world, it has turned out that
           WebSocket has many issues with coporate proxies, firewalls, antivirus softwares, cloud
-          platforms, and so on. But, Cettia also has automatic fallback mechanisms which support
-          even IE 6 so that you don't need to worry.
+          platforms, and so on. But, Cettia has automatic fallback mechanisms which works pretty
+          well even in Internet Explorer 9.
         </li>
         <li><strong>I/O framework agnostic</strong> - Your application can run on almost any
           platform on the Java Virtual Machine seamlessly. Now Atmosphere, Grizzly, Java WebSocket
-          API, Netty, Play, Servlet and Vert.x are supported.
+          API, Netty, Servlet and Vert.x are supported. Although your favorite platform is not
+          supported, you can bridge your application to the platform with only a little bit of
+          effort.
         </li>
         <li><strong>Scalable</strong> - A publish-subscribe messaging system is enough to scale your
           application horizontally. Because servers don't share any data, you can scale application
@@ -70,21 +72,27 @@ socket.on("echo", data -> {});
           transport. In this manner, you can build real-time applications optimized for Internet of
           Things at least in theory.
         </li>
-        <li><strong>Event-based</strong> - The unit of data to be sent and received from the
-          semantic point of view is an event object associated with a customizable type, which is
-          easy to compose a controller from MVC.
+        <li><strong>Event-based</strong> - From the semantic point of view, the unit of data to be
+          sent and received is event associated with a customizable type. You don't need to write
+          the boilerplate code to implement event system with plain text and JSON to organize
+          your business logic.
         </li>
         <li><strong>Remote Procedure Call</strong> - It also allows to handle the result of the
           remote event processing through callback like Ajax. It's useful where request-response
-          model is more suited than notification model.
+          model is more suited than notification model like acknowledgement.
         </li>
-        <li><strong>Entity handling</strong> - Tag gives you a way to model a specific entity in the
-          real world as an identifier of a group of sockets. For example, you can use it to model a
-          user logged in using multiple devices.
+        <li><strong>Entity handling</strong> - Socket is not appropriate to represent a specific
+          entity. To give you a way to model a specific entity in the real world, Cettia provides
+          Tag as an identifier of a group of sockets. For example, you can use it to model a user
+          (entity) logged in using multiple devices (sockets).
         </li>
         <li><strong>Offline application</strong> - It is pretty important to make applications
           relying on full-duplex connection functional while offline. This feature enables you to
           handle socket as stateless object by providing various events to deal with disconnection.
+        </li>
+        <li><strong>Binary support</strong> - It enables you to exchange any arbitrary object
+          including binary as well as text in an efficient way without binary-to-text conversion.
+          Never mind what type of data is being sent.
         </li>
         <li><strong>100% open source</strong> - All projects are distributed under the Apache
           Software License 2.0 which is one of the most flexible open source licenses.
