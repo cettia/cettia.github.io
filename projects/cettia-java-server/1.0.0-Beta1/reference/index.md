@@ -299,6 +299,7 @@ server.onsocket((ServerSocket socket) -> {
   socket.onopen((Void v) -> {
     socket.send("echo", "echo");
     socket.send("echo", "echo".getBytes());
+    socket.send("echo", ByteBuffer.wrap("echo".getBytes()));
     socket.send("echo", new LinkedHashMap<String, Object>() {
       {
         put("text", "echo");
