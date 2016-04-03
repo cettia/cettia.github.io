@@ -4,44 +4,34 @@ title: "Cettia 1.0.0-Beta1 released"
 author: flowersinthesand
 ---
 
-Finally, all functionalities of Cettia 1.0 are implemented. Accordingly, Cetita Protocol 1.0.0-Beta1, Cettia JavaScript Client 1.0.0-Beta1 and Cettia Java Server 1.0.0-Beta1 have been released. This release focuses on [binary event](https://github.com/cettia/cettia-protocol/issues/9) which allows to exchange binary data without text-to-binary conversion and is one of features that many users have requested.
+Finally, all functionalities of Cettia 1.0 are implemented. Accordingly, Cetita Protocol 1.0.0-Beta1, Cettia JavaScript Client 1.0.0-Beta1 and Cettia Java Server 1.0.0-Beta1 have been released. This release focuses on [binary event](https://github.com/cettia/cettia-protocol/issues/9) which allows to exchange binary data without using binary-to-text encoding and is one of features that many users have requested.
 
-So far, to send and receive binary, you should have converted binary into text to write data and text into binary to read data based on encoding schemes like Base64, which has inevitably brought about performance degradation as well as payload size increase. Moreover, you have had to figure out which event handle binary in advance and do serialization and deserialization manually.
+So far, you have had to serialize binary to text and send that text data to send binary, and receive text data and deserialize that text to binary to read binary, using an binary-to-text encoding scheme like Base64. It has inevitably brought about performance degradation as well as payload size increase. Moreover, you have had to figure out which events handle binary in advance and do serialization and deserialization manually.
 
-Thanks to [MessagePack](http://msgpack.org) which is schemaless binary interchange format, now it is possible to send and receive binary without any text-to-binary conversion process. If data or its one of properties is evaluated as binary, it will be internally serialized and deserialized according to MessagePack instead of JSON. Besides, it's designed to work with any binary interchange format so you can let client determine an interchange format it will use e.g. BSON for Smalltalk client and MessagePack for Go client per connection. Just let us know your needs. Anyway, here the most important thing is you don't need to know about this at all.
+Thanks to [MessagePack](http://msgpack.org) which is a schemaless binary interchange format, now it is possible to deal with binary as a first-class citizen. If a given data or its one of properties is evaluated as binary, it will be internally serialized and deserialized according to MessagePack instead of JSON. Besides, it's designed to work with any binary interchange format so you can let client determine an interchange format it will use e.g. BSON for Rust client and MessagePack for Go client per connection. Just let us know your needs. Anyway, here the most important thing is you don't need to know about this at all.
 
-Let's take a look at the new feature through code snippet.
+Let's take a look at the new feature. In the following example, both client-side and server-side sockets send text, binary and composite event to their counterpart on open event.
 
 **JavaScript Client**
 
 ```javascript
-/**
- * Assumes that the server sends data back on echo event.
- *
- * <pre>
- * server.onsocket(socket -> socket.on("echo", data -> socket.send("echo", data)));
- * </pre>
- */
+// In Node.js, replace 'cettia' with 'require("cettia-client")'
 var socket = cettia.open(uri);
 socket.on("open", function() {
   // String object is text
-  var text = "echo";
-  socket.send("echo", text);
+  socket.send("discard", "test");
 
   // According to W3C Encoding standard https://encoding.spec.whatwg.org/
   // encoder.encode takes text and returns binary in the form of ArrayBuffer
   var encoder = new TextEncoder();
+  // In Node.js, replace 'encoder.encode("test")' with 'new Buffer("test")'
+  socket.send("discard", encoder.encode("test"));
 
-  // ArrayBuffer.isView(binary) will return 'true'
-  // In Node.js, use 'new Buffer("echo")'
-  var binary = encoder.encode("echo");
-  socket.send("echo", binary);
-
-  // Of course, composite data including both text and binary can be exchanged
-  var composite = {text: "echo", binary: encoder.encode(binary)};
-  socket.send("echo", composite);
+  // Even composite data including both text and binary can be exchanged
+  socket.send("discard", {text: "test", binary: encoder.encode("test")});
 });
-socket.on("echo", function(data) {
+// Prints all received data
+socket.on("discard", function(data) {
   console.log(data);
 });
 ```
@@ -49,35 +39,26 @@ socket.on("echo", function(data) {
 **Java Server**
 
 ```java
-/**
- * Assumes that the client sends data back on echo event.
- *
- * <pre>
- * socket.on('echo', data => socket.send('echo', data));
- * </pre>
- */
 Server server = new DefaultServer();
 server.onsocket((ServerSocket socket) -> {
   socket.onopen((Void v) -> {
     // String instance is text
-    String text = "echo";
-    socket.send("echo", text);
+    socket.send("discard", "test");
 
     // Byte array is binary
-    byte[] bytes = "echo".getBytes();
-    socket.send("echo", bytes);
+    socket.send("discard", "test".getBytes());
 
     // ByteBuffer is regarded as binary as well
-    ByteBuffer byteBuffer = ByteBuffer.wrap("echo".getBytes());
-    socket.send("echo", byteBuffer);
+    socket.send("discard", ByteBuffer.wrap("test".getBytes());
 
-    // Of course, POJO as well as plain map including both text and binary can be exchanged
-    Map<String, Object> composite = new LinkedHashMap<>();
-    composite.put("text", "echo");
-    composite.put("binary", "echo".getBytes());
-    socket.send("echo", composite);
+    // Even POJO as well as plain map including both text and binary can be exchanged
+    socket.send("discard", new LinkedHashMap<String, Object>() {% raw %}{{{% endraw %}
+      put("text", "test");
+      put("binary", "test".getBytes());
+    }});
   });
-  socket.on("echo", (Object data) -> System.out.println(data));
+  // Prints all received data
+  socket.on("discard", (Object data) -> System.out.println(data));
 });
 ```
 
