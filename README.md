@@ -11,5 +11,3 @@ Some project documents are generated from project source using external tools an
 * /projects/cettia-protocol/${version}/docs from `docco lib/*.js
 * /projects/cettia-java-server/${version}/apidocs from `mvn javadoc:aggregate`
 * /projects/cettia-java-platform/${version}/apidocs from `mvn javadoc:aggregate`
-* /projects/cettia-javascript-client/${version}/cettia.js by copy and paste
-* /projects/cettia-javascript-client/${version}/cettia.min.js by copy and paste
