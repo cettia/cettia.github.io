@@ -27,7 +27,7 @@ Download the package the way you want.
 <li><code>bower install cettia</code></li>
 </ul>
 
-Then load it by using either bundlers such as [webpack](https://webpack.github.io/), [Browserfiy](http://browserify.org/) or [Rollup](http://rollupjs.org/) or a `script` tag.
+Then load it by using either bundlers such as [webpack](https://webpack.github.io/), [Browserify](http://browserify.org/) or [Rollup](http://rollupjs.org/) or a `script` tag.
 
 <div class="row">
 <div class="large-6 columns">

@@ -25,7 +25,7 @@ Cettia JavaScript Client is distributed through [npm](https://www.npmjs.com/pack
 <div class="row">
 <div class="large-4 columns">
 {% capture panel %}
-**webpack, Broserify or Rollup**
+**webpack, Browserify or Rollup**
 
 ```bash
 npm install --save cettia-client

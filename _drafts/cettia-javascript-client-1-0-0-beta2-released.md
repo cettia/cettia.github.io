@@ -4,7 +4,7 @@ title: "Cettia JavaScript Client 1.0.0-Beta2 released"
 author: flowersinthesand
 ---
 
-[Cettia JavaScript Client 1.0.0-Beta2](/projects/cettia-javascript-client/1.0.0-Beta2) has been released. This release brings support for bundlers such as [webpack](https://webpack.github.io/), [Browserfiy](http://browserify.org/) or [Rollup](http://rollupjs.org/).
+[Cettia JavaScript Client 1.0.0-Beta2](/projects/cettia-javascript-client/1.0.0-Beta2) has been released. This release brings support for bundlers such as [webpack](https://webpack.github.io/), [Browserify](http://browserify.org/) or [Rollup](http://rollupjs.org/).
 
 > 
 Kudos to [@DDKnoll](https://github.com/DDKnoll) for the great work. For the details of how to make Cettia work with bundlers, see [this pull request](https://github.com/cettia/cettia-javascript-client/pull/14).
