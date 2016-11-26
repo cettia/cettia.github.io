@@ -1,6 +1,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="Donghwan Kim" />
-<link rel="stylesheet" href="/assets/css/app.css" />
 {% feed_meta %}
 {% seo %}
+<style type="text/css">
+  @import url("//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic,700italic");
+  {% capture include_to_scssify %}
+    {% include app.scss %}
+  {% endcapture %}
+  {{ include_to_scssify | scssify }}
+</style>
