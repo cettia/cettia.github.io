@@ -4,6 +4,7 @@ url: http://cettia.io
 author:
   name: Donghwan Kim
   email: flowersinthesand@gmail.com
+  twitter: flowersits
 relative_permalinks: false
 permalink: /blog/:title/
 kramdown:
@@ -12,5 +13,13 @@ gems:
   - jekyll-redirect-from
   - jekyll-sitemap
   - jekyll-feed
+  - jekyll-seo-tag
 sass:
     style: compressed
+twitter:
+  username: cettia_project
+social:
+  links:
+    - https://github.com/cettia
+    - https://twitter.com/cettia_project
+    - http://groups.google.com/group/cettia
