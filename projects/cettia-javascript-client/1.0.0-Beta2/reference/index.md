@@ -24,7 +24,6 @@ Download the package the way you want.
 <li><code>npm install cettia-client --save</code></li>
 <li><a href="https://unpkg.com/cettia-client@1.0.0-Beta2/cettia-browser.min.js">The compressed for production</a></li>
 <li><a href="https://unpkg.com/cettia-client@1.0.0-Beta2/cettia-browser.js">The uncompressed for development</a></li>
-<li><code>bower install cettia</code></li>
 </ul>
 
 Then load it by using either bundlers such as [webpack](https://webpack.github.io/), [Browserify](http://browserify.org/) or [Rollup](http://rollupjs.org/) or a `script` tag.
