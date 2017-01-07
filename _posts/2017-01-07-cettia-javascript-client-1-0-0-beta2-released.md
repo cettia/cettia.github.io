@@ -18,6 +18,6 @@ import cettia from "cettia-client/cettia-bundler"; // ES6 way
 var cettia = require('cettia-client/cettia-bundler'); // CommonJS way
 ```
 
-As of this release, for the sake of easy management, we have dropped support for Asynchronous Module Definition (AMD) and Bower and made a decision to use [unpkg](https://unpkg.com) that serves files from npm packages as a CDN. Accordingly, `cettia.min.js` has been renamed to `cettia-browser.min.js` and is available at https://unpkg.com/cettia-client@1.0.0-Beta2/cettia-browser.min.js. 
+As of this release, for the sake of easy management, we have dropped support for Asynchronous Module Definition (AMD) and Bower and made a decision to use [unpkg](https://unpkg.com) that serves files from npm packages as a CDN. Accordingly, `cettia.min.js` has been renamed to `cettia-browser.min.js` and is available at [https://unpkg.com/cettia-client@1.0.0-Beta2/cettia-browser.min.js](https://unpkg.com/cettia-client@1.0.0-Beta2/cettia-browser.min.js).
 
 As always, please let us, [Cettia Groups](http://groups.google.com/group/cettia), know if you have any question or feedback.
