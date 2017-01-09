@@ -31,11 +31,16 @@ a {
 
 div.highlighter-rouge, figure.highlight {
   margin: 0;
-  pre {
+  & > pre {
+    margin-bottom: $paragraph-margin-bottom;
+    padding: 0.375rem 0.625rem;
+    background-color: $code-background;
+    border: $code-border;
+
     code {
-      margin-bottom: $paragraph-margin-bottom;
       display: block;
-      padding: 0.375rem 0.625rem;
+      border: none;
+      padding: 0;
     }
   }
 }
