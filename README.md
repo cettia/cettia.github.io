@@ -8,6 +8,6 @@ Then, open [http://localhost:4000](http://localhost:4000) in your browser.
 
 Some project documents are generated from project source using external tools and should be updated after commit or release.
 
-* /projects/cettia-protocol/${version}/docs from `docco lib/*.js
+* /projects/cettia-protocol/${version}/docs from `docco lib/*.js`
 * /projects/cettia-java-server/${version}/apidocs from `mvn javadoc:aggregate`
 * /projects/cettia-java-platform/${version}/apidocs from `mvn javadoc:aggregate`
