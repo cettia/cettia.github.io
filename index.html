@@ -26,78 +26,272 @@ title: Cettia
         height="24"> {{ post.author }}</a> wrote <a href="{{ post.url }}">{{ post.title }}</a> on {{
         post.date | date: "%B %-d, %Y" }}.</p>
       <hr />
-      <h2>Features</h2>
-      <p>The most important thing is not managing connections or writing boilerplate code, but what
-        you are trying to achieve in real-time.</p>
+      <h3>I/O framework agnostic</h3>
+      <p>Cettia runs on almost any platform including Java Servlet and Java Websocket API on the JVM (Java Virtual Machine) seamlessly. Here's an example of Grizzly.</p>
+{% capture panel %}
+```java
+public class Bootstrap {
+  public static void main(String[] args) throws Exception {
+    // Creates a Cettia app
+    Server server = new DefaultServer();
+    HttpTransportServer httpTransportServer = new HttpTransportServer().ontransport(server);
+    WebSocketTransportServer wsTransportServer = new WebSocketTransportServer().ontransport(server);
+
+    // Sets up the app on Grizzly
+    HttpServer httpServer = HttpServer.createSimpleServer();
+    httpServer.getServerConfiguration().addHttpHandler(new AsityHttpHandler().onhttp(httpTransportServer), "/cettia");
+    httpServer.getListener("grizzly").registerAddOn(new WebSocketAddOn());
+    WebSocketEngine.getEngine().register("", "/cettia", new AsityWebSocketApplication().onwebsocket(wsTransportServer));
+    httpServer.start();
+
+    System.in.read();
+  }
+}
+```
+{% endcapture %}{{ panel | markdownify }}
+      <p>Of course, besides Grizzly, Atmosphere, Java WebSocket API, Netty, Servlet and Vert.x are now supported. Although your favorite platform is not supported, you can bridge your application to the platform with only a little bit of effort.</p>
+      <h3>Event-based</h3>
+      <p>From the semantic point of view, the unit of data to be sent and received via a socket is event associated with a customizable type. You don't need to write the boilerplate code to implement your own event system to organize business logic.</p>
+      <p>Note that when sending an event, you can attach any arbitrary object including binary as well as text to the event. Never mind what type of data is being sent. FYI, JSON and MessagePack are used internally for serialization.</p>
       <div class="row">
-        <div class="large-4 columns">
-{% highlight java %}
-// When a socket is created
-server.onsocket(socket -> {});
-{% endhighlight %}
+        <div class="large-6 columns">
+{% capture panel %}
+**Java Server**
+
+```java
+Server server = new DefaultServer();
+server.onsocket((ServerSocket socket) -> {
+  socket.onopen((Void v) -> {
+    // Text data
+    socket.send("discard", "test");
+    // Binary data
+    socket.send("discard", "test".getBytes());
+    socket.send("discard", ByteBuffer.wrap("test".getBytes());
+    // Composite data
+    socket.send("discard", new LinkedHashMap<String, Object>() {% raw %}{{{% endraw %}
+      put("text", "test");
+      put("binary", "test".getBytes());
+    }});
+    // POJO
+    socket.send("discard", new MyPojo("test", "test".getBytes());
+  });
+  // Prints all data the client sent
+  socket.on("discard", (Object data) -> System.out.println(data));
+});
+```
+{% endcapture %}{{ panel | markdownify }}
         </div>
-        <div class="large-4 columns">
-{% highlight java %}
-// Runs for every socket in the server
-server.all(socket -> {});
-{% endhighlight %}
-        </div>
-        <div class="large-4 columns">
-{% highlight java %}
-// When a socket sends some event
-socket.on("echo", data -> {});
-{% endhighlight %}
+        <div class="large-6 columns">
+{% capture panel %}
+**JavaScript Client**
+
+```javascript
+var socket = cettia.open(uri);
+socket.on("open", () => {
+  // Text data
+  socket.send("discard", "test");
+  // Binary data
+  socket.send("discard", new TextEncoder().encode("test"));
+  // Composite data
+  socket.send("discard", {
+    text: "test", 
+    binary: encoder.encode("test")
+  });
+});
+// Prints all data the server sent
+socket.on("discard", data => console.log(data));
+```
+{% endcapture %}{{ panel | markdownify }}
         </div>
       </div>
-      <p>Here is a summary of key features in Cettia overall:</p>
-      <ul>
-        <li><strong>Automatic fallback</strong> - In the real world, it has turned out that
-          WebSocket has many issues with coporate proxies, firewalls, antivirus softwares, cloud
-          platforms, and so on. But, Cettia has automatic fallback mechanisms which works pretty
-          well even in Internet Explorer 9.
-        </li>
-        <li><strong>I/O framework agnostic</strong> - Your application can run on almost any
-          platform on the Java Virtual Machine seamlessly. Now Atmosphere, Grizzly, Java WebSocket
-          API, Netty, Servlet and Vert.x are supported. Although your favorite platform is not
-          supported, you can bridge your application to the platform with only a little bit of
-          effort.
-        </li>
-        <li><strong>Scalable</strong> - A publish-subscribe messaging system is enough to scale your
-          application horizontally. Because servers don't share any data, you can scale application
-          horizontally with ease as well as don't need to prepare for key-value caches, NoSQL
-          solutions or in-memory data grids.
-        </li>
-        <li><strong>Transport agnostic</strong> - Any transport technology besides WebSocket and
-          HTTP can be used to bridge client and server as long as it meets requirements of Cettia
-          transport. In this manner, you can build real-time applications optimized for Internet of
-          Things at least in theory.
-        </li>
-        <li><strong>Event-based</strong> - From the semantic point of view, the unit of data to be
-          sent and received is event associated with a customizable type. You don't need to write
-          the boilerplate code to implement event system with plain text and JSON to organize
-          your business logic.
-        </li>
-        <li><strong>Remote Procedure Call</strong> - It also allows to handle the result of the
-          remote event processing through callback like Ajax. It's useful where request-response
-          model is more suited than notification model like acknowledgement.
-        </li>
-        <li><strong>Entity handling</strong> - Socket is not appropriate to represent a specific
-          entity. To give you a way to model a specific entity in the real world, Cettia provides
-          Tag as an identifier of a group of sockets. For example, you can use it to model a user
-          (entity) logged in using multiple devices (sockets).
-        </li>
-        <li><strong>Offline application</strong> - It is pretty important to make applications
-          relying on full-duplex connection functional while offline. This feature enables you to
-          handle socket as stateless object by providing various events to deal with disconnection.
-        </li>
-        <li><strong>Binary support</strong> - It enables you to exchange any arbitrary object
-          including binary as well as text in an efficient way without binary-to-text conversion.
-          Never mind what type of data is being sent.
-        </li>
-        <li><strong>100% open source</strong> - All projects are distributed under the Apache
-          Software License 2.0 which is one of the most flexible open source licenses.
-        </li>
-      </ul>
+      <p>In addition, various built-in events are offered along the socket life cycle, which allows for fine-grained control over socket.</p>
+      <h3>Entity handling</h3>
+      <p>A single socket is not appropriate to represent a specific entity in the real world. To give you a way to handle the entity, Cettia provides server with Tag, an identifier of a group of sockets. You can handle a user (entity) logged in using multiple devices (sockets) by tagging the socket with the username of the user that the socket represents.</p>
+{% capture panel %}
+```java
+Server server = new DefaultServer();
+server.onsocket((ServerSocket socket) -> {
+  // Tags the given socket with the username
+  String username = new UsernameResolver().resolve(socket.uri());
+  socket.tag(username);
+
+  // Let's say that dm event is called when the user sends a direct message to others
+  // This message will be sent to all devices that the receiver logged in via sockets tagged with the receiver's username
+  socket.on("dm", dm -> server.byTag(dm.receiver().username()).send("dm", dm.createMessage()));
+});
+```
+{% endcapture %}{{ panel | markdownify }}
+      <p>Furthermore, you can handle a room where users chat by tagging the sockets tagged with the username with the room name again.</p>
+{% capture panel %}
+```java
+server.onsocket((ServerSocket socket) -> {
+  // Tags the user with the room name when the users enters the room
+  socket.on("entrance", room -> server.byTag(username).tag(room.name()));
+  // With the room name, you can send a message to all the users who have entered the room
+  socket.on("chat", chat -> server.byTag(chat.room().name()).send("chat", chat.createMessage()));
+});
+```
+{% endcapture %}{{ panel | markdownify }}
+      <h3>Authentication hook</h3>
+      <p>As in the web application, you should be able to verify the identity of a given socket. As for the web application, there has been many ways e.g. token, cookie and header and dedicated frameworks which provide their own API. Cettia provides a hook to allow you to apply any method to do that.</p>
+{% capture panel %}
+```java
+Server server = new DefaultServer();
+server.onsocket((ServerSocket socket) -> {
+  // Token-based approach
+  String token = new Uri(socket.uri()).param("token");
+  Map<String, String> authentication = new TokenVerifier().verify(token);
+});
+```
+{% endcapture %}{{ panel | markdownify }}
+      <p>If you prefer to access authentication information the underlying platform provides, you can do that by unwrapping socket and transport. Here's an example of Servlet.</p>
+{% capture panel %}
+```java
+Server server = new DefaultServer();
+server.onsocket((ServerSocket socket) -> {
+  // Servlet approach
+  javax.servlet.http.HttpSession httpSession;
+  ServerTransport transport = socket.unwrap(ServerTransport.class);
+  ServerHttpExchange http = transport.unwrap(ServerHttpExchange.class);
+  ServerWebSocket ws = transport.unwrap(ServerWebSocket.class);
+
+  if (http != null) {
+    // In case of HTTP-based transports
+    httpSession = http.unwrap(HttpServletRequest.class).getSession(false);
+  } else if (ws != null) {
+    // In case of WebSocket transport
+    // To make this work, you should put a HttpSession into a Map returned by ServerEndpointConfig#getUserProperties in advance.
+    httpSession = (HttpSession) ws.unwrap(Session.class).getUserProperties().get(HttpSession.class.getName());
+  } else {
+    // Should not happen
+    throw new IllegalStateException();
+  }
+});
+```
+{% endcapture %}{{ panel | markdownify }}
+      <h3>Offline application</h3>
+      <p>It is important to make applications relying on full-duplex connection functional while offline. This feature enables you to handle socket as stateless object by providing proper events to deal with temporary disconnection, which means that you don't have to worry about connection state before sending some event.</p>
+      <div class="row">
+        <div class="large-6 columns">
+{% capture panel %}
+**Java Server**
+
+```java
+Server server = new DefaultServer();
+server.onsocket((ServerSocket socket) -> {
+  Queue<Object[]> cache = new ConcurrentLinkedQueue<>();
+  // Caches an event which couldn't be sent due to no connection
+  socket.oncache((Object[] args) -> cache.offer(args));
+  // Now that communication is possible, flushes the cache
+  socket.onopen((Void v) -> {
+    while (socket.state() == ServerSocket.State.OPENED
+      && !cache.isEmpty()) {
+      Object[] args = cache.poll();
+      socket.send((String) args[0], args[1],
+        (Action<?>) args[2], (Action<?>) args[3]);
+    }
+  });
+});
+```
+{% endcapture %}{{ panel | markdownify }}
+        </div>
+        <div class="large-6 columns">
+{% capture panel %}
+**JavaScript Client**
+
+```javascript
+var cache = [];
+var socket = cettia.open(uri);
+// Resets the cache on the beginning of the new lifecycle
+// and the end of the old lifecycle
+socket.on("new", () => cache.length = 0);
+// Caches an event which couldn't be sent due to no connection
+socket.on("cache", args => cache.push(args));
+// Now that communication is possible, flushes the cache
+socket.on("open", () => {
+  while(socket.state() === "opened" && cache.length) {
+    var args = cache.shift();
+    socket.send(socket, args[0], args[1], args[2], args[3]);
+  }
+});
+```
+{% endcapture %}{{ panel | markdownify }}
+        </div>
+      </div>
+      <h3>Dependency injection friendly</h3>
+      <p>Sometimes it's necessary to push something from server to client in the business logic layer or even in the data access layer. With dependency injection, you can register a Server as a singleton component and inject it wherever you want to send some events. Here's an example of Spring.</p>
+{% capture panel %}
+```java
+@Configuration
+@ComponentScan(basePackages = {"io.cettia.example.di.spring4"})
+public class SpringConfig {
+  // Registers the server as a component
+  @Bean
+  public Server server() {
+    return new DefaultServer();
+  }
+}
+```
+
+```java
+@WebListener
+public class Bootstrap implements ServletContextListener {
+  @Override
+  @SuppressWarnings("resource")
+  public void contextInitialized(ServletContextEvent event) {
+    AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(SpringConfig.class);
+    Server server = applicationContext.getBean(Server.class);
+    // Sets up the app on Servlet container
+    // Skipped...
+  }
+
+  @Override
+  public void contextDestroyed(ServletContextEvent sce) {}
+}
+```
+
+```java
+@Component
+public class PersistenceEventListener {
+  // Injects the server
+  @Autowired
+  private Server server;
+  
+  @EventListener(condition = "#persistenceEvent.dirty")
+  public void onDirty(PersistenceEvent<Dirty> event) {
+    // Notifies of any changes in the database in real-time
+    server.all().send("dirty", event.getDirty());
+  }
+}
+```
+{% endcapture %}{{ panel | markdownify }}
+      <h3>Scalable</h3>
+      <p>Because the location of the socket is transparent and servers don't share any data, you can scale application horizontally with ease without modifying existing event handlers. Here's an example of Hazelcast.</p>
+{% capture panel %}
+```java
+@WebListener
+public class Bootstrap implements ServletContextListener {
+  @Override
+  public void contextInitialized(ServletContextEvent event) {
+    // Creates a Cettia app
+    ClusteredServer server = new ClusteredServer();
+
+    // Configures a Hazelcast
+    HazelcastInstance hazelcast = HazelcastInstanceFactory.newHazelcastInstance(new Config());
+    ITopic<Map<String, Object>> topic = hazelcast.getTopic("cettia");
+
+    // If some server in the cluster published a message, passes it to this local server
+    topic.addMessageListener((Message<Map<String, Object>> message) -> server.messageAction().on(message.getMessageObject()));
+    // If this server created a message, publishes it to every server in the cluster
+    server.onpublish((Map<String, Object> message) -> topic.publish(message));
+  }
+
+  @Override
+  public void contextDestroyed(ServletContextEvent sce) {}
+}
+```
+{% endcapture %}{{ panel | markdownify }}
+      <p>Any publish-subscribe messaging system, e.g. JMS (Java Message Service) or AMQP (Advanced Message Queueing Protocol), can be used to scale the application.</p>
     </div>
   </div>
 </div>
