@@ -112,7 +112,7 @@ socket.on("discard", data => console.log(data));
 Server server = new DefaultServer();
 server.onsocket((ServerSocket socket) -> {
   // Tags the given socket with the username
-  String username = new UsernameResolver().resolve(socket.uri());
+  String username = new MyUsernameResolver().resolve(socket.uri());
   socket.tag(username);
 
   // Let's say that dm event is called when the user sends a direct message to others
@@ -139,8 +139,8 @@ server.onsocket((ServerSocket socket) -> {
 Server server = new DefaultServer();
 server.onsocket((ServerSocket socket) -> {
   // Token-based approach
-  String token = new Uri(socket.uri()).param("token");
-  Map<String, String> authentication = new TokenVerifier().verify(token);
+  String token = new MyUri(socket.uri()).param("token");
+  Map<String, String> authentication = new MyTokenVerifier().verify(token);
 });
 ```
 {% endcapture %}{{ panel | markdownify }}
@@ -150,7 +150,7 @@ server.onsocket((ServerSocket socket) -> {
 Server server = new DefaultServer();
 server.onsocket((ServerSocket socket) -> {
   // Servlet approach
-  javax.servlet.http.HttpSession httpSession;
+  HttpSession httpSession;
   ServerTransport transport = socket.unwrap(ServerTransport.class);
   ServerHttpExchange http = transport.unwrap(ServerHttpExchange.class);
   ServerWebSocket ws = transport.unwrap(ServerWebSocket.class);
