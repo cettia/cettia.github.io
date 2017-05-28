@@ -28,7 +28,7 @@ Creates a socket and returns it. Because it's an asynchronous operation, the ret
 URI is used to determine a type of a transport as well as identify a name of an endpoint literally so that it should follow a specific URI format according to transport. However, some exceptions are allowed for the sake of convenience.
 
 * Relative URI: It's converted into the absolute one but only available in browser.
-* URI whose scheme is `http` or `https` and which has no `transport` param: It's translated into three URIs which correspond to WebSocket, HTTP Streaming and HTTP Long polling in order. 
+* URI whose scheme is `http` or `https` and which has no `cettia-transport-name` param: It's translated into three URIs which correspond to WebSocket, HTTP Streaming and HTTP Long polling in order. 
 
 _Simplest one._
 
@@ -41,7 +41,7 @@ _Translated one of the above example._
 
 ```javascript
 // Then, you can change the default transport order with this way
-cettia.open(["ws://example.com/cettia", "http://example.com/cettia?transport=stream", "http://example.com/cettia?transport=longpoll"]);
+cettia.open(["ws://example.com/cettia", "http://example.com/cettia?cettia-transport-name=stream", "http://example.com/cettia?cettia-transport-name=longpoll"]);
 ```
 
 _WebSocket transport only._

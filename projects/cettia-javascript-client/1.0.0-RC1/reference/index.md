@@ -92,7 +92,7 @@ cettia.open("http://localhost/cettia");
 
 // Fully qualified URIs
 // A fully qualified URI follows the corresponding transport's own URI format
-cettia.open(["ws://localhost/cettia", "http://localhost/cettia?transport=stream", "http://localhost/cettia?transport=longpoll"]);
+cettia.open(["ws://localhost/cettia", "http://localhost/cettia?cettia-transport-name=stream", "http://localhost/cettia?cettia-transport-name=longpoll"]);
 ```
 
 ### Properties
