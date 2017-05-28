@@ -167,7 +167,6 @@ You can send event using `send(event: string, data?: any)` and receive event usi
 
 * Any event name can be used except reserved ones: `connecting`, `new`, `open`, `close`, `cache`, `waiting` and `error`.
 * If data or one of its properties is `Buffer` in Node or `ArrayBuffer` in browser, it is regarded as binary. Though, you don’t need to be aware of that.
-* In browser, to handle binary data, [msgpack-lite](https://github.com/kawanet/msgpack-lite) should be loaded in `window`.
 * To manage a lot of events easily, use [URI](http://tools.ietf.org/html/rfc3986) as event name format like `/account/update`.
 * If you send an event via a closed socket, it will be delegated to that socket's `cache` event so you don't need to worry about socket's state when sending event.
 
