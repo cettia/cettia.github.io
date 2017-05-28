@@ -247,7 +247,6 @@ To capture any error happening in socket, add `error` event handler. As an argum
 
 * Any event name can be used except reserved ones: `open`, `close`, `cache`, `delete` and `error`. 
 * If data or one of its properties is `byte[]` or `ByteBuffer`, it is regarded as binary. Though, you don't need to be aware of that.
-* To manage a lot of events easily, use [URI](http://tools.ietf.org/html/rfc3986) as event name format like `/account/update`.
 * If you send an event via a closed socket, it will be delegated to that socket's `cache` event so you don't need to worry about socket's state when sending event.
 
 _The client sends an event and the server echoes back to the client._
@@ -388,89 +387,12 @@ server.onsocket((ServerSocket socket) -> {
 ```
 
 ### Handling the result of the remote event processing
-You can get the result of event processing from the client in sending event using `send(String event, Object data, Action<T> onFulfilled)` and `send(String event, Object data, Action<T> onFulfilled, Action<U> onRejected)` where the allowed types, `T`, are the same with in receiving event, and set the result of event processing to the client in receiving event by using `Reply` as data type in an asynchronous manner. You can apply this functionality to Acknowledgements, Remote Procedure Call and so on.
+You can get the result of event processing from the client in sending event using `send(String event, Object data, Action<T> onFulfilled)` and `send(String event, Object data, Action<T> onFulfilled, Action<U> onRejected)` where the allowed types, `T`, are the same with in receiving event, and set the result of event processing to the client in receiving event by using `Reply` as data type in an asynchronous manner.
 
 **Note**
 
-* If the client doesn't call either attached fulfilled or rejected callback, these callbacks won't be executed in any way. It is the same for the server. Therefore, it should be dealt with as a kind of contract.
+* If the client doesn't call either attached fulfilled or rejected callback, these callbacks won't be executed in any way. It is the same for the server.
 * Beforehand determine whether to use rejected callback or not to avoid writing unnecessary rejected callbacks. For example, if required resource is not available, you can execute either fulfilled callback with `null` or rejected callback with exception e.g. `ResourceNotFoundException`.
-
-_The client sends an event attaching callbacks and the server executes one of them with the result of event processing._
-
-<div class="row">
-<div class="large-6 columns">
-{% capture panel %}
-**Server**
-
-```java
-server.onsocket((ServerSocket socket) -> {
-  socket.on("/account/find", (Reply<String> reply) -> {
-    String id = reply.data();
-    System.out.println(id);
-    try {
-      reply.resolve(accountService.findById(id));
-    } catch(EntityNotFoundException e) {
-      reply.reject(e.getMessage());
-    }
-  });
-});
-```
-{% endcapture %}{{ panel | markdownify }}
-</div>
-<div class="large-6 columns">
-{% capture panel %}
-**Client**
-
-```javascript
-cettia.open("http://localhost:8080/cettia")
-.on("open", function(data) {
-  this.send("/account/find", "flowersinthesand", function(data) {
-    console.log("fulfilled", data);
-  }, function(data) {
-    console.log("rejected", data);
-  });
-});
-```
-{% endcapture %}{{ panel | markdownify }}
-</div>
-</div>
-
-_The server sends an event attaching callbacks and the client executes one of them with the result of event processing._
-
-<div class="row">
-<div class="large-6 columns">
-{% capture panel %}
-**Server**
-
-```java
-server.onsocket((ServerSocket socket) -> {
-  socket.onopen((Void v) -> {
-    socket.send("/account/find", "flowersinthesand",
-      (Map<String, Object> data) -> System.out.println("fulfilled " + data),
-      (String data) -> System.out.println("rejected " + data));
-  });
-});
-```
-{% endcapture %}{{ panel | markdownify }}
-</div>
-<div class="large-6 columns">
-{% capture panel %}
-**Client**
-
-```javascript
-cettia.open("http://localhost:8080/cettia")
-.on("/account/find", function(id, reply) {
-  console.log(id);
-  try {
-    reply.resolve(accountService.findById(id));
-  } catch(e) {
-    reply.reject(e.message);
-  }
-});
-```
-{% endcapture %}{{ panel | markdownify }}
-</div>
-</div>
 
 ### Accessing underlying objects
 In any case, transport underlies socket and resource like HTTP request-response exchange and WebSocket underlies transport. To access such underlying objects like HTTP session, use `unwrap(Class<?> clazz)`. 

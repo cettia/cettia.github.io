@@ -167,7 +167,6 @@ You can send event using `send(event: string, data?: any)` and receive event usi
 
 * Any event name can be used except reserved ones: `connecting`, `new`, `open`, `close`, `cache`, `waiting` and `error`.
 * If data or one of its properties is `Buffer` in Node or `ArrayBuffer` in browser, it is regarded as binary. Though, you don’t need to be aware of that.
-* To manage a lot of events easily, use [URI](http://tools.ietf.org/html/rfc3986) as event name format like `/account/update`.
 * If you send an event via a closed socket, it will be delegated to that socket's `cache` event so you don't need to worry about socket's state when sending event.
 
 _The client sends an event and the server echoes back to the client._
@@ -304,90 +303,12 @@ To extend the lifecycle of the socket to the next page, that is to say, for the 
 * This features monopolizes `window.name` as a storage for the browsing context. Make sure that none of your application use `window.name`.
 
 ### Handling the result of the remote event processing
-You can get the result of event processing from the server in sending event using `send(event: string, data?: any, onFulfilled?: (data?: any) => void, onRejected?: (data?: any) => void)` and set the result of event processing to the server in receiving event using `on(event: string, handler:(data?: any, reply?: {resolve: (data?: any) => void; reject: (data?: any) => void}) => void)` in an asynchronous manner. You can apply this functionality to Acknowledgements, Remote Procedure Call and so on.
+You can get the result of event processing from the server in sending event using `send(event: string, data?: any, onFulfilled?: (data?: any) => void, onRejected?: (data?: any) => void)` and set the result of event processing to the server in receiving event using `on(event: string, handler:(data?: any, reply?: {resolve: (data?: any) => void; reject: (data?: any) => void}) => void)` in an asynchronous manner.
 
 **Note**
 
-* If the server doesn't call either attached fulfilled or rejected callback, these callbacks won't be executed in any way. It is the same for the client. Therefore, it should be dealt with as a kind of contract.
+* If the server doesn't call either attached fulfilled or rejected callback, these callbacks won't be executed in any way. It is the same for the client.
 * Beforehand determine whether to use rejected callback or not to avoid writing unnecessary rejected callbacks. For example, if required resource is not available, you can execute either fulfilled callback with `null` or rejected callback with error e.g. `ResourceNotFoundError`.
-
-_The client sends an event attaching callbacks and the server executes one of them with the result of event processing._
-
-<div class="row">
-<div class="large-6 columns">
-{% capture panel %}
-**Client**
-
-```javascript
-cettia.open("http://localhost:8080/cettia", {reconnect: false})
-.on("open", function(data) {
-  this.send("/account/find", "flowersinthesand", function(data) {
-    console.log("fulfilled", data);
-  }, function(data) {
-    console.log("rejected", data);
-  });
-});
-```
-{% endcapture %}{{ panel | markdownify }}
-</div>
-<div class="large-6 columns">
-{% capture panel %}
-**Server**
-
-```javascript
-server.on("socket", function(socket) {
-  socket.on("/account/find", function(id, reply) {
-    console.log(id);
-    try {
-      reply.resolve(accountService.findById(id));
-    } catch(e) {
-      reply.reject(e.message);
-    }
-  });
-});
-```
-{% endcapture %}{{ panel | markdownify }}
-</div>
-</div>
-
-_The server sends an event attaching callbacks and the client executes one of them with the result of event processing._
-
-<div class="row">
-<div class="large-6 columns">
-{% capture panel %}
-**Client**
-
-```javascript
-cettia.open("http://localhost:8080/cettia", {reconnect: false})
-.on("/account/find", function(id, reply) {
-  console.log(id);
-  try {
-    reply.resolve(accountService.findById(id));
-  } catch(e) {
-    reply.reject(e.message);
-  }
-});
-```
-{% endcapture %}{{ panel | markdownify }}
-</div>
-<div class="large-6 columns">
-{% capture panel %}
-**Server**
-
-```javascript
-server.on("socket", function(socket) {
-  socket.on("open", function() {
-    socket.send("/account/find", "flowersinthesand", function(data) {
-      console.log("fulfilled", data);
-    }, function(data) {
-      console.log("rejected", data);
-    });
-  });
-});
-```
-{% endcapture %}{{ panel | markdownify }}
-</div>
-</div>
 
 ---
 
