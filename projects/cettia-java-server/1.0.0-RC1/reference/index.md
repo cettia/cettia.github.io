@@ -25,25 +25,26 @@ Cettia Java Server requires Java 7 and is distributed through Maven Central. Add
 </dependency>
 ```
 
-[Asity](http://asity.cettia.io) is created to run a cettia application on any platform transparently. See their reference guide for what platforms are supported, how to install a cettia application on them and what you can do if your favorite platform is not supported.
+And install the bridge module [Asity](http://asity.cettia.io) provides per platform and bridge it with the application. How to install and bridge is discussed below per platform. If your platform is not supported, you need to write a bridge for the platform in Asity first. See the Asity website for the full documentation.
 
-**Examples**
+Also, take a look at the [TechEmpower benchmark results](https://www.techempower.com/benchmarks/) if you have not yet deteremined the platform.
 
-<ul class="menu">
-<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/atmosphere2">Atmosphere 2</a></li>
-<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/grizzly2">Grizzly 2</a></li>
-<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/jwa1">Java WebSocket API 1</a></li>
-<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/netty4">Netty 4</a></li>
-<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/servlet3">Servlet 3</a></li>
-<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/servlet3-jwa1">Servlet 3 and Java WebSocket API 1</a></li>
-<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/vertx2">Vert.x 2</a></li>
-</ul>
+### Atmosphere 2
+[Atmosphere 2](https://github.com/Atmosphere/atmosphere/) is a platform to use Java Servlet 3 and Java WebSocket API 1 together in more comfortable way. Note that it requires Atmosphere 2.2 and later.
 
-<ul class="menu">
-<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform-on-platform/jaxrs2-atmosphere2">JAX-RS 2 on Atmosphere 2</a></li>
-</ul>
+Add the following dependency to your build or include it on your classpath manually.
 
-_Setting up a server on Servlet 3 and Java WebSocket API 1._
+```xml
+<dependency>
+  <groupId>io.cettia.asity</groupId>
+  <artifactId>asity-bridge-atmosphere2</artifactId>
+  <version>1.0.0-Beta1</version>
+</dependency>
+```
+
+To bridge application and Atmosphere, you should register a servlet of `AsityAtmosphereServlet`. When registering servlet, you must set `asyncSupported` to `true` and set a init param, `org.atmosphere.cpr.AtmosphereInterceptor.disableDefaults` that is defined as `org.atmosphere.cpr.ApplicationConfig.DISABLE_ATMOSPHEREINTERCEPTOR`, to `true`.
+
+_[Atmosphere 2 example.](https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/atmosphere2)_
 
 ```java
 @WebListener
@@ -52,24 +53,126 @@ public class Bootstrap implements ServletContextListener {
   public void contextInitialized(ServletContextEvent event) {
     // Cettia server
     Server server = new DefaultServer();
-    server.onsocket(socket -> {})
+    HttpTransportServer httpTransportServer = new HttpTransportServer().ontransport(server);
+    WebSocketTransportServer wsTransportServer = new WebSocketTransportServer().ontransport(server);
+    
+    ServletContext context = event.getServletContext();
+    Servlet servlet = new AsityAtmosphereServlet().onhttp(httpTransportServer).onwebsocket(wsTransportServer);
+    ServletRegistration.Dynamic reg = context.addServlet(AsityAtmosphereServlet.class.getName(), servlet);
+    reg.setAsyncSupported(true);
+    reg.setInitParameter(ApplicationConfig.DISABLE_ATMOSPHEREINTERCEPTOR, Boolean.TRUE.toString());
+    reg.addMapping("/cettia");
+  }
+
+  @Override
+  public void contextDestroyed(ServletContextEvent sce) {}
+}
+```
+
+### Grizzly 2
+[Grizzly 2](https://grizzly.java.net/) is a framework to help developers to take advantage of the Java&trade; NIO API.
+
+Add the following dependency to your build or include it on your classpath manually.
+
+```xml
+<dependency>
+  <groupId>io.cettia.asity</groupId>
+  <artifactId>asity-bridge-grizzly2</artifactId>
+  <version>1.0.0-Beta1</version>
+</dependency>
+```
+
+And then, you should register an instance of `AsityHttpHandler` to deal with HTTP exchange and an instance of `AsityWebSocketApplication` to deal with WebSocket.
+
+_[Grizzly 2 example.](https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/grizzly2)_
+
+```java
+public class Bootstrap {
+  public static void main(String[] args) throws Exception {
+    // Cettia server
+    Server server = new DefaultServer();
+    HttpTransportServer httpTransportServer = new HttpTransportServer().ontransport(server);
+    WebSocketTransportServer wsTransportServer = new WebSocketTransportServer().ontransport(server);
+    
+    HttpServer httpServer = HttpServer.createSimpleServer();
+    ServerConfiguration config = httpServer.getServerConfiguration();
+    config.addHttpHandler(new AsityHttpHandler().onhttp(httpTransportServer), "/cettia");
+    NetworkListener listener = httpServer.getListener("grizzly");
+    listener.registerAddOn(new WebSocketAddOn());
+    WebSocketEngine.getEngine().register("", "/cettia", new AsityWebSocketApplication().onwebsocket(wsTransportServer));
+    httpServer.start();
+
+    System.in.read();
+  }
+}
+```
+
+### Java Servlet 3
+[Java Servlet 3.0](http://docs.oracle.com/javaee/6/tutorial/doc/bnafd.html) from Java EE 6 and [Java Servlet 3.1](https://docs.oracle.com/javaee/7/tutorial/servlets.htm) from Java EE 7.
+
+Add the following dependency to your build or include it on your classpath manually.
+
+```xml
+<dependency>
+  <groupId>io.cettia.asity</groupId>
+  <artifactId>asity-bridge-servlet3</artifactId>
+  <version>1.0.0-Beta1</version>
+</dependency>
+```
+
+To bridge application and Servlet, you should register a servlet of `AsityServlet`. When registering servlet, you must set `asyncSupported` to `true`.
+
+_[Servlet 3 example.](https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/servlet3-jwa1)_
+
+```java
+@WebListener
+public class Bootstrap implements ServletContextListener {
+  @Override
+  public void contextInitialized(ServletContextEvent event) {
+    // Cettia server
+    Server server = new DefaultServer();
+    HttpTransportServer httpTransportServer = new HttpTransportServer().ontransport(server);
+    
+    ServletContext context = event.getServletContext();
+    Servlet servlet = new AsityServlet().onhttp(httpTransportServer);
+    ServletRegistration.Dynamic reg = context.addServlet(AsityServlet.class.getName(), servlet);
+    reg.setAsyncSupported(true);
+    reg.addMapping("/cettia");
+  }
+  
+  @Override
+  public void contextDestroyed(ServletContextEvent sce) {}
+}
+```
+
+If your servlet container implements Java WebSocket API as well like Tomcat and Jetty, you can use Java Servlet 3 bridge and Java WebSocket API 1 bridge together.
+
+_[Servlet 3 and Java WebSocket APi 1 example.](https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/servlet3-jwa1)_
+
+```java
+@WebListener
+public class Bootstrap implements ServletContextListener {
+  @Override
+  public void contextInitialized(ServletContextEvent event) {
+    // Cettia server
+    Server server = new DefaultServer();
+    HttpTransportServer httpTransportServer = new HttpTransportServer().ontransport(server);
+    final WebSocketTransportServer wsTransportServer = new WebSocketTransportServer().ontransport(server);
 
     // Servlet
-    HttpTransportServer httpTransportServer = new HttpTransportServer().ontransport(server);
     ServletContext context = event.getServletContext();
-    Servlet servlet = new CettiaServlet().onhttp(httpTransportServer);
-    ServletRegistration.Dynamic reg = context.addServlet(CettiaServlet.class.getName(), servlet);
+    Servlet servlet = new AsityServlet().onhttp(httpTransportServer);
+    ServletRegistration.Dynamic reg = context.addServlet(AsityServlet.class.getName(), servlet);
     reg.setAsyncSupported(true);
     reg.addMapping("/cettia");
 
     // Java WebSocket API
-    final WebSocketTransportServer wsTransportServer = new WebSocketTransportServer().ontransport(server);
     ServerContainer container = (ServerContainer) context.getAttribute(ServerContainer.class.getName());
-    ServerEndpointConfig config = ServerEndpointConfig.Builder.create(CettiaServerEndpoint.class, "/cettia")
+    ServerEndpointConfig config = ServerEndpointConfig.Builder.create(AsityServerEndpoint.class, "/cettia")
     .configurator(new Configurator() {
       @Override
       public <T> T getEndpointInstance(Class<T> endpointClass) throws InstantiationException {
-        return endpointClass.cast(new CettiaServerEndpoint().onwebsocket(wsTransportServer));
+        return endpointClass.cast(new AsityServerEndpoint().onwebsocket(wsTransportServer));
       }
     })
     .build();
@@ -82,6 +185,150 @@ public class Bootstrap implements ServletContextListener {
 
   @Override
   public void contextDestroyed(ServletContextEvent sce) {}
+}
+```
+
+### Java WebSocket API 1
+[Java WebSocket API 1](http://docs.oracle.com/javaee/7/tutorial/doc/websocket.htm#GKJIQ5) (JWA) from Java EE 7.
+
+Add the following dependency to your build or include it on your classpath manually.
+
+```xml
+<dependency>
+  <groupId>io.cettia.asity</groupId>
+  <artifactId>asity-bridge-jwa1</artifactId>
+  <version>1.0.0-Beta1</version>
+</dependency>
+```
+
+Then, you should register an endpoint of `AsityServerEndpoint`. Note that each WebSocket session is supposed to have each endpoint instance so an instance of `AsityServerEndpoint` can't be shared among `ServerEndpointConfig`s.
+
+_[Java WebSocket API 1 example.](https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/jwa1)_
+
+```java
+public class Bootstrap implements ServerApplicationConfig {
+  @Override
+  public Set<ServerEndpointConfig> getEndpointConfigs(Set<Class<? extends Endpoint>> endpointClasses) {
+    // Cettia server
+    Server server = new DefaultServer();
+    final WebSocketTransportServer wsTransportServer = new WebSocketTransportServer().ontransport(server);
+    
+    ServerEndpointConfig config = ServerEndpointConfig.Builder.create(AsityServerEndpoint.class, "/cettia")
+    .configurator(new Configurator() {
+      @Override
+      public <T> T getEndpointInstance(Class<T> endpointClass) throws InstantiationException {
+        return endpointClass.cast(new AsityServerEndpoint().onwebsocket(wsTransportServer));
+      }
+    })
+    .build();
+    return Collections.singleton(config);
+  }
+
+  @Override
+  public Set<Class<?>> getAnnotatedEndpointClasses(Set<Class<?>> scanned) {
+    return null;
+  }
+}
+```
+
+### Netty 4
+[Netty 4](http://netty.io/) is an asynchronous event-driven network application framework.
+
+Add the following dependency to your build or include it on your classpath manually.
+
+```xml
+<dependency>
+  <groupId>io.cettia.asity</groupId>
+  <artifactId>asity-bridge-netty4</artifactId>
+  <version>1.0.0-Beta1</version>
+</dependency>
+```
+
+To bridge application and Netty, you should register a handler of `AsityServerCodec`. When configuring handlers, you must add `HttpServerCodec` in front of the handler.
+
+_[Netty 4 example.](https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/netty4)_
+
+```java
+public class Bootstrap {
+  public static void main(String[] args) throws Exception {
+    // Cettia server
+    Server server = new DefaultServer();
+    final HttpTransportServer httpTransportServer = new HttpTransportServer().ontransport(server);
+    final WebSocketTransportServer wsTransportServer = new WebSocketTransportServer().ontransport(server);
+    
+    EventLoopGroup bossGroup = new NioEventLoopGroup();
+    EventLoopGroup workerGroup = new NioEventLoopGroup();
+    try {
+      ServerBootstrap bootstrap = new ServerBootstrap();
+      bootstrap.group(bossGroup, workerGroup)
+      .channel(NioServerSocketChannel.class)
+      .childHandler(new ChannelInitializer<SocketChannel>() {
+        @Override
+        public void initChannel(SocketChannel ch) {
+          ChannelPipeline pipeline = ch.pipeline();
+          pipeline.addLast(new HttpServerCodec())
+          .addLast(new AsityServerCodec() {
+            @Override
+            protected boolean accept(HttpRequest req) {
+              return URI.create(req.getUri()).getPath().equals("/cettia");
+            }
+          }
+          .onhttp(httpTransportServer)
+          .onwebsocket(wsTransportServer));
+        }
+      });
+      Channel channel = bootstrap.bind(8080).sync().channel();
+      channel.closeFuture().sync();
+    } finally {
+      workerGroup.shutdownGracefully();
+      bossGroup.shutdownGracefully();
+    }
+  }
+}
+```
+
+### Vert.x 2
+
+[Vert.x 2](http://vertx.io/) is a lightweight, high performance application platform for the JVM.
+
+Add the following dependency to your build or include it on your classpath manually.
+
+```xml
+<dependency>
+  <groupId>io.cettia.asity</groupId>
+  <artifactId>asity-bridge-vertx2</artifactId>
+  <version>1.0.0-Beta1</version>
+</dependency>
+```
+
+You should register a handler of `AsityRequestHandler` to handle HTTP exchange and `AsityWebSocketHandler` to handle WebSocket.
+
+_[Vert.x 2 example.](https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/vertx2)_
+
+```java
+public class Bootstrap extends Verticle {
+  @Override
+  public void start() {
+    // Cettia server
+    Server server = new DefaultServer();
+    HttpTransportServer httpTransportServer = new HttpTransportServer().ontransport(server);
+    WebSocketTransportServer wsTransportServer = new WebSocketTransportServer().ontransport(server);
+    
+    HttpServer httpServer = vertx.createHttpServer();
+    RouteMatcher httpMatcher = new RouteMatcher();
+    httpMatcher.all("/cettia", new AsityRequestHandler().onhttp(httpTransportServer));
+    httpServer.requestHandler(httpMatcher);
+    final AsityWebSocketHandler websocketHandler = new AsityWebSocketHandler().onwebsocket(wsTransportServer);
+    httpServer.websocketHandler(new Handler<org.vertx.java.core.http.ServerWebSocket>() {
+      @Override
+      public void handle(org.vertx.java.core.http.ServerWebSocket socket) {
+        if (socket.path().equals("/cettia")) {
+          websocketHandler.handle(socket);
+        }
+      }
+    });
+    httpServer.listen(8080);
+  }
 }
 ```
 
@@ -400,6 +647,40 @@ In any case, transport underlies socket and resource like HTTP request-response 
 **Note**
 
 * Don't manipulate returned objects unless you know what you are doing.
+
+---
+
+## Support
+There are helpers to streamline repetitive tasks per runtime environment.
+
+### Servlet
+
+#### Resolving HttpSession
+You can find `HttpSession` by unwrapping socket, transport, and so on but it's quite lengthy. Instead, use `HttpSessionResolver`, which works with Servlet 3 and Java WebSocket API 1.
+
+```java
+HttpSessionResolver httpSessionResolver = new HttpSessionResolver();
+HttpSession httpSession = httpSessionResolver.resolve(socket);
+```
+
+Note that `HttpSessionResolver` doesn't create a session and returns `null` if there's no current session. Also if you are using Java WebSocket API 1, you need to put `HttpSession` into a map returned by `ServerEndpointConfig.getUserProperties()` with the `javax.servlet.http.HttpSession` key when building `ServerEndpointConfig`.
+
+```java
+ServerEndpointConfig config = ServerEndpointConfig.Builder.create(AsityServerEndpoint.class, "/cettia")
+.configurator(new Configurator() {
+    @Override
+    protected <T> T getEndpointInstance(Class<T> endpointClass) throws InstantiationException {
+      return endpointClass.cast(new AsityServerEndpoint().onwebsocket(wsTransportServer));
+    }
+
+    @Override
+    protected void modifyHandshake(ServerEndpointConfig config, HandshakeRequest request, HandshakeResponse response) {
+      HttpSession httpSession = (HttpSession) request.getHttpSession();
+      config.getUserProperties().put(HttpSession.class.getName(), httpSession);
+    }
+})
+.build();
+```
 
 ---
 
