@@ -89,17 +89,17 @@ public class Bootstrap implements ServletContextListener {
         server.all().send("chat", data);
       });
     });
+    HttpTransportServer httpTransportServer = new HttpTransportServer().ontransport(server);
+    final WebSocketTransportServer wsTransportServer = new WebSocketTransportServer().ontransport(server);
 
     // Sets up the cettia server on Servlet and Java WebSocket API
     // Of course, you can use other platform without touching the cettia server
-    HttpTransportServer httpTransportServer = new HttpTransportServer().ontransport(server);
     ServletContext context = event.getServletContext();
     Servlet servlet = new AsityServlet().onhttp(httpTransportServer);
     ServletRegistration.Dynamic reg = context.addServlet(AsityServlet.class.getName(), servlet);
     reg.setAsyncSupported(true);
     reg.addMapping("/cettia");
 
-    final WebSocketTransportServer wsTransportServer = new WebSocketTransportServer().ontransport(server);
     ServerContainer container = (ServerContainer) context.getAttribute(ServerContainer.class.getName());
     ServerEndpointConfig config = ServerEndpointConfig.Builder.create(AsityServerEndpoint.class, "/cettia")
     .configurator(new ServerEndpointConfig.Configurator() {

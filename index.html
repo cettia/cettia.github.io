@@ -134,41 +134,32 @@ server.onsocket((ServerSocket socket) -> {
 {% endcapture %}{{ panel | markdownify }}
       <h3>Authentication hook</h3>
       <p>As in the web application, you should be able to verify the identity of a given socket. As for the web application, there has been many ways e.g. token, cookie and header and dedicated frameworks which provide their own API. Cettia provides a hook to allow you to apply any method to do that.</p>
+      <div class="row">
+        <div class="large-6 columns">
 {% capture panel %}
 ```java
 Server server = new DefaultServer();
 server.onsocket((ServerSocket socket) -> {
   // Token-based approach
-  String token = new MyUri(socket.uri()).param("token");
-  Map<String, String> authentication = new MyTokenVerifier().verify(token);
+  String tokenString = new MyUri(socket.uri()).param("token");
+  MyToken token = new MyTokenVerifier().verify(tokenString);
 });
 ```
 {% endcapture %}{{ panel | markdownify }}
-      <p>If you prefer to access authentication information the underlying platform provides, you can do that by unwrapping socket and transport. Here's an example of Servlet.</p>
+        </div>
+        <div class="large-6 columns">
 {% capture panel %}
 ```java
 Server server = new DefaultServer();
 server.onsocket((ServerSocket socket) -> {
   // Servlet approach
-  HttpSession httpSession;
-  ServerTransport transport = socket.unwrap(ServerTransport.class);
-  ServerHttpExchange http = transport.unwrap(ServerHttpExchange.class);
-  ServerWebSocket ws = transport.unwrap(ServerWebSocket.class);
-
-  if (http != null) {
-    // In case of HTTP-based transports
-    httpSession = http.unwrap(HttpServletRequest.class).getSession(false);
-  } else if (ws != null) {
-    // In case of WebSocket transport
-    // To make this work, you should put a HttpSession into a Map returned by ServerEndpointConfig#getUserProperties in advance.
-    httpSession = (HttpSession) ws.unwrap(Session.class).getUserProperties().get(HttpSession.class.getName());
-  } else {
-    // Should not happen
-    throw new IllegalStateException();
-  }
+  HttpSessionResolver httpSessionResolver = new HttpSessionResolver();
+  HttpSession httpSession = httpSessionResolver.resolve(socket);
 });
 ```
 {% endcapture %}{{ panel | markdownify }}
+        </div>
+      </div>
       <h3>Offline application</h3>
       <p>It is important to make applications relying on full-duplex connection functional while offline. This feature enables you to handle socket as stateless object by providing proper events to deal with temporary disconnection, which means that you don't have to worry about connection state before sending some event.</p>
       <div class="row">
