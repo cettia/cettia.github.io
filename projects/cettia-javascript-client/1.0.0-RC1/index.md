@@ -118,4 +118,4 @@ socket.on("chat", function(data) {
 ```
 
 ### Example
-Here is working example -- [echo and chat](http://jsbin.com/pisecibiru/1/edit?html,js,console)
+Here is working example -- [echo and chat](http://jsbin.com/wucivel/1/edit?html,js,console)
