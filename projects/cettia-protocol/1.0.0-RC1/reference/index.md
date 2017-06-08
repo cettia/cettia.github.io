@@ -173,7 +173,7 @@ Note that JavaScript is a dynamic language so you can deal with both client and 
 ---
 
 ## Test Suite
-Test suite is provided to help write and verify the Cettia protocol implementation. Tests are written in JavaScript with the help of reference implementation and runs by [Mocha](http://visionmedia.github.io/mocha/), JavaScript test framework, in Node.js.
+Test suite is provided to help write and verify the Cettia protocol implementation. Tests are written in JavaScript with the help of reference implementation and runs by [Mocha](https://mochajs.org/), JavaScript test framework, in Node.js.
 
 ### Testee
 To run the test suite, you need to write a testee, a web server which brokers between test and your implementation to be tested. Because through writing testee, you will use most API of your implementation, showing your testee is good for explaining how to use your implementation.

@@ -70,7 +70,7 @@ public class Bootstrap implements ServletContextListener {
 ```
 
 ### Grizzly 2
-[Grizzly 2](https://grizzly.java.net/) is a framework to help developers to take advantage of the Java&trade; NIO API.
+[Grizzly 2](https://javaee.github.io/grizzly/) is a framework to help developers to take advantage of the Java&trade; NIO API.
 
 Add the following dependency to your build or include it on your classpath manually.
 
@@ -189,7 +189,7 @@ public class Bootstrap implements ServletContextListener {
 ```
 
 ### Java WebSocket API 1
-[Java WebSocket API 1](http://docs.oracle.com/javaee/7/tutorial/doc/websocket.htm#GKJIQ5) (JWA) from Java EE 7.
+[Java WebSocket API 1](https://docs.oracle.com/javaee/7/tutorial/websocket.htm) (JWA) from Java EE 7.
 
 Add the following dependency to your build or include it on your classpath manually.
 
