@@ -137,10 +137,6 @@ Run a cettia application on any platform seamlessly.
 <li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform/vertx2">Vert.x 2</a></li>
 </ul>
 
-<ul class="menu">
-<li><a href="https://github.com/cettia/cettia-examples/tree/master/archetype/cettia-java-server/platform-on-platform/jaxrs2-atmosphere2">JAX-RS 2 on Atmosphere 2</a></li>
-</ul>
-
 #### Depdnency injection
 Inject a server wherever you need.
 
