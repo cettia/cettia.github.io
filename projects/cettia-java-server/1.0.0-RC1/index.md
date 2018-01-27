@@ -13,7 +13,7 @@ Cettia Java Server <sup><strong>A</strong></sup> is a simple <sup><strong>B</str
   <dt>C</dt>
   <dd>Because servers don't share any data, you can scale application horizontally with ease.</dd>
   <dt>D</dt>
-  <dd>Your application can run on any platform that <a href="http://asity.cettia.io">Asity</a> supports seamlessly i.e. Atmosphere, Grizzly, Java WebSocket API, Netty, Play, Servlet and Vert.x.</dd>
+  <dd>Your application can run on any platform that <a href="http://asity.cettia.io">Asity</a> supports seamlessly i.e. Atmosphere, Grizzly, Java WebSocket API, Netty, Servlet and Vert.x.</dd>
 </dl> 
 
 ---

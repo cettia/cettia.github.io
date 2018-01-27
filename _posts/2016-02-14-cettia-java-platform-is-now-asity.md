@@ -8,7 +8,7 @@ Cettia Java Platform is now called Asity, which is created to run Java web appli
 
 > Asity is a lightweight abstraction layer for I/O frameworks which is designed to build applications that can run on any full-stack framework, any micro framework or any raw server on the JVM.
 
-With Asity, you can build I/O framework-agnostic applications on the JVM with ease. Now an application based on Asity can run on Atmosphere, Grizzly, Java WebSocket API, Netty, Play, Servlet and Vert.x transparently.
+With Asity, you can build I/O framework-agnostic applications on the JVM with ease. Now an application based on Asity can run on Atmosphere, Grizzly, Java WebSocket API, Netty, Servlet and Vert.x transparently.
 
 Visit the [asity.cettia.io](http://asity.cettia.io) for full documentation.
 
