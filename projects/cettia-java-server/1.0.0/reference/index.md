@@ -669,12 +669,12 @@ Note that `HttpSessionResolver` doesn't create a session and returns `null` if t
 ServerEndpointConfig config = ServerEndpointConfig.Builder.create(AsityServerEndpoint.class, "/cettia")
 .configurator(new Configurator() {
     @Override
-    protected <T> T getEndpointInstance(Class<T> endpointClass) throws InstantiationException {
+    public <T> T getEndpointInstance(Class<T> endpointClass) throws InstantiationException {
       return endpointClass.cast(new AsityServerEndpoint().onwebsocket(wsTransportServer));
     }
 
     @Override
-    protected void modifyHandshake(ServerEndpointConfig config, HandshakeRequest request, HandshakeResponse response) {
+    public void modifyHandshake(ServerEndpointConfig config, HandshakeRequest request, HandshakeResponse response) {
       HttpSession httpSession = (HttpSession) request.getHttpSession();
       config.getUserProperties().put(HttpSession.class.getName(), httpSession);
     }
