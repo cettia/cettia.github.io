@@ -7,7 +7,7 @@ author:
   email: flowersinthesand@gmail.com
   twitter: flowersits
 permalink: /blog/:title/
-gems:
+plugins:
   - jekyll-redirect-from
   - jekyll-sitemap
   - jekyll-feed
