@@ -121,7 +121,7 @@ First, create a directory called `starter-kit`. We will write and manage only th
     ```html
     <!DOCTYPE html>
     <title>index</title>
-    <script src="https://unpkg.com/cettia-client@1.0.0/cettia-browser.min.js"></script>
+    <script src="https://unpkg.com/cettia-client@1.0.1/cettia-browser.min.js"></script>
     ```
 
     We will use the console only on this page accessed through [http://127.0.0.1:8080](http://127.0.0.1:8080) to play with `cettia` object interactively rather than editing and refreshing the page. Otherwise, you can use bundlers such as webpack or other runtimes like Node.js.
