@@ -1,6 +1,7 @@
 ---
 layout: guide
 title: "Building real-time web applications with Cettia"
+description: "An introductory tutorial to Cettia. It explains the reason behind key design decisions that the Cettia team have made in the Cettia, as well as various patterns and features required to build real-time oriented applications without compromise with Cettia."
 ---
 
 ## Building real-time web applications with Cettia
@@ -302,7 +303,7 @@ On the client side, event data is simply JSON with some exceptions. The followin
 
 ```javascript
 var socket = cettia.open("http://127.0.0.1:8080/cettia");
-socket.on("open", () => socket.send("echo", "Hello world"));
+socket.once("open", () => socket.send("echo", "Hello world"));
 socket.on("echo", data => console.log(data));
 ```
 
@@ -436,7 +437,7 @@ Refresh the webpage, then `socket1` should be disconnected. Run the following co
 
 ```javascript
 var socket2 = cettia.open("http://127.0.0.1:8080/cettia");
-socket2.on("open", () => socket2.send("chat", {message: "ㅇㅅㅇ", sentAt: Date.now()}));
+socket2.once("open", () => socket2.send("chat", {message: "ㅇㅅㅇ", sentAt: Date.now()}));
 socket2.on("chat", data => console.log("socket2", "message", data.message, "with", Date.now() - data.sentAt, "ms delay"));
 ```
 

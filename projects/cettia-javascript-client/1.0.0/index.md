@@ -1,5 +1,5 @@
 ---
-layout: project
+layout: reference
 title: Cettia JavaScript Client
 ---
 
@@ -22,8 +22,8 @@ Cettia JavaScript Client <sup><strong>A</strong></sup> is a lightweight <sup><st
 
 Cettia JavaScript Client is distributed through [npm](https://www.npmjs.com/package/cettia-client). 
 
-<div class="row">
-<div class="large-4 columns">
+<div class="grid-x grid-margin-x">
+<div class="cell large-4">
 {% capture panel %}
 **webpack, Browserify and Rollup**
 
@@ -36,7 +36,7 @@ import cettia from "cettia-client/cettia-bundler";
 ```
 {% endcapture %}{{ panel | markdownify }}
 </div>
-<div class="large-4 columns">
+<div class="cell large-4">
 {% capture panel %}
 **`script` tag**
 
@@ -48,7 +48,7 @@ window.cettia;
 ```
 {% endcapture %}{{ panel | markdownify }}
 </div>
-<div class="large-4 columns">
+<div class="cell large-4">
 {% capture panel %}
 **Node**
 

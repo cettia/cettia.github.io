@@ -1,5 +1,5 @@
 ---
-layout: project
+layout: reference
 title: Cettia Protocol
 ---
 

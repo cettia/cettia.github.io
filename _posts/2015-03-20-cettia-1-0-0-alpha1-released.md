@@ -12,8 +12,8 @@ The Cettia project consists of protocol and implementations and as implementatio
 
 Here's a very simple example demonstrating essential functionalities. For working example, please refer to the quick start guide of [Java Server](/projects/cettia-java-server/1.0.0-Alpha1/#quick-start) and [JavaScript Client](/projects/cettia-javascript-client/1.0.0-Alpha1/#quick-start) or visit [repository for a lot of examples](https://github.com/cettia/cettia-examples).
 
-<div class="row">
-<div class="large-6 columns">
+<div class="grid-x grid-margin-x">
+<div class="cell large-6">
 {% capture panel %}
 **Java Server**
 
@@ -41,7 +41,7 @@ server.onsocket(new Action<ServerSocket>() {
 ```
 {% endcapture %}{{ panel | markdownify }}
 </div>
-<div class="large-6 columns">
+<div class="cell large-6">
 {% capture panel %}
 **JavaScript Client**
 

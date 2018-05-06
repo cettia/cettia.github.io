@@ -1,5 +1,5 @@
 ---
-layout: project
+layout: reference
 title: Cettia JavaScript Client
 ---
 
@@ -22,8 +22,8 @@ Cettia JavaScript Client <sup><strong>A</strong></sup> is a lightweight <sup><st
 ## Quick Start
 Cettia JavaScript Client is distributed at two places according to runtime engine: browser version through this web site in [compressed](/projects/cettia-javascript-client/1.0.0-Beta1/cettia.min.js) and [uncompressed](/projects/cettia-javascript-client/1.0.0-Beta1/cettia.js) forms and node version through [npm](https://www.npmjs.com/package/cettia-client).
 
-<div class="row">
-<div class="large-6 columns">
+<div class="grid-x grid-margin-x">
+<div class="cell large-6">
 {% capture panel %}
 **Browser**
 
@@ -32,7 +32,7 @@ Cettia JavaScript Client is distributed at two places according to runtime engin
 ```
 {% endcapture %}{{ panel | markdownify }}
 </div>
-<div class="large-6 columns">
+<div class="cell large-6">
 {% capture panel %}
 **Node.js**
 
