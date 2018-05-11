@@ -3,7 +3,7 @@ layout: reference
 title: Cettia JavaScript Client API
 ---
 
-<h1>Cettia JavaScript Client API <small>1.0.0</small></h1>
+<h1>Cettia JavaScript Client API <small>1.0.1</small></h1>
 
 API document for Cettia JavaScript Client.
 
@@ -28,7 +28,7 @@ Creates a socket and returns it. Because it's an asynchronous operation, the ret
 URI is used to determine a type of a transport as well as identify a name of an endpoint literally so that it should follow a specific URI format according to transport. However, some exceptions are allowed for the sake of convenience.
 
 * Relative URI: It's converted into the absolute one but only available in browser.
-* URI whose scheme is `http` or `https` and which has no `cettia-transport-name` param: It's translated into three URIs which correspond to WebSocket, HTTP Streaming and HTTP Long polling in order. 
+* URI whose scheme is `http` or `https` and which has no `cettia-transport-name` param: It's translated into three URIs which correspond to WebSocket, HTTP Streaming and HTTP Long polling in order.
 
 _Simplest one._
 
@@ -64,8 +64,8 @@ var options = {
     return 2 * lastDelay || 500;
   },
   transports: [
-    cettia.transport.createWebSocketTransport, 
-    cettia.transport.createHttpStreamTransport, 
+    cettia.transport.createWebSocketTransport,
+    cettia.transport.createHttpStreamTransport,
     cettia.transport.createHttpLongpollTransport
   ],
 
@@ -134,7 +134,7 @@ _Using your own transport._
 ```javascript
 // A factory to create TCP transport
 function createNetTransport(uri, options) {
-  // Only if URI's protocol is tcp and NetSocket, an imaginary object for TCP communication, is available 
+  // Only if URI's protocol is tcp and NetSocket, an imaginary object for TCP communication, is available
   if (/^tcp:/.test(uri) && NetSocket) {
     // Returns transport object
     return {/* skipped */};
@@ -153,7 +153,7 @@ An interface representing a socket created by calling `cettia.open`.
 Closes the socket. A socket closed by this method shouldn't be and can't be used again.
 
 #### `off(event: string, handler: Function): Socket`
-Removes a given event handler for a given event. 
+Removes a given event handler for a given event.
 
 #### `on(event: string, handler: Function): Socket`
 Adds a given event handler for a given event. An added event handler is not removed unless `off` method is called, hence, if some event handler is added in dispatching some event, it will be added every time that that event is dispatched. So don't call `on` in dispatching event of course including `open`. Generally, an added handler is called every time the server sends the event, but event handlers for reserved events behave differently like the following. `this` object of event handler refers to the socket.
@@ -173,7 +173,7 @@ A message event fired every time an error has occurred. The `error`'s message pr
 * `heartbeat`: A heartbeat operations failed.
 * `notopened`: A connection is not established yet.
 * Otherwise, all transports fail to establish a connection.
- 
+
 And transprot's `error` event is propagated to here.
 
 ##### `close (): void`
@@ -295,7 +295,7 @@ A factory to create a [HTTP Streaming](https://en.wikipedia.org/wiki/Comet_(prog
 A given URI should have either `http` or `https` scheme and `stream` transport param. This factory always creates and returns a transport and the returned transport is backed up by the following host objects which are chosen according to context automatically. In browser where XMLHttpRequest 2 and Typed Arrays are not supported, binary message can't and shouldn't be used.
 
 To establish read-only channel through `GET` method:
-   
+
 * `EventSource`: It works if browser supports `EventSource` specified in [Server-Sent Events](https://en.wikipedia.org/wiki/Server-sent_events). If the browser is Safari 5 or 6, it works only when same origin connection is given. By reason of the spec's ambiguity, there is no way to determine whether a connection closed normally or not so that `error` event is not thrown even though the connection closed due to an error.
 * `XMLHttpRequest`: In case of same origin connection, it works without qualification. In case of cross origin, it works if `XMLHttpRequest` supports CORS. However for both cases, if the browser is Internet Explorer, the version should be equal to or higher than 10 and if the browser is Opera, the version should be equal to or higher than 13.
 * `XDomainRequest`: It works if `xdrURL` option is set and browser supports `XDomainRequest`, that is Internet Explorer 9-10.
@@ -313,7 +313,7 @@ A factory to create a [HTTP Long polling](https://en.wikipedia.org/wiki/Comet_(p
 A given URI should have either `http` or `https` scheme and `longpoll` transport param. This factory always creates and returns a transport and the returned transport is backed up by the following host objects which are chosen according to context automatically. In browser where XMLHttpRequest 2 and Typed Arrays are not supported, binary message can't and shouldn't be used.
 
 To establish read-only channel through `GET` method:
-   
+
 * `XMLHttpRequest`: In case of same origin connection, it works without qualification. In case of cross origin, works if `XMLHttpRequest` supports CORS.
 * `XDomainRequest`: It works if `xdrURL` option is set and browser supports `XDomainRequest`, that is Internet Explorer 9-10.
 * `script` tag: It works always.
@@ -350,7 +350,7 @@ cettia.open(uri, {
   // output: url;jsessionid=${cookie.JSESSIONID}?k=v
   xdrURL: function(uri) {
     var sid = /(?:^|; )JSESSIONID=([^;]*)/.exec(document.cookie)[1];
-    return url.replace(/;jsessionid=[^\?]*|(\?)|$/, 
+    return url.replace(/;jsessionid=[^\?]*|(\?)|$/,
       ";jsessionid=" + sid + "$1");
   }
 });
@@ -367,7 +367,7 @@ cettia.open(uri, {
   // output: url?PHPSESSID=${cookie.PHPSESSID}&k=v
   xdrURL: function(uri) {
     var sid = /(?:^|; )PHPSESSID=([^;]*)/.exec(document.cookie)[1];
-    return url.replace(/\?PHPSESSID=[^&]*&?|\?|$/, 
+    return url.replace(/\?PHPSESSID=[^&]*&?|\?|$/,
       "?PHPSESSID=" + sid + "&").replace(/&$/, "");
   }
 });

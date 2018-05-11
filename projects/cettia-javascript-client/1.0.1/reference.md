@@ -3,7 +3,7 @@ layout: reference
 title: Cettia JavaScript Client Reference
 ---
 
-<h1>Cettia JavaScript Client <small>1.0.0</small></h1>
+<h1>Cettia JavaScript Client <small>1.0.1</small></h1>
 
 A lightweight JavaScript client for browser-based and Node-based Cettia applications.
 
@@ -58,7 +58,7 @@ var socket = cettia.open("/cettia");
 
 ### As a Node.js client
 Cettia JavaScript Client is available on [npm](https://npmjs.org/package/cettia-client) under the name of `cettia-client`. Install the module.
-  
+
 ```bash
 npm install cettia-client --save
 ```
@@ -113,7 +113,7 @@ Socket always is in a specific state that can be accessed by `state()` method. N
 * `connecting`
 
   The `connecting` event is fired. If given URIs, transports are created through transport factories specified by `transports?: ((uri: string, options: TransportOptions) => Transport)[]` option and used to establish a connection over wire. Each transport should establish a connection within the time specified by `timeout?: number` option. If it turns out that a transport corresponding to the current URI is not available, next URI is tried.
-  
+
   State transition occurs to
 
   * `opened`: if one of transports succeeds in establishing a connection.
@@ -121,24 +121,24 @@ Socket always is in a specific state that can be accessed by `state()` method. N
   * `closed`: if every transport fails to connect in time.
 
   <p>
-  
+
 * `opened`
 
   The connection is successfully established and communication is possible. If the server issues a new identifier for the socket, the `new` event is fired as the beginning of the new lifecycle and the end of the old lifecycle. Then, the `open` event follows. It would happen if it's the first time to connect to the server so there is no corresponding socket in the server or if a connection was disconnected but reconnection doesn't occur for a long time so the socket is deleted from the server. If the server doesn't issue a new identifier, that is to say, the client reconnects in time, only the `open` event is fired, which doesn't affect the current lifecycle. Only in this state, the socket can send and receive events via connection.
-   
+
   State transition occurs to
-  
+
   * `closed`: if `close()` method is called.
   * `closed`: if connection is closed cleanly.
   * `closed`: if heartbeat fails.
   * `closed`: if connection is disconnected due to some error.
 
   <p>
-  
+
 * `closed`
 
   The connection has been closed, has been regarded as closed or could not be opened. The `close` event is fired. If `reconnect? (lastDelay: number, lastAttempts: number)` option is set to `false` or returns `false`, the whole lifecycle ends here. In this state, sending and receiving events is not allowed but sent events in this state are passed to the `cache` event without throwing an exception so that you can cache and send them on next reconnection. It is the same for the server.
-  
+
   State transition occurs to
 
   * `waiting`: if `reconnect` option returns a positive number.
@@ -148,7 +148,7 @@ Socket always is in a specific state that can be accessed by `state()` method. N
 * `waiting`
 
   The socket waits out the reconnection delay. The `waiting` event is fired with the reconnection delay in milliseconds and the total number of reconnection attempts.
-  
+
   State transition occurs to
 
   * `connecting`: after the reconnection delay.
@@ -255,7 +255,7 @@ Reconnection has been disabled in the code snippets in this page for convenience
 
 **Note**
 
-* Don't add event handler during dispatch. Because reconnection doesn't remove existing event handlers, it will be duplicated. 
+* Don't add event handler during dispatch. Because reconnection doesn't remove existing event handlers, it will be duplicated.
 
 ### Offline handling
 Once the underlying transport is disconnected, it's not possible to send an event through the socket until the new transport establishes a connection. To cache event which is being passed to `send` method while offline and send it on next reconnection, make use of `new`, `open`, and `cache` event. The `cache` event is fired if the `send` method is called when there is no connection with an array of arguments used to call the `send` method.
