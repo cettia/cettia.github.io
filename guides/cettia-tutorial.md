@@ -1,16 +1,16 @@
 ---
 layout: guide
-title: "Building real-time web applications with Cettia"
+title: "Building Real-Time Web Applications With Cettia"
 description: "An introductory tutorial to Cettia. It explains the reason behind key design decisions that the Cettia team have made in the Cettia, as well as various patterns and features required to build real-time oriented applications without compromise with Cettia."
 ---
 
-## Building real-time web applications with Cettia
+## Building Real-Time Web Applications With Cettia
 
-I started Cettia's predecessor's predecessor (A jQuery plugin for HTTP streaming that I used to demonstrate Servlet 3.0's Async Servlet with IE 6) in 2011. Since then, WebSocket and Asynchronous IO have come into wide use, and it has become easier to develop and maintain real-time web applications in both client and server environments. In the meantime, however, functional and non-functional requirements have become more sophisticated and difficult to meet, and it has become harder to estimate and control the accompanying technical debt as well.
+I started Cettia's predecessor's predecessor (a jQuery plugin for HTTP streaming that I used to demonstrate Servlet 3.0's Async Servlet with IE 6) in 2011. Since then, WebSocket and Asynchronous IO have come into wide use, and it has become easier to develop and maintain real-time web applications in both client and server environments. In the meantime, however, functional and non-functional requirements have become more sophisticated and difficult to meet, and it has become harder to estimate and control the accompanying technical debt as well.
 
-The [Cettia](http://cettia.io) is the result of projects that started out as an effort to address these challenges and is a framework to create real-time web applications without compromise:
+[Cettia](http://cettia.io) is the result of projects that started out as an effort to address these challenges and is a framework to create real-time web applications without compromise:
 
-- It is designed to run on any I/O framework on Java Virtual Machine (JVM) seamlessly.
+- It is designed to run on any I/O framework on the Java Virtual Machine (JVM) seamlessly.
 - It provides a simple, full duplex connection even if given proxy, firewall, anti-virus software or arbitrary Platform as a Service (PaaS).
 - It is designed not to share data between servers and can be scaled horizontally with ease.
 - It offers an event system to classify events which take place server-side and client-side and can exchange them in real-time.
@@ -19,7 +19,7 @@ The [Cettia](http://cettia.io) is the result of projects that started out as an 
 
 In this tutorial, we will take a look at the features required to create real-time oriented web applications with Cettia and build the Cettia starter kit. The source code for the starter kit is available at [https://github.com/cettia/cettia-starter-kit](https://github.com/cettia/cettia-starter-kit).
 
-### Setting up the project
+### Setting Up the Project
 
 Before getting started, be sure that you have Java 8+ and Maven 3+ installed. According to statistics from Maven Central, Servlet 3 and Java WebSocket API 1 are the most-used I/O frameworks in writing Cettia applications, so we will use them to build the Cettia starter kit. Of course, you can use other frameworks like Grizzly and Netty, as you will see later.
 
@@ -121,11 +121,11 @@ First, create a directory called `starter-kit`. We will write and manage only th
     <script src="https://unpkg.com/cettia-client@1.0.1/cettia-browser.min.js"></script>
     ```
 
-    We will use the console only on this page accessed through [http://127.0.0.1:8080](http://127.0.0.1:8080) to play with the `cettia` object interactively, rather than editing and refreshing the page. Otherwise, you can use bundlers such as webpack or other runtimes like Node.js.
+    We will use the console only on this page, accessed through [http://127.0.0.1:8080](http://127.0.0.1:8080), to play with the `cettia` object interactively, rather than editing and refreshing the page. Otherwise, you can use bundlers such as Webpack or other runtimes like Node.js.
 
-### I/O framework agnostic layer
+### I/O Framework Agnostic Layer
 
-To enable greater freedom of choice on a technical stack, Cettia is designed to run on any I/O framework seamlessly on Java Virtual Machine (JVM) without degrading the underlying framework's performance; this is achieved by creating an Asity project as a lightweight abstraction layer for Java I/O frameworks. Asity supports Atmosphere, Grizzly, Java Servlet, Java WebSocket API, Netty and Vert.x.
+To enable greater freedom of choice on a technical stack, Cettia is designed to run on any I/O framework seamlessly on the Java Virtual Machine (JVM) without degrading the underlying framework's performance; this is achieved by creating an Asity project as a lightweight abstraction layer for Java I/O frameworks. Asity supports Atmosphere, Grizzly, Java Servlet, Java WebSocket API, Netty, and Vert.x.
 
 Let's write an HTTP handler and a WebSocket handler mapped to `/cettia` on Servlet and Java WebSocket API with Asity. These frameworks literally take responsibility for managing HTTP resources and WebSocket connections, respectively. Add the following imports to the `CettiaConfigListener` class:
 
@@ -178,11 +178,11 @@ try {
 
 As you would intuitively expect, `httpTransportServer` and `wsTransportServer` are Asity applications, and they can run on any framework as long as it's possible to feed them with `ServerHttpExchange` and `ServerWebSocket`. The Cettia server is also basically an Asity application.
 
-In this step, you can play with Asity resources directly by submitting an HTTP request and WebSocket request to `/cettia`; but we won't delve into Asity in this tutorial. Consult the [Asity](http://asity.cettia.io) website if you are interested. Unless you need to write an Asity application from scratch, you can safely ignore Asity; just note that even if your favorite framework is not supported, with about 200 code lines, you can write an Asity bridge to your framework and run Cettia via that bridge.
+In this step, you can play with Asity resources directly by submitting an HTTP request and WebSocket request to `/cettia`; but we won't delve into Asity in this tutorial. Consult the [Asity](http://asity.cettia.io) website if you are interested. Unless you need to write an Asity application from scratch, you can safely ignore Asity; just note that even if your favorite framework is not supported, with about 200 lines of code, you can write an Asity bridge to your framework and run Cettia via that bridge.
 
 ### Installing Cettia
 
-Before diving into the code, let's establish 3 primary concepts of Cettia at the highest conceptual level:
+Before diving into the code, let's establish three primary concepts of Cettia at the highest conceptual level:
 
 - **Server** - An interface used to interact with sockets. It offers an event to initialize newly accepted sockets and provides finder methods to find sockets matching the given criteria and execute the given socket action.
 - **Socket** - A feature-rich interface built on the top of the transport. It provides the event system that allows you to define your own events, regardless of the type of event data, and exchange them between the Cettia client and the Cettia server in real-time.
@@ -212,7 +212,7 @@ server.onsocket((ServerSocket socket) -> System.out.println(socket));
 
 As an implementation of `Action<ServerHttpExchange>` and `TransportServer`, `HttpTransportServer` consumes HTTP request-response exchanges and produces streaming transport and long-polling transport, and as an implementation of `Action<ServerWebSocket>` and `TransportServer`, `WebSocketTransportServer` consumes the WebSocket resource and produces a WebSocket transport. These produced transports are passed into the `Server` and used to create and maintain `ServerSocket`s.
 
-It is true that WebSocket transport is enough these days, but if proxy, firewall, anti-virus software or arbitrary Platform as a Service (PaaS) are involved, it's difficult to be absolutely sure that WebSocket alone will work. That's why we recommend to install `HttpTransportServer` along with `WebSocketTransportServer` for broader coverage of full duplex message channels in a variety of environments.
+It is true that WebSocket transport is enough these days, but if proxy, firewall, anti-virus software or arbitrary Platform as a Service (PaaS) are involved, it's difficult to be absolutely sure that WebSocket alone will work. That's why we recommend you install `HttpTransportServer` along with `WebSocketTransportServer` for broader coverage of full duplex message channels in a variety of environments.
 
 `ServerSocket` created by `Server` is passed to socket handlers registered through `server.onsocket(socket -> {})`, and this handler is where you should initialize the socket. Because it is costly to accept transport and socket, you should authenticate requests in advance, if needed, outside of Cettia and filter out unqualified requests before passing them to Cettia. For example, it would look like this, assuming that Apache Shiro is used:
 
@@ -225,15 +225,15 @@ server.onsocket(socket -> {
 });
 ```
 
-In the client side, you can open a socket pointing to the URI of the Cettia server with `cettia.open(uri)`. Run the following snippet in the console on the index page:
+On the client side, you can open a socket pointing to the URI of the Cettia server with `cettia.open(uri)`. Run the following snippet in the console on the index page:
 
 ```javascript
 var socket = cettia.open("http://127.0.0.1:8080/cettia");
 ```
 
-If everything is set up correctly, you should be able to see a socket log in the server-side and what has been happening through the network panel of the developer tools in the client-side. If WebSocket transport is not available in either the client or the server for some reason, the Cettia client falls back to HTTP-based transports automagically. Comment out the Java WebSocket API part and open a socket again, or open the index page in Internet Explorer 9. In any case, you'll see that a socket is opened.
+If everything is set up correctly, you should be able to see a socket log in the server-side and what has been happening through the network panel of the developer tools in the client-side. If WebSocket transport is not available in either the client or the server for some reason, the Cettia client falls back to HTTP-based transports automatically. Comment out the Java WebSocket API part and open a socket again, or open the index page in Internet Explorer 9. In any case, you'll see that a socket is opened.
 
-### Socket lifecycle
+### Socket Lifecycle
 
 A socket always is in a specific state, such as opened or closed, and its state keeps changing based on the state of the underlying transport. Cettia defines the state transition diagram for the client socket and the server socket and provides various built-in events, which allows fine-grained handling of a socket when a state transition occurs. If you make good use of these diagrams and built-in events, you can easily handle stateful sockets in an event-driven way without having to manage their states by yourself.
 
@@ -248,12 +248,12 @@ Here's the state transition diagram of a server socket:
 
 ![server-state-diagram](https://user-images.githubusercontent.com/1095042/39472695-ec3ea126-4d85-11e8-908e-de4bdebf4acb.jpg)
 
-1. On the receipt of a transport, the server creates a socket with `NULL` state and passes it to the socket handlers.
+1. On the receipt of a transport, the server creates a socket with a `NULL` state and passes it to the socket handlers.
 1. If it fails to perform the handshake, it transitions to a `CLOSED` state and fires a `close` event.
 1. If it performs the handshake successfully, it transitions to an `OPENED` state and fires an `open` event. The communication is possible only in this state.
 1. If connection is disconnected for some reason, it transitions to a `CLOSED` state and fires a `close` event.
 1. If the connection is recovered by the client reconnection, it transitions to an `OPENED` state and fires `open` event.
-1. After 1 minute has elapsed since the `CLOSED` state, it transitions to the final state and fires a `delete` event. Sockets in this state shouldn't be used.
+1. After one minute has elapsed since the `CLOSED` state, it transitions to the final state and fires a `delete` event. Sockets in this state shouldn't be used.
 
 As you can see, if a state transition of 4 happens, it is supposed to transition to either 5 or 6. You may want to resend events that the client couldn't receive while without connection on the former, and take action to notify the user of missed events, like push notifications on the latter. We will discuss how to do that in detail later on.
 
@@ -279,9 +279,9 @@ Here's the state transition diagram of a client socket:
 
 If there's no problem with the connection, the socket will have a state transition cycle of 3-4-5-6. If not, it will have a state transition cycle of 2-5-6. Restart or shutdown the server for a state transition of 4-5-6 or 2-5-6.
 
-### Sending and receiving events
+### Sending and Receiving Events
 
-The most common pattern with which to exchange various types of data through a single channel is the Command pattern; a command object is serialized and sent over the wire, and then deserialized and executed on the other side. At first, JSON and a switch statement should suffice for the purpose of implementing the  pattern, but it becomes a burden to maintain and accrues technical debt if you have to handle binary types of data; implement a heartbeat and make sure you get an acknowledgement for the data. Cettia provides an event system that is flexible enough to accommodate these requirements.
+The most common pattern with which to exchange various types of data through a single channel is the Command Pattern; a command object is serialized and sent over the wire, and then deserialized and executed on the other side. At first, JSON and a switch statement should suffice for the purpose of implementing the  pattern, but it becomes a burden to maintain and accrues technical debt if you have to handle binary types of data; implement a heartbeat and make sure you get an acknowledgement of the data. Cettia provides an event system that is flexible enough to accommodate these requirements.
 
 A unit of exchange between the Cettia client and the Cettia server in real-time is the event which consists of a required name property and an optional data property. You can define and use your own events as long as the name isn't duplicated with built-in events. Here's the `echo` event handler where any received `echo` event is sent back. Add it to the socket handler:
 
@@ -309,9 +309,9 @@ socket.on("echo", data => console.log(data));
 
 As we decided to use the console, you can type and run code snippets, e.g.: `socket.send("echo", {text: "I'm a text", binary: new TextEncoder().encode("I'm a binary")}).send("echo", "It's also chainable")` and watch results on the fly. Try it on your console.
 
-As the example suggests, event data can be basically anything as long as it is serializable, regardless of whether data is binary or text. If at least one of the properties of the event data is `byte[]` or `ByteBuffer` in the server, `Buffer` in Node or `ArrayBuffer` in browser, the event data is treated as binary and MessagePack format is used instead of JSON format. In short, you can exchange event data, including binary data, with no issue.
+As the example suggests, event data can be basically anything as long as it is serializable, regardless of whether data is binary or text. If at least one of the properties of the event data is `byte[]` or `ByteBuffer` in the server, `Buffer` in Node or `ArrayBuffer` in the browser, the event data is treated as binary and MessagePack format is used instead of JSON format. In short, you can exchange event data, including binary data, with no issue.
 
-### Broadcasting events
+### Broadcasting Events
 
 To send an event to multiple sockets, you could create a Set, add a socket to the set and send events iterating over the set. It should work, but socket is stateful and not serializable, which means that the caller should always check whether this socket is available each time; it's not possible to handle this socket on the other side of the wire. Cettia resolved these issues in a functional way.
 
@@ -355,9 +355,9 @@ socket1.send("chat", "Is it safe to invest in Bitcoin?");
 
 You may be dying to answer the question. Try it on the console.
 
-### Working with specific sockets
+### Working with Specific Sockets
 
-In most cases, you are likely to handle a group of sockets representing a specific entity rather than simply all sockets. The entity, for example could be a user signed in to multiple browsers, users entered in a chat room, red-team players in a game, and so on. As explained, the server's finder methods accept a criterion to find sockets and an action to execute with found sockets, and the criteria to be used here is tag. Cettia allows the addition and removal of a tag to and from a socket, and provides finder methods to find tagged sockets, such as querying the database.
+In most cases, you are likely to handle a group of sockets representing a specific entity rather than simply all sockets. The entity, for example, could be a user signed in to multiple browsers, users entered in a chat room, red-team players in a game, and so on. As explained, the server's finder methods accept a criterion to find sockets and an action to execute with found sockets, and the criteria to be used here is tag. Cettia allows the addition and removal of a tag to and from a socket, and provides finder methods to find tagged sockets, such as querying the database.
 
 As a simple example, let's write the `myself` event handler, which sends a given event to sockets tagged with my username. Here, these sockets represent an entity called myself. Assume that the username is included in the query parameter named `username` in a URI and URI encoding safe. For instance, if the socket's URI is `/cettia?username=alice`, the socket handler will add the `alice` tag to the socket through `socket.tag(String tagName)`, and when a `myself` event is dispatched, the server will find sockets containing the `alice` tag with `server.byTag(String... names)` and send the event to them.
 
@@ -393,7 +393,7 @@ You may want to compare the `myself` event with the above `echo` and `chat` even
 });
 ```
 
-### Disconnection handling
+### Disconnection Handling
 
 We have only dealt with sockets in opened states so far, but disconnection is inevitable. If any event fails to be sent to the user because of disconnection and they should be sent in spite of the delay when the connection is recovered, the situation has become complex. Not all disconnections are the same; they vary in the period of time between disconnection and reconnection. In general, a temporary disconnection is more common than a permanent disconnection, especially in the mobile environment, and the user experiences for each case are different. If some events are delivered after a delay of some seconds due to a temporary disconnection, the client could treat them as if they were delivered on time, but if a delay would be some minutes or hours due to permanent disconnection, it might be better to send an email about missed events.
 
@@ -443,7 +443,7 @@ socket2.on("chat", data => console.log("socket2", "message", data.message, "with
 
 A chat event sent from `socket2` can't reach `socket1` because it has no active connection, and instead the event is cached in a queue for `socket1`. If you run the first code snippet again on the refreshed page so that `socket1`'s lifecycle is extended, you should see that `socket1` receives the cached events. Of course, if you defer running the first code snippet for 1 minute, you will see that `socket1` dispatches the `delete` event, so its cached events are logged as missed events in the server.
 
-### Scaling a Cettia application
+### Scaling a Cettia Application
 
 Last but not least is scaling an application. As mentioned earlier, any publish-subscribe messaging system can be used to scale a Cettia application horizontally, and it doesn't require any modification in the existing application. The idea behind scaling a Cettia application is very simple:
 
@@ -524,7 +524,7 @@ As for deployment, it's just a web application, after all, so you can deploy the
 
 ### Conclusion
 
-[Cettia](http://cettia.io/) is a full-featured real-time web application framework that you can use to exchange events between server and client in real-time. Following the separation of concerns principle, the framework is separated into 3 layers; 1. I/O framework agnostic layer to run a Cettia application on any I/O framework on JVM 2. Transport layer to provide a reliable full duplex message channel 3. Socket layer to offer elegant patterns to achieve better user experience in the real-time web. This multi-layered architecture allows for focusing on application-level real-time event handling only, as well as a greater freedom of choice on technical stacks.
+[Cettia](http://cettia.io/) is a full-featured real-time web application framework that you can use to exchange events between server and client in real-time. Following the separation of concerns principle, the framework is separated into 3 layers; an I/O framework agnostic layer to run a Cettia application on any I/O framework on JVM; a transport layer to provide a reliable full duplex message channel; and a socket layer to offer elegant patterns to achieve better user experience in the real-time web. This multi-layered architecture allows for focusing on application-level real-time event handling only, as well as a greater freedom of choice on technical stacks.
 
 In this tutorial, we've walked through the reason behind key design decisions that the Cettia team have made in the Cettia, as well as various patterns and features required to build real-time oriented applications without compromise with Cettia, and as a result, we've built the starter kit. The source code for the starter kit is available at [https://github.com/cettia/cettia-starter-kit](https://github.com/cettia/cettia-starter-kit).
 
