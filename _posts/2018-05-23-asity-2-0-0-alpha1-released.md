@@ -4,13 +4,13 @@ title: "Asity 2.0.0-Alpha1 released"
 author: flowersinthesand
 ---
 
-I'm happy to announce the availability of the first alpha of Asity 2.0.0. First of all, we rephrased the project definition to make clear the identity of the project:
+I'm happy to announce the availability of the first alpha release of Asity 2.0.0. First of all, we rephrased the project definition to make clear the identity of the project:
 
 > Asity is an abstraction layer for various web frameworks on the Java Virtual Machine.
 
-This articulates the reason why the we crated Asity project; Cettia works with any web framework on the JVM, and allows the end user to plug in the desired web framework. Here's a roadmap for Astiy 2:
+This articulates the reason why we created the Asity project; Cettia works with any web framework on the JVM, and allows the end user to plug in the desired web framework. Here's a roadmap for Astiy 2:
 
-- [Set minimum Java verion to 8](https://github.com/cettia/asity/issues/11)
+- [Set minimum Java version to 8](https://github.com/cettia/asity/issues/11)
 - [Allow to read WebSocket handshake request headers](https://github.com/cettia/asity/issues/12)
 - [Support Spring WebFlux 5](https://github.com/cettia/asity/issues/10)
 - [Support Spring Web MVC 4](https://github.com/cettia/asity/issues/13)
@@ -18,7 +18,7 @@ This articulates the reason why the we crated Asity project; Cettia works with a
 
 For the details of the progress and information, visit [https://github.com/cettia/asity](https://github.com/cettia/asity/). Asity 2 will be available early July. If you have any idea or proposal, don't hesitate to let us know on [Cettia Groups](http://groups.google.com/group/cettia)!
 
-As for the first alpha release, it includes a support for Spring WebFlux, a web framework of Spring's reactive stack based on Reactive Streams. With `io.cettia.asity:asity-bridge-spring-webflux5:2.0.0-Alpha1` bridge module, you can build a Cettia application with Spring WebFlux, and run it through Spring Boot just like a plain Spring application. Here's an example:
+As for the first alpha release, it includes support for Spring WebFlux, a web framework of Spring's reactive stack based on Reactive Streams. With `io.cettia.asity:asity-bridge-spring-webflux5:2.0.0-Alpha1` bridge module, you can build a Cettia application with Spring WebFlux, and run it through Spring Boot just like a plain Spring application. Here's an example:
 
 ```java
 package io.cettia.example.spring;
