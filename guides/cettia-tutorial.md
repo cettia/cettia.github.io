@@ -10,7 +10,7 @@ I started Cettia's predecessor's predecessor (a jQuery plugin for HTTP streaming
 
 [Cettia](http://cettia.io) is the result of projects that started out as an effort to address these challenges and is a framework to create real-time web applications without compromise:
 
-- It is designed to run on any I/O framework on the Java Virtual Machine (JVM) seamlessly.
+- It is designed to run on any web framework on the Java Virtual Machine (JVM) seamlessly.
 - It provides a simple, full duplex connection even if given proxy, firewall, anti-virus software or arbitrary Platform as a Service (PaaS).
 - It is designed not to share data between servers and can be scaled horizontally with ease.
 - It offers an event system to classify events which take place server-side and client-side and can exchange them in real-time.
@@ -21,7 +21,7 @@ In this tutorial, we will take a look at the features required to create real-ti
 
 ### Setting Up the Project
 
-Before getting started, be sure that you have Java 8+ and Maven 3+ installed. According to statistics from Maven Central, Servlet 3 and Java WebSocket API 1 are the most-used I/O frameworks in writing Cettia applications, so we will use them to build the Cettia starter kit. Of course, you can use other frameworks like Grizzly and Netty, as you will see later.
+Before getting started, be sure that you have Java 8+ and Maven 3+ installed. According to statistics from Maven Central, Servlet 3 and Java WebSocket API 1 are the most-used web frameworks in writing Cettia applications, so we will use them to build the Cettia starter kit. Of course, you can use other frameworks like Grizzly and Netty, as you will see later.
 
 First, create a directory called `starter-kit`. We will write and manage only the following three files in the directory:
 
@@ -54,12 +54,12 @@ First, create a directory called `starter-kit`. We will write and manage only th
        <dependency>
          <groupId>io.cettia.asity</groupId>
          <artifactId>asity-bridge-servlet3</artifactId>
-         <version>1.0.0</version>
+         <version>2.0.0-RC1</version>
        </dependency>
        <dependency>
          <groupId>io.cettia.asity</groupId>
          <artifactId>asity-bridge-jwa1</artifactId>
-         <version>1.0.0</version>
+         <version>2.0.0-RC1</version>
        </dependency>
        <dependency>
          <groupId>javax.servlet</groupId>
@@ -123,9 +123,9 @@ First, create a directory called `starter-kit`. We will write and manage only th
 
     We will use the console only on this page, accessed through [http://127.0.0.1:8080](http://127.0.0.1:8080), to play with the `cettia` object interactively, rather than editing and refreshing the page. Otherwise, you can use bundlers such as Webpack or other runtimes like Node.js.
 
-### I/O Framework Agnostic Layer
+### Web Framework Agnostic Layer
 
-To enable greater freedom of choice on a technical stack, Cettia is designed to run on any I/O framework seamlessly on the Java Virtual Machine (JVM) without degrading the underlying framework's performance; this is achieved by creating an Asity project as a lightweight abstraction layer for Java I/O frameworks. Asity supports Atmosphere, Grizzly, Java Servlet, Java WebSocket API, Netty, and Vert.x.
+To enable greater freedom of choice on a technical stack, Cettia is designed to run on any web framework seamlessly on the Java Virtual Machine (JVM) without degrading the underlying framework's performance; this is achieved by creating an Asity project as a lightweight abstraction layer for Java web frameworks. Now Asity supports almost all popular web frameworks in Java : Servlet and Java API for WebSocket, Spring WebFlux, Spring Web MVC, Grizzly, Vert.x, Netty, Atmosphere, and so on.
 
 Let's write an HTTP handler and a WebSocket handler mapped to `/cettia` on Servlet and Java WebSocket API with Asity. These frameworks literally take responsibility for managing HTTP resources and WebSocket connections, respectively. Add the following imports to the `CettiaConfigListener` class:
 
@@ -188,7 +188,7 @@ Before diving into the code, let's establish three primary concepts of Cettia at
 - **Socket** - A feature-rich interface built on the top of the transport. It provides the event system that allows you to define your own events, regardless of the type of event data, and exchange them between the Cettia client and the Cettia server in real-time.
 - **Transport** - An interface to represent a full duplex message channel. It carries a binary as well as a text payload based on message framing, exchanges messages bidirectionally, and ensures no message loss and no idle connection. Unlike Server and Socket, you don't need to be aware of the Transport unless you want to tweak the default transport behavior or introduce a brand new transport.
 
-Let's set up the Cettia server on top of the above I/O framework agnostic layer and open a socket as a smoke test. Add the following imports:
+Let's set up the Cettia server on top of the above web framework agnostic layer and open a socket as a smoke test. Add the following imports:
 
 ```java
 import io.cettia.DefaultServer;
@@ -524,7 +524,7 @@ As for deployment, it's just a web application, after all, so you can deploy the
 
 ### Conclusion
 
-[Cettia](http://cettia.io/) is a full-featured real-time web application framework that you can use to exchange events between server and client in real-time. Following the separation of concerns principle, the framework is separated into 3 layers; an I/O framework agnostic layer to run a Cettia application on any I/O framework on JVM; a transport layer to provide a reliable full duplex message channel; and a socket layer to offer elegant patterns to achieve better user experience in the real-time web. This multi-layered architecture allows for focusing on application-level real-time event handling only, as well as a greater freedom of choice on technical stacks.
+[Cettia](http://cettia.io/) is a full-featured real-time web application framework that you can use to exchange events between server and client in real-time. Following the separation of concerns principle, the framework is separated into 3 layers; a web framework agnostic layer to run a Cettia application on any web framework on JVM; a transport layer to provide a reliable full duplex message channel; and a socket layer to offer elegant patterns to achieve better user experience in the real-time web. This multi-layered architecture allows for focusing on application-level real-time event handling only, as well as a greater freedom of choice on technical stacks.
 
 In this tutorial, we've walked through the reason behind key design decisions that the Cettia team have made in the Cettia, as well as various patterns and features required to build real-time oriented applications without compromise with Cettia, and as a result, we've built the starter kit. The source code for the starter kit is available at [https://github.com/cettia/cettia-starter-kit](https://github.com/cettia/cettia-starter-kit).
 

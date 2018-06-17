@@ -8,7 +8,7 @@ title: A full-featured real-time web application framework for Java
       <div class="content">
         <h1>Cettia</h1>
         <h4 class="subheader">A real-time web application framework for Java</h4>
-        <p>Cettia is a full-featured real-time web application framework that you can use to exchange events between server and client in real-time. Following the separation of concerns principle, the framework is separated into 3 layers; 1. I/O framework agnostic layer to run a Cettia application on any I/O framework on Java Virtual Machine 2. Transport layer to provide a reliable full duplex message channel 3. Socket layer to offer elegant patterns to achieve better user experience in the real-time web. This multi-layered architecture allows for focusing on application-level real-time event handling only, as well as a greater freedom of choice on technical stacks.</p>
+        <p>Cettia is a full-featured real-time web application framework that you can use to exchange events between server and client in real-time. Following the separation of concerns principle, the framework is separated into 3 layers; 1. Web framework agnostic layer to run a Cettia application on any I/O framework on Java Virtual Machine 2. Transport layer to provide a reliable full duplex message channel 3. Socket layer to offer elegant patterns to achieve better user experience in the real-time web. This multi-layered architecture allows for focusing on application-level real-time event handling only, as well as a greater freedom of choice on technical stacks.</p>
         <p>Getting started:</p>
         <ul>
           <li><a href="/guides/cettia-tutorial/">Building Real-Time Web Applications With Cettia</a></li>
@@ -22,10 +22,10 @@ title: A full-featured real-time web application framework for Java
         <hr />
         <p>Here are key features.</p>
   {% capture panel %}
-  - I/O framework agnostic
-      - Reactive everywhere. When adopting an I/O framework to serve your application, you should be able to select it according to performance, productivity, familiarity and so on with no regard to this kind of framework.
-      - That's why Cettia is designed to run on any I/O framework on Java Virtual Machine (JVM) seamlessly without degrading the underlying framework's performance. Now Atmosphere, Grizzly, Java Servlet, Java WebSocket API, Netty and Vert.x are supported.
-      - Even if your favorite I/O framework is not supported, don’t worry. With more or less 200 code lines, you can write a bridge to your framework and run Cettia via that bridge.
+  - Web framework agnostic
+      - Reactive everywhere. When adopting a web framework to serve your application, you should be able to select it according to performance, productivity, familiarity and so on with no regard to this kind of framework.
+      - That's why Cettia is designed to run on any web framework on Java Virtual Machine (JVM) seamlessly without degrading the underlying framework's performance. Now Atmosphere, Grizzly, Java Servlet, Java WebSocket API, Netty and Vert.x are supported.
+      - Even if your favorite web framework is not supported, don’t worry. With more or less 200 code lines, you can write a bridge to your framework and run Cettia via that bridge.
   - Reliable full duplex connection
       - If given proxy, firewall, anti-virus software or arbitrary Platform as a Service (PaaS), it's very difficult to be absolutely-sure that WebSocket will just work. You still need "Comet" in 2018, a set of giant hacks for HTTP server-push defined more than 10 years ago.
       - HTTP-based transports Cettia provides i.e. streaming and long polling can carry, not only text but also binary payload based on message framing bidirectionally in real-time just like WebSocket. They just work in the wild.
