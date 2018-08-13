@@ -7,7 +7,7 @@ title: A full-featured real-time web application framework for Java
     <div class="cell">
       <div id="index">
         <h1>Cettia</h1>
-        <p>Cettia is a full-featured real-time web application framework for Java that you can use to exchange events between server and client in real-time. It is meant for when you run into issues which are tricky to resolve with WebSocket, JSON, and switch statement per se: writing repetitive boilerplate code, supporting environments where WebSocket is not available, handling both text and binary data together, recovering missed events, providing multi-device user experience, scaling out an application, and so on. It offers a reliable full duplex message channel and elegant patterns to achieve better user experience in the real-time web, and is compatible with any web frameworks on the Java Virtual Machine.</p>
+        <p>Cettia is a full-featured real-time web application framework for Java that you can use to exchange events between server and client in real-time. It is meant for when you run into issues which are tricky to resolve with WebSocket, JSON, and switch statement per se: avoiding repetitive boilerplate code, supporting environments where WebSocket is not available, handling both text and binary data together, recovering missed events, providing multi-device user experience, scaling out an application, and so on. It offers a reliable full duplex message channel and elegant patterns to achieve better user experience in the real-time web, and is compatible with any web frameworks on the Java Virtual Machine.</p>
         <p>If you are interested and would like to be more involved, feel free to join the community and share your feedback.</p>
         <ul class="menu">
           <li><a href="/blog" target="_blank">Blog</a></li>
@@ -17,10 +17,10 @@ title: A full-featured real-time web application framework for Java
         </ul>
         <h2 id="getting-started">Getting Started</h2>
         <div class="callout secondary">
-          <p>This guide is based on 1.1 which is a WIP yet. Features that available in 1.1 are labeled with <span class="label warning">1.1</span>.</p>
+          <p>This guide is based on 1.1 which is in beta phase, <code>io.cettia:cettia-server:1.1.0-Beta1</code>. Features that available in 1.1 are labeled with <span class="label warning">1.1</span>.</p>
         </div>
         <p>This is a summary of a tutorial, <a href="/guides/cettia-tutorial/" target="_blank">"Building Real-Time Web Applications With Cettia"</a>, for quick start. If you want to get to know the reason behind key design decisions that the Cettia team have made in the Cettia, please read the tutorial.</p>
-        <p>The result of the tutorial, the starter kit, is available in <a href="https://github.com/cettia/cettia-starter-kit" target="_blank">the GitHub repository</a>. If you have Java 8+ and Maven 3+ installed, you can run the example by cloning or downloading the repository and typing the maven command.</p>
+        <p>The result of the tutorial, the starter kit, is available in <a href="https://github.com/cettia/cettia-starter-kit" target="_blank">the GitHub repository</a>. If you have Java 8+ and Maven 3+ installed, you can run the example by cloning or downloading the repository and typing the following maven command.</p>
 {% capture panel %}
 ```shell
 git clone https://github.com/cettia/cettia-starter-kit
@@ -54,19 +54,58 @@ server.onsocket((ServerSocket socket) -> System.out.println(socket));
 // javax.websocket.Endpoint asityEndpoint = new AsityServerEndpoint().onwebsocket(wsAction);
 ```
 {% endcapture %}{{ panel | markdownify }}
-        <p>Cettia is a web fragment of <a href="http://asity.cettia.io" target="_blank">Asity</a> and compatible with any web framework on the Java Virtual Machine. As you can see in the commend out code, the above application is able to run on any framework as long as you feed <code>httpAction</code> and <code>wsAction</code> with your framework's HTTP request-response exchange and WebSocket connection through bridges per framework Asity provides like <code>asityServlet</code> and <code>asityEndpoint</code>. For the usage of bridge, see Asity's <a href="http://asity.cettia.io/#run-anywhere" target="_blank">"Run Anywhere"</a> section. Asity supports almost all popular web frameworks in Java: Servlet and Java API for WebSocket, Spring WebFlux, Spring MVC, Grizzly, Vert.x, Netty, Atmosphere, and so on.</p>
+        <p>Cettia is a web fragment of <a href="http://asity.cettia.io" target="_blank">Asity</a> and compatible with any web framework on the Java Virtual Machine. As you can see in the commend out code, the above application is able to run on any framework as long as you feed <code>httpAction</code> and <code>wsAction</code> with the framework's HTTP request-response exchange and WebSocket connection through bridges per framework Asity provides like <code>asityServlet</code> and <code>asityEndpoint</code>. For the usage of bridge, see Asity's <a href="http://asity.cettia.io/#run-anywhere" target="_blank">"Run Anywhere"</a> section. Asity supports almost all popular web frameworks in Java: Servlet and Java API for WebSocket, Spring WebFlux, Spring MVC, Grizzly, Vert.x, Netty, Atmosphere, and so on.</p>
         <p>The tutorial uses Servlet and Java API for WebSocket as a web framework and passes requests whose URI is <code>/cettia</code> to the Cettia server. In other means, the Cettia client can connect to this server through <code>http://127.0.0.1:8080/cettia</code>.</p>
         <h4>Client</h4>
         <p>Load the <code>cettia</code> object the way you want.</p>
-        <ul>
-          <li><code>&lt;script src="https://unpkg.com/cettia-client@1.0.1/cettia-browser.min.js"&gt;&lt;/script&gt;</code></li>
-          <li><code>npm install cettia-client --save</code>
-            <ul>
-              <li><code>var cettia = require("cettia-client/cettia-bundler");</code> for Webpack</li>
-              <li><code>var cettia = require("cettia-client");</code> for Node</li>
-            </ul>
-          </li>
-        </ul>
+        <dl>
+          <dt>CDN</dt>
+          <dd>
+{% capture panel %}
+```html
+<script src="https://unpkg.com/cettia-client@1.0.1/cettia-browser.min.js"></script>
+```
+{% endcapture %}{{ panel | markdownify }}
+          </dd>
+          <dt>Webpack</dt>
+          <dd>
+            <div class="grid-x">
+              <div class="cell large-6">
+{% capture panel %}
+```
+npm install cettia-client --save
+```
+{% endcapture %}{{ panel | markdownify }}
+              </div>
+              <div class="cell large-6">
+{% capture panel %}
+```javascript
+var cettia = require("cettia-client/cettia-bundler");
+```
+{% endcapture %}{{ panel | markdownify }}
+              </div>
+            </div>
+          </dd>
+          <dt>Node</dt>
+          <dd>
+            <div class="grid-x">
+              <div class="cell large-6">
+{% capture panel %}
+```
+npm install cettia-client --save
+```
+{% endcapture %}{{ panel | markdownify }}
+              </div>
+              <div class="cell large-6">
+{% capture panel %}
+```javascript
+var cettia = require("cettia-client");
+```
+{% endcapture %}{{ panel | markdownify }}
+              </div>
+            </div>
+          </dd>
+        </dl>
         <p>Then, you can open a socket pointing to the URI of the Cettia server with <code>cettia.open(uri)</code>.</p>
 {% capture panel %}
 ```javascript
@@ -81,7 +120,7 @@ var socket = cettia.open("http://127.0.0.1:8080/cettia");
             <h4>Server</h4>
             <p>The state transition diagram of a server socket.</p>
             <p><img src="https://user-images.githubusercontent.com/1095042/39472695-ec3ea126-4d85-11e8-908e-de4bdebf4acb.jpg" alt="server-state-diagram"></p>
-            <p>Logging the state transition of the server socket.</p>
+            <p>Tracking the state transition of the server socket.</p>
 {% capture panel %}
 ```java
 server.onsocket(socket -> { // By 1
@@ -97,7 +136,7 @@ server.onsocket(socket -> { // By 1
             <h4>Client</h4>
             <p>The state transition diagram of a client socket.</p>
             <p><img src="https://user-images.githubusercontent.com/1095042/39466008-7ec29c5c-4d61-11e8-9845-bf7d2ede131c.jpg" alt="client-state-diagram"></p>
-            <p>Logging the state transition of the client socket.</p>
+            <p>Tracking the state transition of the client socket.</p>
 {% capture panel %}
 ```javascript
 var log = arg => console.log(socket.state(), arg);
@@ -110,13 +149,13 @@ socket.on("waiting", log); // By 5
           </div>
         </div>
         <h3 id="sending-and-receiving-events">Sending and Receiving Events</h3>
-        <p>A unit of exchange between the Cettia client and the Cettia server in real-time is the event. You can define and use your own events as long as the name isn't duplicated with built-in events. Here's the echo event handler where any received echo event is sent back.</p>
+        <p>A unit of exchange between the Cettia client and the Cettia server in real-time is the event. You can define and use your own events as long as the event name isn't duplicated with built-in events. Here's the echo event handler where any received echo event is sent back.</p>
         <div class="grid-x grid-margin-x">
           <div class="cell large-6">
             <h4>Server</h4>
 {% capture panel %}
 ```java
-socket.on("echo", data -> socket.send("echo", data));
+socket.on("echo", (Object data) -> socket.send("echo", data));
 ```
 {% endcapture %}{{ panel | markdownify }}
           </div>
@@ -129,7 +168,7 @@ socket.on("echo", data => socket.send("echo", data));
 {% endcapture %}{{ panel | markdownify }}
           </div>
         </div>
-        <p>The allowed types for the event data are determined by Jackson, a JSON processor that Cettia uses internally.  If an event data is supposed to be one of the primitive types, you can cast and use it with the corresponding wrapper class, and if it’s supposed to be an object like List or Map and you prefer POJOs, you can convert and use it with JSON library like Jackson. It might look like this:</p>
+        <p>In the server side, the allowed types for the event data are not just <code>Object</code>, but determined by Jackson, a JSON processor that Cettia uses internally.  If an event data is supposed to be one of the primitive types, you can cast and use it with the corresponding wrapper class, and if it’s supposed to be an object like List or Map and you prefer POJOs, you can convert and use it with JSON library like Jackson. It might look like this:</p>
 {% capture panel %}
 ```java
 socket.on("event", data -> {
@@ -139,9 +178,9 @@ socket.on("event", data -> {
 });
 ```
 {% endcapture %}{{ panel | markdownify }}
-        <p>An event data can be basically anything as long as it is serializable, regardless of whether data is binary or text. If at least one of the properties of the event data is <code>byte[]</code> or <code>ByteBuffer</code> in the server, <code>Buffer</code> in Node or <code>ArrayBuffer</code> in the browser, the event data is treated as binary, but you don't need to be aware of it.</p>
+        <p>An event data can be basically anything as long as it is serializable, regardless of whether data is binary or text. If at least one of the properties of the event data is <code>byte[]</code> or <code>ByteBuffer</code> in the server, <code>Buffer</code> in Node or <code>ArrayBuffer</code> in the browser, the event data is internally treated as binary, and that binary property is given as a <code>ByteBuffer</code> in the server, a <code>Buffer</code> in Node, and an <code>ArrayBuffer</code> in the browser.</p>
         <h3 id="attributes-and-tags">Attributes and Tags</h3>
-        <p>In the server side, in order to store information regarding socket in a socket and identify sockets based on the stored information, Cettia provides attributes and tags. They are analogous with <code>data-*</code> attributes and <code>class</code> attributes defined in HTML, respectively.</p>
+        <p>In order to store information regarding socket like username in a socket and find sockets based on the stored information, Cettia provides attributes and tags per socket. They are analogous to <code>data-*</code> attributes and <code>class</code> attribute defined in HTML, respectively.</p>
         <div class="grid-x grid-margin-x">
           <div class="cell large-6">
             <h4>Attributes <span class="label warning">1.1</span></h4>
@@ -153,11 +192,11 @@ Map<String, Object> attributes = socket.attributes();
             <p>The shortcuts.</p>
             <dl>
               <dt><code>socket.get(key)</code></dt>
-              <dd>Getting a value by a key.</dd>
+              <dd>Returns the value mapped to the given name.</dd>
               <dt><code>socket.set(key, value)</code></dt>
-              <dd>Adding a key/value pair.</dd>
+              <dd>Associates the value with the given name in the socket.</dd>
               <dt><code>socket.remove(key)</code></dt>
-              <dd>Removing a key/value pair by the key.</dd>
+              <dd>Removes the mapping associated with the given name.</dd>
             </dl>
           </div>
           <div class="cell large-6">
@@ -170,37 +209,21 @@ Set<String> tags = socket.tags();
             <p>The shortcuts.</p>
             <dl>
               <dt><code>socket.tag(tag)</code></dt>
-              <dd>Adding a tag.</dd>
+              <dd>Attaches given tags to the socket.</dd>
               <dt><code>socket.untag(tag)</code></dt>
-              <dd>Removing a tag.</dd>
+              <dd>Detaches given tags from the socket.</dd>
             </dl>
           </div>
         </div>
-        <h3 id="recovering-missed-events">Recovering Missed Events</h3>
-        <p>Cettia defines the temporary disconnection as one that is followed by reconnection within 60 seconds, and designs a socket's lifecycle to be unaffected by temporary disconnections. Here's an example to send events failed due to disconnection on the next connection.</p>
+        <h3 id="find-sockets-and-do-something">Find Sockets and Do Something</h3>
+        <p>The most common use case in real-time web application is to push messages to certain clients, of course. Cettia supports this intuitively by enabling "find sockets and do something with them" without a separate concept like Topic and Broadcaster.</p>
 {% capture panel %}
 ```java
-Queue<Object[]> queue = new ConcurrentLinkedQueue<>();
-socket.oncache(args -> queue.offer(args));
-socket.onopen(v -> {
-  while (socket.state() == ServerSocket.State.OPENED && !queue.isEmpty()) {
-    Object[] args = queue.poll();
-    socket.send((String) args[0], args[1], (Action<?>) args[2], (Action<?>) args[3]);
-  }
-});
-socket.ondelete(v -> queue.forEach(args -> System.out.println(socket + " missed event - name: " + args[0] + ", data: " + args[1])));
+server.find(socket -> /* find sockets */).execute(socket -> /* do something with them */);
 ```
 {% endcapture %}{{ panel | markdownify }}
-        <p>The <code>cache</code> event above is fired with an argument array used to call the <code>send</code> method, if the socket has no active connection when the <code>send</code> method is called. With the <code>cache</code> and <code>delete</code> event, you could send missed events on the next reconnection, or store them in a database and show them on the next visit.</p>
-        <h3 id="select-sockets-and-do-something">Select Sockets and Do Something</h3>
-        <p>The basic concept of Cettia is "select some sockets and do something with them".</p>
-{% capture panel %}
-```java
-server.select(socket -> /* select some sockets */).execute(socket -> /* do something with them */);
-```
-{% endcapture %}{{ panel | markdownify }}
-        <p>As you would intuitively expect, <code>server.select(predicate)</code> finds a certain set of sockets that matches the given predicate and returns an instance of fluent interface called <code>Sentence</code>, and <code>sentence.execute(action)</code> allows to deal with the sockets through the passed socket action.</p>
-        <p>Along with <code>server.select</code> and <code>sentence.execute</code> (will be available in <span class="label warning">1.1</span>), Cettia offers the following pre-defined predicates and socket actions to make the code even more expressive and readable.</p>
+        <p>As you would intuitively expect, <code>server.find(predicate)</code> finds a certain set of sockets that matches the given predicate and returns an instance of fluent interface called <code>Sentence</code>, and <code>sentence.execute(action)</code> allows to deal with the sockets through the passed socket action.</p>
+        <p>Along with <code>server.find</code> and <code>sentence.execute</code>, Cettia offers the following pre-defined predicates and socket actions to make the code even more expressive and readable. (Now only the following shortcut methods are available, and <code>server.find</code> and <code>sentence.execute</code> are supposed to be added in <span class="label warning">1.1</span>)</p>
         <div class="grid-x grid-margin-x">
           <div class="cell large-6">
             <h4>Selector</h4>
@@ -215,16 +238,32 @@ server.select(socket -> /* select some sockets */).execute(socket -> /* do somet
             <h4>Behavior</h4>
             <dl>
               <dt><code>sentence.send(event, data)</code></dt>
-              <dd>Sending an event with data through sockets.</dd>
+              <dd> Sends a given event with data through the socket.</dd>
               <dt><code>sentence.close()</code></dt>
-              <dd>Closing sockets.</dd>
+              <dd>Closes the socket.</dd>
               <dt><code>sentence.tag(tag)</code></dt>
-              <dd>Adding a tag to sockets.</dd>
+              <dd>Attaches given tags to the socket.</dd>
               <dt><code>sentence.untag(tag)</code></dt>
-              <dd>Removing a tag from sockets</dd>
+              <dd>Detaches given tags from the socket.</dd>
             </dl>
           </div>
         </div>
+        <h3 id="recovering-missed-events">Recovering Missed Events</h3>
+        <p>Cettia defines the temporary disconnection as one that is followed by reconnection within 60 seconds, and designs a socket's lifecycle to be unaffected by temporary disconnections, to support environments where temporary disconnections happen frequently just like the mobile environment. Here's an example to send events failed due to disconnection on the next connection.</p>
+{% capture panel %}
+```java
+Queue<Object[]> queue = new ConcurrentLinkedQueue<>();
+socket.oncache(args -> queue.offer(args));
+socket.onopen(v -> {
+  while (socket.state() == ServerSocket.State.OPENED && !queue.isEmpty()) {
+    Object[] args = queue.poll();
+    socket.send((String) args[0], args[1], (Action<?>) args[2], (Action<?>) args[3]);
+  }
+});
+socket.ondelete(v -> queue.forEach(args -> System.out.println(socket + " missed event - name: " + args[0] + ", data: " + args[1])));
+```
+{% endcapture %}{{ panel | markdownify }}
+        <p>The <code>cache</code> event above is fired with an argument array used to call the <code>send</code> method, if the socket has no active connection when the <code>send</code> method is called. With the <code>cache</code> and <code>delete</code> event, you could send missed events on the next reconnection or store them in a database and show them on the next visit.</p>
         <h3 id="scaling-a-cettia-application">Scaling a Cettia Application</h3>
         <p>Last but not least is scaling an application. Any publish-subscribe messaging system can be used to scale a Cettia application horizontally, and it doesn't require any modification in the existing application. Here's an example of Hazelcast. Replace <code>Server server = new DefaultServer();</code> with <code>ClusteredServer server = new ClusteredServer();</code>, and add the following dependencies to your application:</p>
 {% capture panel %}
@@ -243,7 +282,7 @@ server.select(socket -> /* select some sockets */).execute(socket -> /* do somet
 </dependencies>
 ```
 {% endcapture %}{{ panel | markdownify }}
-        <p>Then you can place the following Hazelcast configurations after <code>ClusteredServer server = new ClusteredServer();</code>.</p>
+        <p>Then place the following Hazelcast configuration after <code>ClusteredServer server = new ClusteredServer();</code>.</p>
 {% capture panel %}
 ```java
 HazelcastInstance hazelcast = HazelcastInstanceFactory.newHazelcastInstance(new Config());

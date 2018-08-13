@@ -6,6 +6,9 @@ body, .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
 
 dd {
   margin-bottom: 1rem;
+  div.highlighter-rouge pre.highlight {
+    margin-bottom: 0;
+  }
 }
 
 code {
