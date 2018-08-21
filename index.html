@@ -20,7 +20,7 @@ title: A full-featured real-time web application framework for Java
           <p>This guide is based on 1.1 which is in beta phase, <code>io.cettia:cettia-server:1.1.0-Beta1</code>. Features that available in 1.1 are labeled with <span class="label warning">1.1</span>.</p>
         </div>
         <p>This is a summary of a tutorial, <a href="/guides/cettia-tutorial/" target="_blank">"Building Real-Time Web Applications With Cettia"</a>, for quick start. If you want to get to know the reason behind key design decisions that the Cettia team have made in the Cettia, please read the tutorial.</p>
-        <p>The result of the tutorial, the starter kit, is available in <a href="https://github.com/cettia/cettia-starter-kit" target="_blank">the GitHub repository</a>. If you have Java 8+ and Maven 3+ installed, you can run the example by cloning or downloading the repository and typing the following maven command.</p>
+        <p>The result of the tutorial, the Cettia starter kit, is available in <a href="https://github.com/cettia/cettia-starter-kit" target="_blank">the GitHub repository</a>. If you have Java 8+ and Maven 3+ installed, you can run the example by cloning or downloading the repository and typing the following maven command.</p>
 {% capture panel %}
 ```shell
 git clone https://github.com/cettia/cettia-starter-kit
@@ -208,21 +208,21 @@ Set<String> tags = socket.tags();
 {% endcapture %}{{ panel | markdownify }}
             <p>The shortcuts.</p>
             <dl>
-              <dt><code>socket.tag(tag)</code></dt>
+              <dt><code>socket.tag(tags...)</code></dt>
               <dd>Attaches given tags to the socket.</dd>
-              <dt><code>socket.untag(tag)</code></dt>
+              <dt><code>socket.untag(tags...)</code></dt>
               <dd>Detaches given tags from the socket.</dd>
             </dl>
           </div>
         </div>
         <h3 id="find-sockets-and-do-something">Find Sockets and Do Something</h3>
-        <p>The most common use case in real-time web application is to push messages to certain clients, of course. Cettia supports this intuitively by enabling "find sockets and do something with them" without a separate concept like Topic and Broadcaster.</p>
+        <p>The most common use case in a real-time web application is to push messages to certain clients, of course. Cettia supports this intuitively by enabling "find sockets and do something with them" without a separate concept like Topic and Broadcaster.</p>
 {% capture panel %}
 ```java
 server.find(socket -> /* find sockets */).execute(socket -> /* do something with them */);
 ```
 {% endcapture %}{{ panel | markdownify }}
-        <p>As you would intuitively expect, <code>server.find(predicate)</code> finds a certain set of sockets that matches the given predicate and returns an instance of fluent interface called <code>Sentence</code>, and <code>sentence.execute(action)</code> allows to deal with the sockets through the passed socket action.</p>
+        <p><code>server.find(predicate)</code> finds a certain set of sockets that matches the given predicate and returns an instance of fluent interface called <code>Sentence</code>. And <code>sentence.execute(action)</code> allows to deal with the sockets through the passed socket action.</p>
         <p>Along with <code>server.find</code> and <code>sentence.execute</code>, Cettia offers the following pre-defined predicates and socket actions to make the code even more expressive and readable. (Now only the following shortcut methods are available, and <code>server.find</code> and <code>sentence.execute</code> are supposed to be added in <span class="label warning">1.1</span>)</p>
         <div class="grid-x grid-margin-x">
           <div class="cell large-6">
@@ -230,7 +230,7 @@ server.find(socket -> /* find sockets */).execute(socket -> /* do something with
             <dl>
               <dt><code>server.all()</code></dt>
               <dd>All sockets.</dd>
-              <dt><code>server.byTag(tag...)</code></dt>
+              <dt><code>server.byTag(tags...)</code></dt>
               <dd>Sockets tagged with a tag</dd>
             </dl>
           </div>
@@ -241,9 +241,9 @@ server.find(socket -> /* find sockets */).execute(socket -> /* do something with
               <dd> Sends a given event with data through the socket.</dd>
               <dt><code>sentence.close()</code></dt>
               <dd>Closes the socket.</dd>
-              <dt><code>sentence.tag(tag)</code></dt>
+              <dt><code>sentence.tag(tags...)</code></dt>
               <dd>Attaches given tags to the socket.</dd>
-              <dt><code>sentence.untag(tag)</code></dt>
+              <dt><code>sentence.untag(tags...)</code></dt>
               <dd>Detaches given tags from the socket.</dd>
             </dl>
           </div>
@@ -291,7 +291,7 @@ server.onpublish(message -> topic.publish(message));
 topic.addMessageListener(message -> server.messageAction().on(message.getMessageObject()));
 ```
 {% endcapture %}{{ panel | markdownify }}
-        <p>If you start up the server with different port such as 8090, you should see servers listening to 8080 and 8090 form a a cluster of Hazelcast nodes. It means that a chat event sent from a client connected to the server on 8080 propagates to clients connected to the server on 8090 as well as 8080.</p>
+        <p>If you start up the server with different port such as 8090, you should see servers listening to 8080 and 8090 form a a cluster of Hazelcast nodes. This means that a chat event sent from a client connected to the server on 8080 propagates to clients connected to the server on 8090 as well as 8080.</p>
         <h2>Examples</h2>
         <p>Here are community-driven examples:</p>
         <ul>
