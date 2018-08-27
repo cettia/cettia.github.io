@@ -16,10 +16,7 @@ title: A full-featured real-time web application framework for Java
           <li><a href="http://groups.google.com/group/cettia" target="_blank">Google Groups</a></li>
         </ul>
         <h2 id="getting-started">Getting Started</h2>
-        <div class="callout secondary">
-          <p>This guide is based on 1.1 which is in beta phase, <code>io.cettia:cettia-server:1.1.0-Beta1</code>. Features that available in 1.1 are labeled with <span class="label warning">1.1</span>.</p>
-        </div>
-        <p>This is a summary of a tutorial, <a href="/guides/cettia-tutorial/" target="_blank">"Building Real-Time Web Applications With Cettia"</a>, for quick start. If you want to get to know the reason behind key design decisions that the Cettia team have made in the Cettia, please read the tutorial.</p>
+        <p>This is a summary of a tutorial, <a href="/guides/cettia-tutorial/" target="_blank">Building Real-Time Web Applications With Cettia</a>, for quick start. If you want to get to know the reason behind key design decisions that the Cettia team have made in the Cettia, please read the tutorial.</p>
         <p>The result of the tutorial, the Cettia starter kit, is available in <a href="https://github.com/cettia/cettia-starter-kit" target="_blank">the GitHub repository</a>. If you have Java 8+ and Maven 3+ installed, you can run the example by cloning or downloading the repository and typing the following maven command.</p>
 {% capture panel %}
 ```shell
@@ -31,13 +28,13 @@ mvn jetty:run
         <p>Then, open a browser and connect to <a href="http://localhost:8080" target="_blank">http://localhost:8080</a>.</p>
         <h3 id="setting-up-the-project">Setting Up the Project</h3>
         <h4>Server</h4>
-        <p>Add a <code>io.cettia:cettia-server:1.0.0</code> (<a href="http://javadoc.io/doc/io.cettia/cettia-server" target="_blank">Javadoc</a>) as a dependency of your application.</p>
+        <p>Add an <code>io.cettia:cettia-server:1.1.0</code> (<a href="http://javadoc.io/doc/io.cettia/cettia-server" target="_blank">Javadoc</a>) as a dependency of your application.</p>
 {% capture panel %}
 ```xml
 <dependency>
   <groupId>io.cettia</groupId>
   <artifactId>cettia-server</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 {% endcapture %}{{ panel | markdownify }}
@@ -54,7 +51,7 @@ server.onsocket((ServerSocket socket) -> System.out.println(socket));
 // javax.websocket.Endpoint asityEndpoint = new AsityServerEndpoint().onwebsocket(wsAction);
 ```
 {% endcapture %}{{ panel | markdownify }}
-        <p>Cettia is a web fragment of <a href="http://asity.cettia.io" target="_blank">Asity</a> and compatible with any web framework on the Java Virtual Machine. As you can see in the commend out code, the above application is able to run on any framework as long as you feed <code>httpAction</code> and <code>wsAction</code> with the framework's HTTP request-response exchange and WebSocket connection through bridges per framework Asity provides like <code>asityServlet</code> and <code>asityEndpoint</code>. For the usage of bridge, see Asity's <a href="http://asity.cettia.io/#run-anywhere" target="_blank">"Run Anywhere"</a> section. Asity supports almost all popular web frameworks in Java: Servlet and Java API for WebSocket, Spring WebFlux, Spring MVC, Grizzly, Vert.x, Netty, Atmosphere, and so on.</p>
+        <p>Cettia is a web fragment of <a href="http://asity.cettia.io" target="_blank">Asity</a> and compatible with any web framework on the Java Virtual Machine. As you can see in the commend out code, the above application is able to run on any framework as long as you feed <code>httpAction</code> and <code>wsAction</code> with the framework's HTTP request-response exchange and WebSocket connection through bridges per framework Asity provides like <code>asityServlet</code> and <code>asityEndpoint</code>. For the usage of bridge, see Asity's <a href="http://asity.cettia.io/#run-anywhere" target="_blank">Run Anywhere</a> section. Asity supports almost all popular web frameworks in Java: Servlet and Java API for WebSocket, Spring WebFlux, Spring MVC, Grizzly, Vert.x, Netty, Atmosphere, and so on.</p>
         <p>The tutorial uses Servlet and Java API for WebSocket as a web framework and passes requests whose URI is <code>/cettia</code> to the Cettia server. In other means, the Cettia client can connect to this server through <code>http://127.0.0.1:8080/cettia</code>.</p>
         <h4>Client</h4>
         <p>Load the <code>cettia</code> object the way you want.</p>
@@ -183,7 +180,7 @@ socket.on("event", data -> {
         <p>In order to store information regarding socket like username in a socket and find sockets based on the stored information, Cettia provides attributes and tags per socket. They are analogous to <code>data-*</code> attributes and <code>class</code> attribute defined in HTML, respectively.</p>
         <div class="grid-x grid-margin-x">
           <div class="cell large-6">
-            <h4>Attributes <span class="label warning">1.1</span></h4>
+            <h4>Attributes</h4>
 {% capture panel %}
 ```java
 Map<String, Object> attributes = socket.attributes();
@@ -215,7 +212,7 @@ Set<String> tags = socket.tags();
             </dl>
           </div>
         </div>
-        <h3 id="find-sockets-and-do-something">Find Sockets and Do Something</h3>
+        <h3 id="find-sockets-and-do-something">Working with Sockets</h3>
         <p>The most common use case in a real-time web application is to push messages to certain clients, of course. Cettia supports this intuitively by enabling "find sockets and do something with them" without a separate concept like Topic and Broadcaster.</p>
 {% capture panel %}
 ```java
@@ -223,10 +220,10 @@ server.find(socket -> /* find sockets */).execute(socket -> /* do something with
 ```
 {% endcapture %}{{ panel | markdownify }}
         <p><code>server.find(predicate)</code> finds a certain set of sockets that matches the given predicate and returns an instance of fluent interface called <code>Sentence</code>. And <code>sentence.execute(action)</code> allows to deal with the sockets through the passed socket action.</p>
-        <p>Along with <code>server.find</code> and <code>sentence.execute</code>, Cettia offers the following pre-defined predicates and socket actions to make the code even more expressive and readable. (Now only the following shortcut methods are available, and <code>server.find</code> and <code>sentence.execute</code> are supposed to be added in <span class="label warning">1.1</span>)</p>
+        <p>Along with <code>server.find</code> and <code>sentence.execute</code>, Cettia offers the following pre-defined predicates and socket actions to make the code even more expressive and readable.</p>
         <div class="grid-x grid-margin-x">
           <div class="cell large-6">
-            <h4>Selector</h4>
+            <h4>Finder</h4>
             <dl>
               <dt><code>server.all()</code></dt>
               <dd>All sockets.</dd>
@@ -235,7 +232,7 @@ server.find(socket -> /* find sockets */).execute(socket -> /* do something with
             </dl>
           </div>
           <div class="cell large-6">
-            <h4>Behavior</h4>
+            <h4>Sentence</h4>
             <dl>
               <dt><code>sentence.send(event, data)</code></dt>
               <dd> Sends a given event with data through the socket.</dd>

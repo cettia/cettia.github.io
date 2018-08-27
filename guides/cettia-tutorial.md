@@ -82,7 +82,7 @@ Create a directory called `starter-kit`. We will write and manage only the follo
        <dependency>
          <groupId>io.cettia</groupId>
          <artifactId>cettia-server</artifactId>
-         <version>1.1.0-Beta1</version>
+         <version>1.1.0</version>
        </dependency>
        <dependency>
          <groupId>io.cettia.asity</groupId>
@@ -242,7 +242,7 @@ As you would intuitively expect, this Cettia application can run on any framewor
 @SpringBootApplication
 @EnableWebFlux
 public class EchoServer {
- @Bean
+  @Bean
   public RouterFunction<ServerResponse> httpMapping(HttpTransportServer httpAction) {
     AsityHandlerFunction asityHandlerFunction = new AsityHandlerFunction().onhttp(httpAction);
 
