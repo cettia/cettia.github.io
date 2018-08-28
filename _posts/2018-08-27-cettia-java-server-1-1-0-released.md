@@ -4,25 +4,25 @@ title: "Cettia Java Server 1.1.0 released"
 author: flowersinthesand
 ---
 
-We are happy to announce that the 1.1.0 release of Cettia Java Server is now generally available. In this release, various useful features are added which makes real-time web application development without compromise. Here are the key highlights of Cettia Java Server 1.1.
+We are happy to announce that the 1.1.0 release of Cettia Java Server is now generally available. In this release, various useful features have been added which make a real-time web application development much easier. Here are the key highlights of Cettia Java Server 1.1.
 
-- A predicate to match sockets
+- A predicate to match sockets.
   - `Server find(ServerSocketPredicate predicate, SerializableAction<ServerSocket> action)` in `Server`
   - `Sentence find(ServerSocketPredicate predicate)` in `Server`
-- A sentence accepts a socket action
+- A sentence accepts a socket action.
   - `Sentence execute(SerializableAction<ServerSocket> action)` in `Sentence`
-- A socket attributes
+- A socket's attributes.
   - `<T> T	get(String name)` in `ServerSocket`
   - `ServerSocket set(String name, Object value)` in `ServerSocket`
   - `ServerSocket remove(String name)` in `ServerSocket`
-- A socket identifier
+- A socket identifier.
   - `String id()` in `ServerSocket`
 
-Before walking through each feature through a summary of the starter kit, I would like to thank Ralph who has created and maintained [cettia-demo](https://github.com/ralscha/cettia-demo) for sharing his [ideas](https://groups.google.com/forum/#!topic/cettia/xAzTTqfY4FQ) that has driven the development of 1.1. As always, Cettia is an open source projects for the community, by the community. Feel free to join the [community](http://groups.google.com/group/cettia) and share your thoughts.
+Before walking through each feature in a summary of the starter kit, I would like to thank Ralph who has created and maintained [cettia-demo](https://github.com/ralscha/cettia-demo) for sharing his [ideas](https://groups.google.com/forum/#!topic/cettia/xAzTTqfY4FQ) that have driven the development of 1.1. As always, Cettia is an open source projects for the community by the community. Feel free to join the [community](http://groups.google.com/group/cettia) and share your thoughts.
 
 ---
 
-The following is a summary of the Cettia starter kit to help you get started quickly. In the summary, comments starting with `##` refer to a title of related chapter in a tutorial, [Building Real-Time Web Applications With Cettia](http://cettia.io/guides/cettia-tutorial/), where you can find a detailed explanation. You may want to highlight the `##`.
+The following is a summary of the Cettia starter kit to help you get started quickly. In the summary, comments starting with `##` refer to a title of a related chapter in the tutorial, [Building Real-Time Web Applications With Cettia](http://cettia.io/guides/cettia-tutorial/), where you can find a detailed explanation. You may want to highlight the `##`.
 
 Maven dependencies.
 
@@ -48,7 +48,7 @@ Maven dependencies.
 </dependency>
 ```
 
-A class to play with the Cettia server. Import statements, verbose try-catch block, empty method, etc. are skipped for brevity.
+A class to play with the Cettia server. Import statements, verbose try-catch blocks, empty methods, etc. are skipped for brevity.
 
 ```java
 @WebListener
@@ -75,7 +75,7 @@ public class CettiaConfigListener implements ServletContextListener {
       // Attributes and tags are contexts to store the socket state in the form of Map and Set
       String username = findParam(socket.uri(), "username");
       if (username == null) {
-        // Attaches a tag to the socket.
+        // Attaches a tag to the socket
         socket.tag("nonmember");
       } else {
         // Associates an attribute with the the socket
@@ -164,7 +164,7 @@ public class CettiaConfigListener implements ServletContextListener {
 }
 ```
 
-Here's an example with the Spring WebFlux 5 to show Cettia's framework-agnostic nature. Consult the Asity’s [Run Anywhere](http://asity.cettia.io/#run-anywhere) section for how to plug a Cettia application into other various frameworks.
+Here's an example with the Spring WebFlux 5 to show Cettia's framework-agnostic nature. Consult Asity’s [Run Anywhere](http://asity.cettia.io/#run-anywhere) section for how to plug a Cettia application into other various frameworks.
 
 ```java
 @SpringBootApplication
@@ -194,7 +194,7 @@ public class CettiaServer {
 }
 ```
 
-A minimal HTML to load the `cettia` object. Also, if you have a `cettia-client` npm module installed, you should be able to load the `cettia` object with `require("cettia-client/cettia-bundler");` and `require("cettia-client");` in Webpack and Node, respectively.
+You need minimal HTML to load the `cettia` object. Also, if you have a `cettia-client` npm module installed, you should be able to load the `cettia` object with `require("cettia-client/cettia-bundler");` and `require("cettia-client");` in Webpack and Node, respectively.
 
 ```html
  <!DOCTYPE html>
@@ -202,7 +202,7 @@ A minimal HTML to load the `cettia` object. Also, if you have a `cettia-client` 
  <script src="https://unpkg.com/cettia-client@1.0.1/cettia-browser.min.js"></script>
 ```
 
-A JavaScript code to play with the `cettia` object. Open the above page and its developer console in several browsers, run the script and watch results on the fly.
+Below is the JavaScript code to play with the `cettia` object. Open the above page and its developer console in several browsers, run the script, and watch results on the fly.
 
 ```javascript
 // ## Opening a Socket
