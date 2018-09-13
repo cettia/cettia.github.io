@@ -31,15 +31,9 @@ a {
   }
 }
 
-.top-bar-wrapper {
-  background-color: #333333;
-}
-
-.top-bar, .top-bar ul {
-  background-color: #333333;
-  .menu .button, .menu a {
-    color: #eee;
-  }
+ul.breadcrumbs {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 div.highlighter-rouge {
@@ -79,13 +73,9 @@ article {
   h1, h2 {
     margin-top: 6rem;
   }
-  h3 {
-    margin-top: 4rem;
-  }
 }
 
 #content, .content {
-  margin-top: 2rem;
   ul.menu {
     margin-bottom: 1rem;
   }

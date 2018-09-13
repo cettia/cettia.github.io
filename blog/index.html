@@ -4,6 +4,8 @@ title: Blog
 ---
 
 {% for post in site.posts %}
-{% include post.html %}
-<hr />
+  {% include post.html %}
+  {% unless forloop.last %}
+    <hr />
+  {% endunless %}
 {% endfor %}

@@ -7,13 +7,43 @@ title: A full-featured real-time web application framework for Java
     <div class="cell">
       <div id="index">
         <h1>Cettia</h1>
-        <p>Cettia is a full-featured real-time web application framework for Java that you can use to exchange events between server and client in real-time. It is meant for when you run into issues which are tricky to resolve with WebSocket, JSON, and switch statement per se: avoiding repetitive boilerplate code, supporting environments where WebSocket is not available, handling both text and binary data together, recovering missed events, providing multi-device user experience, scaling out an application, and so on. It offers a reliable full duplex message channel and elegant patterns to achieve better user experience in the real-time web, and is compatible with any web frameworks on the Java Virtual Machine.</p>
-        <p>If you are interested and would like to be more involved, feel free to join the community and share your feedback.</p>
+        <p>Cettia is a full-featured real-time web application framework for Java that you can use to exchange events between server and client in real-time. <em>It is meant for when you run into issues which are tricky to resolve with WebSocket, JSON, and switch statement per se:</em></p>
+        <ul>
+          <li>Avoiding repetitive boilerplate code</li>
+          <li>Supporting environments where WebSocket is not available</li>
+          <li>Handling both text and binary data together</li>
+          <li>Recovering missed events</li>
+          <li>Providing multi-device user experience</li>
+          <li>Scaling out an application horizontally, and so on.</li>
+        </ul>
+        <p>It offers a reliable full duplex message channel and elegant patterns to achieve better user experience in the real-time web, and is compatible with any web frameworks on the Java Virtual Machine.</p>
+        <p>Cettia is an open source project licensed under Apache License 2.0 and driven by the community, for the community. If you are interested and would like to be more involved, feel free to join the community and share your feedback.</p>
         <ul class="menu">
           <li><a href="/blog" target="_blank">Blog</a></li>
           <li><a href="https://github.com/cettia" target="_blank">GitHub</a></li>
-          <li><a href="https://twitter.com/cettia_project" target="_blank">Twitter</a></li>
+          <li><a href="https://twitter.com/flowersits" target="_blank">Twitter</a></li>
           <li><a href="http://groups.google.com/group/cettia" target="_blank">Google Groups</a></li>
+        </ul>
+        <h2 id="resources">Resources</h2>
+        <p>Here are helpful resources produced by a growing community.</p>
+        <h3 class="h4">Guides</h3>
+        <ul>
+          <li><a href="#getting-started" target="_blank">Getting started</a> - A summary of an introductory tutorial to Cettia for quick start.</li>
+          <li><a href="/guides/cettia-tutorial/" target="_blank">Building Real-Time Web Applications With Cettia</a> - An introductory tutorial to Cettia.</li>
+        </ul>
+        <h3 class="h4">Examples</h3>
+        <ul>
+          <li><a href="https://github.com/cettia/cettia-starter-kit" target="_blank">Cettia starter kit</a> - A starter kit based on Servlet 3 and Java WebSocket API 1.</li>
+          <li><a href="https://github.com/ralscha/cettia-demo" target="_blank">ralscha/cettia-demo</a> - A collection of Cettia and Spring 5 demo applications by Ralph Schaer.</li>
+        </ul>
+        <h2 id="changelog">Releases</h2>
+        <p>Here are release announcements for Cettia subprojects.</p>
+        <ul>
+          {% for post in site.posts %}
+            {% if post.title contains 'released' %}
+              <li><a href="{{ post.url }}">{{ post.title }}</a> on <time>{{ post.date | date_to_string }}</time></li>
+            {% endif %}
+          {% endfor %}
         </ul>
         <h2 id="getting-started">Getting Started</h2>
         <p>This is a summary of a tutorial, <a href="/guides/cettia-tutorial/" target="_blank">Building Real-Time Web Applications With Cettia</a>, for quick start. If you want to get to know the reason behind key design decisions that the Cettia team have made in the Cettia, please read the tutorial.</p>
@@ -289,11 +319,6 @@ topic.addMessageListener(message -> server.messageAction().on(message.getMessage
 ```
 {% endcapture %}{{ panel | markdownify }}
         <p>If you start up the server with different port such as 8090, you should see servers listening to 8080 and 8090 form a a cluster of Hazelcast nodes. This means that a chat event sent from a client connected to the server on 8080 propagates to clients connected to the server on 8090 as well as 8080.</p>
-        <h2>Examples</h2>
-        <p>Here are community-driven examples:</p>
-        <ul>
-          <li><a href="https://github.com/ralscha/cettia-demo" target="_blank">ralscha/cettia-demo</a> - Collection of Cettia and Spring 5 demo applications.</li>
-        </ul>
       </div>
     </div>
   </div>

@@ -1,7 +1,7 @@
 name: Cettia
 title: Cettia
 description: Cettia is a full-featured real-time web application framework that you can use to exchange events between server and client in real-time.
-url: http://cettia.io
+url: https://cettia.io
 author:
   name: Donghwan Kim
   email: flowersinthesand@gmail.com
@@ -15,9 +15,9 @@ plugins:
 sass:
     style: compressed
 twitter:
-  username: cettia_project
+  username: flowersits
 social:
   links:
     - https://github.com/cettia
-    - https://twitter.com/cettia_project
+    - https://twitter.com/flowersits
     - http://groups.google.com/group/cettia

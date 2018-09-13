@@ -4,7 +4,13 @@ title: "Building Real-Time Web Applications With Cettia"
 description: "An introductory tutorial to Cettia. It explains the reason behind key design decisions that the Cettia team have made in the Cettia, as well as various patterns and features required to build real-time oriented applications without compromise with Cettia."
 ---
 
-## Building Real-Time Web Applications With Cettia
+<nav aria-label="You are here:" role="navigation">
+  <ul class="breadcrumbs">
+    <li><a href="/">Home</a></li>
+    <li><span class="show-for-sr">Current: </span> {{page.title}}</li>
+  </ul>
+</nav>
+<h1 class="h2">Building Real-Time Web Applications With Cettia</h1>
 
 Table of Contents
 
@@ -15,17 +21,20 @@ Table of Contents
   <li><a href="#opening-a-socket" id="markdown-toc-opening-a-socket">Opening a Socket</a></li> 
   <li><a href="#socket-lifecycle" id="markdown-toc-socket-lifecycle">Socket Lifecycle</a></li> 
   <li><a href="#sending-and-receiving-events" id="markdown-toc-sending-and-receiving-events">Sending and Receiving Events</a></li> 
+  <li><a href="#acknowledgement" id="markdown-toc-acknowledgement">Acknowledgement</a></li>
   <li><a href="#attributes-and-tags" id="markdown-toc-attributes-and-tags">Attributes and Tags</a></li> 
   <li><a href="#working-with-sockets" id="markdown-toc-working-with-sockets">Working with Sockets</a></li> 
   <li><a href="#finder-methods-and-sentence" id="markdown-toc-finder-methods-and-sentence">Finder Methods and Sentence</a></li> 
   <li><a href="#disconnection-handling" id="markdown-toc-disconnection-handling">Disconnection Handling</a></li> 
   <li><a href="#scaling-a-cettia-application" id="markdown-toc-scaling-a-cettia-application">Scaling a Cettia Application</a></li> 
-  <li><a href="#conclusion" id="markdown-toc-conclusion">Conclusion</a></li>
+  <li><a href="#transport" id="markdown-toc-transport">Transport</a></li>
+  <li><a href="#writing-cetita-server-and-client" id="markdown-toc-writing-cetita-server-and-client">Writing Cetita Server   <li><a href="#conclusion" id="markdown-toc-conclusion">Conclusion</a></li>
+and Client</a></li>
 </ul>
 
 I started Cettia's predecessor's predecessor (a jQuery plugin for HTTP streaming that I used to demonstrate Servlet 3.0's Async Servlet with IE 6) in 2011. Since then, WebSocket and Asynchronous IO have come into wide use, and it has become easier to develop and maintain real-time web applications in both client and server environments. In the meantime, however, functional and non-functional requirements have become more sophisticated and difficult to meet, and it has become harder to estimate and control the accompanying technical debt as well. In other words, it's still not easy to build enterprise-level real-time web applications quickly and easily.
 
-[Cettia](http://cettia.io) is the result of projects that started out as an effort to address these challenges and is a framework to create real-time web applications without compromise:
+[Cettia](https://cettia.io) is the result of projects that started out as an effort to address these challenges and is a framework to create real-time web applications without compromise:
 
 - It is designed to work with any web framework on the Java Virtual Machine (JVM) seamlessly.
 - It provides a working full duplex connection even if given proxy, firewall, anti-virus software or arbitrary Platform as a Service (PaaS).
@@ -50,7 +59,7 @@ Before diving into the code, let's establish three primary concepts of Cettia at
 
     An interface to represent a full duplex message channel. It carries a binary as well as a text payload based on message framing, exchanges messages bidirectionally, and ensures no message loss and no idle connection. Unlike Server and Socket, you don't need to be aware of the Transport unless you want to tweak the default transport behavior or introduce a brand new transport.
 
-Detailed architecture will be explained later.
+Detailed architecture will be explained later. TODO add an architectural diagram
 
 ### Setting Up the Project
 
@@ -300,6 +309,8 @@ server.onsocket(socket -> {
 });
 ```
 
+TODO Cettia server configuration https://cettia.io/projects/cettia-java-server/1.0.0/reference/#configuring-a-server
+
 ### Socket Lifecycle
 
 A socket always is in a specific state, such as opened or closed, and its state keeps changing based on the state of the underlying transport. Cettia defines the state transition diagram for the client socket and the server socket and provides various built-in events, which allows fine-grained handling of a socket when a state transition occurs. If you make good use of these diagrams and built-in events, you can easily handle stateful sockets in an event-driven way without having to manage their states by yourself.
@@ -378,6 +389,13 @@ socket.on("echo", data => console.log(data));
 As we decided to use the console, you can type and run code snippets, e.g.: `socket.send("echo", {text: "I'm a text", binary: new TextEncoder().encode("I'm a binary")}).send("echo", "It's also chainable")` and watch results on the fly. Try it on your console.
 
 As the example suggests, event data can be basically anything as long as it is serializable, regardless of whether data is binary or text. If at least one of the properties of the event data is `byte[]` or `ByteBuffer` in the server, `Buffer` in Node or `ArrayBuffer` in the browser, the event data is treated as binary and MessagePack format is used instead of JSON format, and the binary property is given as a `ByteBuffer` in the server, a `Buffer` in Node and an `ArrayBuffer` in the browser. In short, you can exchange event data, including binary data, with no issue.
+
+### Acknowledgement
+
+TODO explain the Acknowledgement feature
+
+- https://cettia.io/projects/cettia-java-server/1.1.0/reference/#handling-the-result-of-the-remote-event-processing
+- https://cettia.io/projects/cettia-javascript-client/1.0.1/reference/#handling-the-result-of-the-remote-event-processing
 
 ### Attributes and Tags
 
@@ -526,6 +544,8 @@ socket2.on("chat", data => console.log("socket2", "message", data.message, "with
 
 A chat event sent from `socket2` can't reach `socket1` because it has no active connection, and instead the event is cached in a queue for `socket1`. If you run the first code snippet again on the refreshed page so that `socket1`'s lifecycle is extended, you should see that `socket1` receives the cached events. Of course, if you defer running the first code snippet for 1 minute, you will see that `socket1` dispatches the `delete` event, so its cached events are logged as missed events in the server.
 
+TODO mention the same feature in client-side https://cettia.io/projects/cettia-javascript-client/1.0.1/reference/#offline-handling
+
 ### Scaling a Cettia Application
 
 Last but not least is scaling an application. As mentioned earlier, any publish-subscribe messaging system can be used to scale a Cettia application horizontally, and it doesn't require any modification in the existing application. The idea behind scaling a Cettia application is very simple:
@@ -603,9 +623,17 @@ As you can see, a `chat` event sent from a client connected to the server on 808
 
 As for deployment, it's just a web application, after all, so you can deploy the application and configure the environment as usual. Just keep in mind that you should enable 'sticky session' to deploy a clustered Cettia application. It's required to manage a socket lifecycle that consists of multiple transports and to enable HTTP transports that consist of multiple HTTP request-response exchanges.
 
+### Transport
+
+TODO explain what a transport is and show a compatibility table- https://cettia.io/projects/cettia-javascript-client/1.0.1/reference/#transport
+
+### Writing Cetita Server and Client
+
+TODO link the reference implementation of Cettia Protocol and how to write and verify the Cettia protocol implementation - https://cettia.io/projects/cettia-protocol/1.0.0/reference/
+
 ### Conclusion
 
-[Cettia](http://cettia.io/) is a full-featured real-time web application framework for Java that you can use to exchange events between server and client in real-time. It is meant for when you run into issues which are tricky to resolve with WebSocket, JSON, and switch statement per se: avoiding repetitive boilerplate code, supporting environments where WebSocket is not available, handling both text and binary data together, recovering missed events, providing multi-device user experience, scaling out an application, and so on. It offers a reliable full duplex message channel and elegant patterns to achieve better user experience in the real-time web, and is compatible with any web frameworks on the Java Virtual Machine.
+[Cettia](https://cettia.io/) is a full-featured real-time web application framework for Java that you can use to exchange events between server and client in real-time. It is meant for when you run into issues which are tricky to resolve with WebSocket, JSON, and switch statement per se: avoiding repetitive boilerplate code, supporting environments where WebSocket is not available, handling both text and binary data together, recovering missed events, providing multi-device user experience, scaling out an application, and so on. It offers a reliable full duplex message channel and elegant patterns to achieve better user experience in the real-time web, and is compatible with any web frameworks on the Java Virtual Machine.
 
 In this tutorial, we've walked through the reason behind key design decisions that the Cettia team have made in the Cettia, as well as various patterns and features required to build real-time oriented applications without compromise with Cettia, and as a result, we've built the starter kit. The source code for the starter kit is available at [https://github.com/cettia/cettia-starter-kit](https://github.com/cettia/cettia-starter-kit).
 
