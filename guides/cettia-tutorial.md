@@ -28,8 +28,7 @@ Table of Contents
   <li><a href="#disconnection-handling" id="markdown-toc-disconnection-handling">Disconnection Handling</a></li> 
   <li><a href="#scaling-a-cettia-application" id="markdown-toc-scaling-a-cettia-application">Scaling a Cettia Application</a></li> 
   <li><a href="#transport" id="markdown-toc-transport">Transport</a></li>
-  <li><a href="#writing-cetita-server-and-client" id="markdown-toc-writing-cetita-server-and-client">Writing Cetita Server   <li><a href="#conclusion" id="markdown-toc-conclusion">Conclusion</a></li>
-and Client</a></li>
+  <li><a href="#writing-cetita-server-and-client" id="markdown-toc-writing-cetita-server-and-client">Writing Cetita Server   <li><a href="#conclusion" id="markdown-toc-conclusion">Conclusion</a></li></a></li>
 </ul>
 
 I started Cettia's predecessor's predecessor (a jQuery plugin for HTTP streaming that I used to demonstrate Servlet 3.0's Async Servlet with IE 6) in 2011. Since then, WebSocket and Asynchronous IO have come into wide use, and it has become easier to develop and maintain real-time web applications in both client and server environments. In the meantime, however, functional and non-functional requirements have become more sophisticated and difficult to meet, and it has become harder to estimate and control the accompanying technical debt as well. In other words, it's still not easy to build enterprise-level real-time web applications quickly and easily.
