@@ -41,7 +41,15 @@ title: A full-featured real-time web application framework for Java
         <ul>
           {% for post in site.posts %}
             {% if post.title contains 'released' %}
-              <li><a href="{{ post.url }}">{{ post.title }}</a> on <time>{{ post.date | date_to_string }}</time></li>
+            <li>
+              <a href="{{ post.url }}">
+              {% if post.title contains 'Alpha' or post.title contains 'Beta' or post.title contains 'RC' %}
+                {{ post.title }}
+              {% else %}
+                <strong>{{ post.title }}</strong>
+              {% endif %}
+              </a> on <time>{{ post.date | date_to_string }}</time>
+            </li>
             {% endif %}
           {% endfor %}
         </ul>
