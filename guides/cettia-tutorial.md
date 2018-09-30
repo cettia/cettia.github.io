@@ -28,7 +28,8 @@ Table of Contents
   <li><a href="#disconnection-handling" id="markdown-toc-disconnection-handling">Disconnection Handling</a></li> 
   <li><a href="#scaling-a-cettia-application" id="markdown-toc-scaling-a-cettia-application">Scaling a Cettia Application</a></li> 
   <li><a href="#transport" id="markdown-toc-transport">Transport</a></li>
-  <li><a href="#writing-cetita-server-and-client" id="markdown-toc-writing-cetita-server-and-client">Writing Cetita Server   <li><a href="#conclusion" id="markdown-toc-conclusion">Conclusion</a></li></a></li>
+  <li><a href="#writing-cetita-server-and-client" id="markdown-toc-writing-cetita-server-and-client">Writing Cetita Server and Client</a></li>
+  <li><a href="#conclusion" id="markdown-toc-conclusion">Conclusion</a></li>
 </ul>
 
 I started Cettia's predecessor's predecessor (a jQuery plugin for HTTP streaming that I used to demonstrate Servlet 3.0's Async Servlet with IE 6) in 2011. Since then, WebSocket and Asynchronous IO have come into wide use, and it has become easier to develop and maintain real-time web applications in both client and server environments. In the meantime, however, functional and non-functional requirements have become more sophisticated and difficult to meet, and it has become harder to estimate and control the accompanying technical debt as well. In other words, it's still not easy to build enterprise-level real-time web applications quickly and easily.
@@ -308,7 +309,9 @@ server.onsocket(socket -> {
 });
 ```
 
-TODO Cettia server configuration https://cettia.io/projects/cettia-java-server/1.0.0/reference/#configuring-a-server
+TODO Cettia server configuration.
+
+- [https://cettia.io/projects/cettia-java-server/1.0.0/reference/#configuring-a-server](https://cettia.io/projects/cettia-java-server/1.0.0/reference/#configuring-a-server).
 
 ### Socket Lifecycle
 
@@ -391,10 +394,10 @@ As the example suggests, event data can be basically anything as long as it is s
 
 ### Acknowledgement
 
-TODO explain the Acknowledgement feature
+TODO explain the Acknowledgement feature.
 
-- https://cettia.io/projects/cettia-java-server/1.1.0/reference/#handling-the-result-of-the-remote-event-processing
-- https://cettia.io/projects/cettia-javascript-client/1.0.1/reference/#handling-the-result-of-the-remote-event-processing
+- [https://cettia.io/projects/cettia-java-server/1.0.0/reference/#handling-the-result-of-the-remote-event-processing](https://cettia.io/projects/cettia-java-server/1.0.0/reference/#handling-the-result-of-the-remote-event-processing)
+- [https://cettia.io/projects/cettia-javascript-client/1.0.1/reference/#handling-the-result-of-the-remote-event-processing](https://cettia.io/projects/cettia-javascript-client/1.0.1/reference/#handling-the-result-of-the-remote-event-processing)
 
 ### Attributes and Tags
 
@@ -543,7 +546,9 @@ socket2.on("chat", data => console.log("socket2", "message", data.message, "with
 
 A chat event sent from `socket2` can't reach `socket1` because it has no active connection, and instead the event is cached in a queue for `socket1`. If you run the first code snippet again on the refreshed page so that `socket1`'s lifecycle is extended, you should see that `socket1` receives the cached events. Of course, if you defer running the first code snippet for 1 minute, you will see that `socket1` dispatches the `delete` event, so its cached events are logged as missed events in the server.
 
-TODO mention the same feature in client-side https://cettia.io/projects/cettia-javascript-client/1.0.1/reference/#offline-handling
+TODO mention the same feature in client-side.
+
+- [https://cettia.io/projects/cettia-javascript-client/1.0.1/reference/#offline-handling](https://cettia.io/projects/cettia-javascript-client/1.0.1/reference/#offline-handling)
 
 ### Scaling a Cettia Application
 
@@ -624,11 +629,15 @@ As for deployment, it's just a web application, after all, so you can deploy the
 
 ### Transport
 
-TODO explain what a transport is and show a compatibility table- https://cettia.io/projects/cettia-javascript-client/1.0.1/reference/#transport
+TODO explain the Transport.
+
+- [https://cettia.io/projects/cettia-javascript-client/1.0.1/reference/#transport](https://cettia.io/projects/cettia-javascript-client/1.0.1/reference/#transport)
 
 ### Writing Cetita Server and Client
 
-TODO link the reference implementation of Cettia Protocol and how to write and verify the Cettia protocol implementation - https://cettia.io/projects/cettia-protocol/1.0.0/reference/
+TODO link the reference implementation of Cettia Protocol and explain how to write and verify the Cettia protocol implementation.
+
+- [https://cettia.io/projects/cettia-protocol/1.0.0/reference/](https://cettia.io/projects/cettia-protocol/1.0.0/reference/)
 
 ### Conclusion
 
