@@ -44,6 +44,8 @@ I started Cettia's predecessor's predecessor (a jQuery plugin for HTTP streaming
 
 In this tutorial, we will take a look at the features required to create real-time oriented web applications with Cettia and build the Cettia starter kit. The source code for the starter kit is available at [https://github.com/cettia/cettia-starter-kit](https://github.com/cettia/cettia-starter-kit).
 
+For your information, this tutorial covers [Cettia Java Server 1.2.0-Beta2](/blog/cettia-java-server-1-2-0-beta2-released/) and [Cettia JavaScript Client 1.0.1](/blog/cettia-javascript-client-1-0-1-released/).
+
 ### Setting Up the Project
 
 First, be sure that you have Java 8+ and Maven 3+ installed. According to statistics from Maven Central, Servlet 3 and Java WebSocket API 1 are the most-used web frameworks in writing Cettia applications, so we will use them to build the Cettia starter kit. Of course, you can use other frameworks like Spring, Vert.x, and Netty as you will see later.
@@ -74,7 +76,7 @@ Create a directory called `starter-kit`. We will write and manage only the follo
        <dependency>
          <groupId>io.cettia</groupId>
          <artifactId>cettia-server</artifactId>
-         <version>1.2.0-Beta1</version>
+         <version>1.2.0-Beta2</version>
        </dependency>
        <dependency>
          <groupId>io.cettia.asity</groupId>
@@ -171,7 +173,7 @@ Create a directory called `starter-kit`. We will write and manage only the follo
 
 ### Plugging Into the Web Framework
 
-Before diving into the Cettia, let's take a look at the web framework agnostic nature of Cettia first. To enable greater freedom of choice on a technical stack, Cettia is designed to run on any web framework seamlessly on the JVM without degrading the underlying framework's performance; this is achieved by creating the [Asity](http://asity.cettia.io) project. Asity is a lightweight abstraction layer for Java web frameworks and supports almost all popular web frameworks in Java: Servlet and Java API for WebSocket, Spring WebFlux, Spring Web MVC, Grizzly, Vert.x, Netty, Atmosphere, and so on.
+Before diving into the Cettia, let's take a look at the web framework agnostic nature of Cettia first. To enable greater freedom of choice on a technical stack, Cettia is designed to run on any web framework seamlessly on the JVM without degrading the underlying framework's performance; this is achieved by creating the [Asity](https://asity.cettia.io) project. Asity is a lightweight abstraction layer for Java web frameworks and supports almost all popular web frameworks in Java: Servlet and Java API for WebSocket, Spring WebFlux, Spring Web MVC, Grizzly, Vert.x, Netty, Atmosphere, and so on.
 
 Asity defines a 'web fragment' as a component that receives HTTP request-response or WebSocket connection like a controller in MVC but is able to be compatible with any web framework on the JVM. At the code level, a web fragment is a set of `Action`s to handle `ServerHttpExchange` or `ServerWebSocket`, which represents HTTP request-response exchange and WebSocket connection, respectively.
 
@@ -252,7 +254,7 @@ public class EchoServer {
 }
 ```
 
-We won't delve into Asity in this tutorial. Consult the Asity's [Run Anywhere](http://asity.cettia.io/#run-anywhere) section for how to plug a Cettia application into other frameworks or how to write a universally reusable web fragment like Cettia. Just note that even if your favorite framework is not supported, with about 200 lines of code, you can write an Asity bridge to your framework and run Cettia via that bridge.
+We won't delve into Asity in this tutorial. Consult the Asity's [Run Anywhere](https://asity.cettia.io/#run-anywhere) section for how to plug a Cettia application into other frameworks or how to write a universally reusable web fragment like Cettia. Just note that even if your favorite framework is not supported, with about 200 lines of code, you can write an Asity bridge to your framework and run Cettia via that bridge.
 
 ### Cettia Architecture
 
