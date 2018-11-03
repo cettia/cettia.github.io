@@ -3,8 +3,7 @@
   <div class="information">
     <p>
       <a href="https://github.com/{{ post.author }}" class="post-author">
-        <img src="https://github.com/{{ post.author }}.png" alt="{{ post.author }}" width="24"
-             height="24"> {{ post.author }}
+        {% avatar {{ post.author }} size=24 %} {{ post.author }}
       </a>
       wrote this on
       <time>{{ post.date | date_to_string }}</time>
