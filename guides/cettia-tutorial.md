@@ -25,7 +25,7 @@ Table of Contents
   <li><a href="#acknowledgement" id="markdown-toc-acknowledgement">Acknowledgement</a></li>
   <li><a href="#disconnection-handling" id="markdown-toc-disconnection-handling">Disconnection Handling</a></li>
   <li><a href="#working-with-sockets" id="markdown-toc-working-with-sockets">Working with Sockets</a></li>
-  <li><a href="#advanced-socket-handling" id="markdown-toc-advanced-socket-handling">Advanced Socket Handling</a></li>
+  <li><a href="#advanced-sockets-handling" id="markdown-toc-advanced-sockets-handling">Advanced Sockets Handling</a></li>
   <li><a href="#scaling-a-cettia-application" id="markdown-toc-scaling-a-cettia-application">Scaling a Cettia Application</a></li>
   <li><a href="#conclusion" id="markdown-toc-conclusion">Conclusion</a></li>
 </ul>
@@ -44,7 +44,9 @@ I started Cettia's predecessor's predecessor (a jQuery plugin for HTTP streaming
 
 In this tutorial, we will take a look at the features required to create real-time oriented web applications with Cettia and build the Cettia starter kit. The source code for the starter kit is available at [https://github.com/cettia/cettia-starter-kit](https://github.com/cettia/cettia-starter-kit).
 
-For your information, this tutorial covers [Cettia Java Server 1.2.0-Beta2](/blog/cettia-java-server-1-2-0-beta2-released/) and [Cettia JavaScript Client 1.0.1](/blog/cettia-javascript-client-1-0-1-released/).
+<div class="callout">
+  <p>This tutorial covers <a href="/blog/cettia-java-server-1-2-0-beta2-released/">Cettia Java Server 1.2.0-Beta2</a> and <a href="/blog/cettia-javascript-client-1-0-1-released/">Cettia JavaScript Client 1.0.1</a>.</p>
+</div>
 
 ### Setting Up the Project
 
@@ -125,11 +127,7 @@ Create a directory called `starter-kit`. We will write and manage only the follo
    import javax.servlet.ServletContext;
    import javax.servlet.ServletContextEvent;
    import javax.servlet.ServletContextListener;
-   import javax.servlet.ServletRegistration;
    import javax.servlet.annotation.WebListener;
-   import javax.websocket.DeploymentException;
-   import javax.websocket.server.ServerContainer;
-   import javax.websocket.server.ServerEndpointConfig;
 
    @WebListener
    public class CettiaConfigListener implements ServletContextListener {
@@ -190,6 +188,12 @@ import io.cettia.asity.bridge.jwa1.AsityServerEndpoint;
 import io.cettia.asity.bridge.servlet3.AsityServlet;
 import io.cettia.asity.http.ServerHttpExchange;
 import io.cettia.asity.websocket.ServerWebSocket;
+import javax.servlet.ServletRegistration;
+import javax.websocket.DeploymentException;
+import javax.websocket.HandshakeResponse;
+import javax.websocket.server.HandshakeRequest;
+import javax.websocket.server.ServerContainer;
+import javax.websocket.server.ServerEndpointConfig;
 ```
 
 Place the following contents in the `contextInitialized` method:
@@ -218,6 +222,11 @@ ServerEndpointConfig.Configurator configurator = new ServerEndpointConfig.Config
     // converts it to ServerWebSocket and feeds wsAction with it
     AsityServerEndpoint asityServerEndpoint = new AsityServerEndpoint().onwebsocket(wsAction);
     return endpointClass.cast(asityServerEndpoint);
+  }
+
+  @Override
+  public void modifyHandshake(ServerEndpointConfig config, HandshakeRequest request, HandshakeResponse response) {
+    config.getUserProperties().put(HandshakeRequest.class.getName(), request);
   }
 };
 // Registers asityServerEndpoint and maps it to "/cettia"
@@ -260,15 +269,14 @@ We won't delve into Asity in this tutorial. Consult the Asity's [Run Anywhere](h
 
 Let's establish three primary concepts of Cettia at the highest conceptual level.
 
-- **Server**
-
-    An interface used to interact with server-side sockets. It offers an event to initialize newly accepted sockets and provides finder methods to find sockets matching the given criteria and execute the given socket action with them.
-- **Socket**
-
-    A feature-rich interface built on the top of the transport. It provides the event system that allows you to define your own events, regardless of the type of event data, and exchange them between the Cettia client and the Cettia server in real-time.
-- **Transport**
-
-    An interface to represent a full duplex message channel. It carries a binary as well as a text payload based on message framing, exchanges messages bidirectionally, and ensures no message loss and no idle connection. Unlike Server and Socket, you don't need to be aware of the Transport unless you want to tweak the default transport behavior or introduce a brand new transport.
+<dl>
+    <dt><strong>Server</strong></dt>
+    <dd><p>An interface used to interact with server-side sockets. It offers an event to initialize newly accepted sockets and provides finder methods to find sockets matching the given criteria and execute the given socket action with them.</p></dd>
+    <dt><strong>Socket</strong></dt>
+    <dd><p>A feature-rich interface built on the top of the transport. It provides the event system that allows you to define your own events, regardless of the type of event data, and exchange them between the Cettia client and the Cettia server in real-time.</p></dd>
+    <dt><strong>Transport</strong></dt>
+    <dd><p>An interface to represent a full duplex message channel. It carries a binary as well as a text payload based on message framing, exchanges messages bidirectionally, and ensures no message loss and no idle connection. Unlike Server and Socket, you don't need to be aware of the Transport unless you want to tweak the default transport behavior or introduce a brand new transport.</p></dd>
+</dl>
 
 Detailed architecture will be explained later. TODO add an architectural diagram
 
@@ -382,26 +390,33 @@ Attributes and tags are contexts to store the socket state in the form of `Map` 
 
 #### Attributes
 
-An attributes and sugar methods on `ServerSocket` are as follows.
+An attributes and its sugar methods on `ServerSocket` are as follows.
 
-```java
-Map<String, Object> attributes = socket.attributes();
-```
-
-- `<T> T socket.get(String name)` - Returns the value mapped to the given name.
-- `ServerSocket socket.set(String name, Object value)` - Associates the value with the given name in the socket.
-- `ServerSocket socket.remove(String name)` - Removes the mapping associated with the given name.
+<dl>
+  <dt><code>Map&lt;String, Object&gt; attributes()</code></dt>
+  <dd>Returns an attributes of the socket.</dd>
+  <dt><code>Object get(String name)</code></dt>
+  <dd>Returns the value mapped to the given name.</dd>
+  <dt><code>ServerSocket set(key, value)</code></dt>
+  <dd>Associates the value with the given name in the socket.</dd>
+  <dt><code>ServerSocket remove(key)</code></dt>
+  <dd>Removes the mapping associated with the given name.</dd>
+</dl>
 
 #### Tags
 
-A tags and sugar methods on `ServerSocket` are as follows.
+A tags and its sugar methods on `ServerSocket` are as follows.
 
-```java
-Set<String> tags = socket.tags();
-```
+<dl>
+  <dt><code>Set&lt;String&gt; tags()</code></dt>
+  <dd>Returns a tags of the socket.</dd>
+  <dt><code>ServerSocket tag(tags...)</code></dt>
+  <dd>Attaches given tags to the socket.</dd>
+  <dt><code>ServerSocket untag(tags...)</code></dt>
+  <dd>Detaches given tags from the socket.</dd>
+</dl>
 
-- `ServerSocket socket.tag(String... tags)` - Attaches given tags to the socket.
-- `ServerSocket socket.untag(String... tags)` - Detaches given tags from the socket.
+For your information, attributes and tags are only available in the server sockets and not visible to the client sockets for security reasons.
 
 ### Sending and Receiving Events
 
@@ -438,6 +453,18 @@ As the example suggests, event data can be basically anything as long as it is s
 ### Acknowledgement
 
 TODO explain the Acknowledgement feature.
+
+```java
+socket.on("attributes", (Reply<Map<String, Object>> reply) -> {
+  reply.resolve(socket.attributes());
+});
+```
+
+```javascript
+socket.send("attributes", null, attributes => {
+  console.log(attributes);
+});
+```
 
 - [https://cettia.io/projects/cettia-java-server/1.0.0/reference/#handling-the-result-of-the-remote-event-processing](https://cettia.io/projects/cettia-java-server/1.0.0/reference/#handling-the-result-of-the-remote-event-processing)
 - [https://cettia.io/projects/cettia-javascript-client/1.0.1/reference/#handling-the-result-of-the-remote-event-processing](https://cettia.io/projects/cettia-javascript-client/1.0.1/reference/#handling-the-result-of-the-remote-event-processing)
@@ -532,21 +559,33 @@ socket1.send("chat", "Is it safe to invest in Bitcoin?");
 
 You may be dying to answer the question. Try it on the console.
 
-### Advanced Socket Handling
+### Advanced Sockets Handling
 
 The `Server#find(ServerSocketPredicate predicate, SerializableAction<ServerSocket> action)` method is powerful but it's boring to write a `socket -> true` predicate every time to select all sockets in the server. For better development experience, Cettia provides a bunch of useful socket predicates through the `ServerSocketPredicates` class. The following are static methods to create socket predicates defined in `ServerSocketPredicates`.
 
-- `all()` - A predicate that always matches.
-- `attr(String key, Object value)` - A predicate that tests the socket attributes against the given key-value pair.
-- `id(ServerSocket socket)` - A predicate that tests the socket id against the given socket's id.
-- `id(String id)` - A predicate that tests the socket id against the given socket id.
-- `tag(String... tags)` - A predicate that tests the socket tags against the given tags.
+<dl>
+  <dt><code>all()</code></dt>
+  <dd>A predicate that always matches.</dd>
+  <dt><code>attr(String key, Object value)</code></dt>
+  <dd>A predicate that tests the socket attributes against the given key-value pair.</dd>
+  <dt><code>id(ServerSocket socket)</code></dt>
+  <dd>A predicate that tests the socket id against the given socket's id.</dd>
+  <dt><code>id(String id)</code></dt>
+  <dd>A predicate that tests the socket id against the given socket id.</dd>
+  <dt><code>tag(String... tags)</code></dt>
+  <dd>A predicate that tests the socket tags against the given tags.</dd>
+</dl>
 
 Along with `java.util.function.Predicate`, `ServerSocketPredicate` provides the following default methods as a functional interface.
 
-- ServerSocketPredicate and(ServerSocketPredicate that) - Returns a composed predicate that represents a short-circuiting logical AND of this predicate and another.
-- ServerSocketPredicate negate() - Returns a predicate that represents the logical negation of this predicate.
-- ServerSocketPredicate or(ServerSocketPredicate that) - Returns a composed predicate that represents a short-circuiting logical OR of this predicate and another.
+<dl>
+  <dt><code>and(ServerSocketPredicate that)</code></dt>
+  <dd>Returns a composed predicate that represents a short-circuiting logical AND of this predicate and another.</dd>
+  <dt><code>negate()</code></dt>
+  <dd>Returns a predicate that represents the logical negation of this predicate.</dd>
+  <dt><code>or(ServerSocketPredicate that)</code></dt>
+  <dd>Returns a composed predicate that represents a short-circuiting logical OR of this predicate and another.</dd>
+</dl>
 
 Here's an example to find sockets whose username is the same except the `socket`. Assume the `attr` and `id` are statically imported from the `ServerSocketPredicates` class.
 
@@ -572,11 +611,18 @@ Sentence mobile = user.find(tag("mobile"));
 
 Each method on `Sentence` is mapped to a pre-implemented common socket action, so if the method is executed, its mapped action is executed with sockets matching the sentence's predicate. Here is a list of methods on the sentence.
 
-- `sentence.close()` - Closes the socket.
-- `sentence.send(String event)` - Sends a given event without data through the socket.
-- `sentence.send(String event, Object data)` - Sends a given event with the given data through the socket.
-- `sentence.tag(String... tags)` - Attaches given tags to the socket.
-- `sentence.untag(String... tags)` - Detaches given tags from the socket.
+<dl>
+  <dt><code>close()</code></dt>
+  <dd>Closes the socket.</dd>
+  <dt><code>send(String event)</code></dt>
+  <dd>Sends a given event without data through the socket.</dd>
+  <dt><code>send(String event, Object data)</code></dt>
+  <dd>Sends a given event with the given data through the socket.</dd>
+  <dt><code>tag(String... tags)</code></dt>
+  <dd>Attaches given tags to the socket.</dd>
+  <dt><code>untag(String... tags) </code></dt>
+  <dd>Detaches given tags from the socket.</dd>
+</dl>
 
 All the methods except `close()` are chainable and you can directly handle each socket through `sentence.execute(SerializableAction<ServerSocket> action)` if needed. Here's an example of a sentence.
 
@@ -590,10 +636,10 @@ If you still prefer to write a socket action, you can do that like the following
 server.find(p, socket -> socket.send("signout").close());
 ```
 
-Let's rewrite the above `chat` event handler in the starter kit with these feature.
+Let's bring all these features together and rewrite the above `chat` event handler in the starter kit.
 
 ```java
-// import io.cettia.ServerSocketPredicates.all;
+// import static io.cettia.ServerSocketPredicates.all;
 
 socket.on("chat", data -> {
   server.find(all()).send("chat", data);
