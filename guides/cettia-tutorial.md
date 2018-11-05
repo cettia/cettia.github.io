@@ -45,7 +45,7 @@ I started Cettia's predecessor's predecessor (a jQuery plugin for HTTP streaming
 In this tutorial, we will take a look at the features required to create real-time oriented web applications with Cettia and build the Cettia starter kit. The source code for the starter kit is available at [https://github.com/cettia/cettia-starter-kit](https://github.com/cettia/cettia-starter-kit).
 
 <div class="callout">
-  <p>This tutorial covers <a href="/blog/cettia-java-server-1-2-0-beta2-released/">Cettia Java Server 1.2.0-Beta2</a> and <a href="/blog/cettia-javascript-client-1-0-1-released/">Cettia JavaScript Client 1.0.1</a>.</p>
+  <p>This tutorial covers <a href="/blog/cettia-java-server-1-2-0-released/">Cettia Java Server 1.2.0</a> and <a href="/blog/cettia-javascript-client-1-0-1-released/">Cettia JavaScript Client 1.0.1</a>.</p>
 </div>
 
 ### Setting Up the Project
@@ -78,7 +78,7 @@ Create a directory called `starter-kit`. We will write and manage only the follo
        <dependency>
          <groupId>io.cettia</groupId>
          <artifactId>cettia-server</artifactId>
-         <version>1.2.0-Beta2</version>
+         <version>1.2.0</version>
        </dependency>
        <dependency>
          <groupId>io.cettia.asity</groupId>
@@ -561,7 +561,7 @@ You may be dying to answer the question. Try it on the console.
 
 ### Advanced Sockets Handling
 
-The `Server#find(ServerSocketPredicate predicate, SerializableAction<ServerSocket> action)` method is powerful but it's boring to write a `socket -> true` predicate every time to select all sockets in the server. For better development experience, Cettia provides a bunch of useful socket predicates through the `ServerSocketPredicates` class. The following are static methods to create socket predicates defined in `ServerSocketPredicates`.
+The `Server#find(ServerSocketPredicate predicate, SerializableAction<ServerSocket> action)` method is powerful but it's boring to write a `socket -> true` predicate every time to select all sockets in the server. For better development experience, Cettia provides a bunch of useful socket predicates through the `ServerSocketPredicates` class. The following are static methods to create socket predicates defined in the `ServerSocketPredicates`.
 
 <dl>
   <dt><code>all()</code></dt>
