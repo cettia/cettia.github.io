@@ -4,6 +4,11 @@ body, .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
   font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif
 }
 
+section {
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+}
+
 dl {
   margin-left:  1rem;
   dd {
@@ -37,6 +42,17 @@ a {
 ul.breadcrumbs {
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
+
+  li {
+    font-size: 0.7875rem;
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
+    margin-right: 0.5rem;
+    margin-top: -1px;
+  }
 }
 
 div.highlighter-rouge {
@@ -72,14 +88,57 @@ article {
   }
 }
 
-#index {
-  h1, h2 {
-    margin-top: 4rem;
+ul.menu {
+  margin-bottom: 1rem;
+}
+
+#example-tabs {
+  border: none;
+  &.tabs {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  & + .tabs-content {
+    border: none;
+    & > div {
+      padding: 1rem 0 0 0;
+    }
+  }
+  .tabs-title > a, .tabs-title > a:hover {
+    border-bottom: 1px solid #aaa;
+    color: inherit;
+    font-size: inherit;
+  }
+  .tabs-title > a:focus, .tabs-title > a[aria-selected=true] {
+    background: inherit;
+    border-bottom: 2px solid #222;
+    color: inherit;
+  }
+  .accordion-title, .accordion-title:hover {
+    background: inherit;
+    border: none;
+    border-bottom: 1px solid #e6e6e6;
+    color: inherit;
+    font-size: inherit;
+  }
+  .accordion-title:focus {
+    background: inherit;
+    border-bottom: 1px solid #222;
+  }
+  .accordion-item.is-active {
+    .accordion-title {
+      border-bottom: 1px solid #222;
+    }
   }
 }
 
-#content, .content {
-  ul.menu {
-    margin-bottom: 1rem;
-  }
+
+.blurred {
+  opacity: 0.65;
+}
+
+div.explanation  {
+  margin: 0 0 1rem;
+  padding: .5625rem 1.25rem 0 1.1875rem;
+  border-left: 1px solid #cacaca;
 }

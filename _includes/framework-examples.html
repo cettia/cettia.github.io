@@ -1,0 +1,245 @@
+        <ul class="tabs" data-responsive-accordion-tabs="tabs small-accordion large-tabs" data-deep-link="true"  data-allow-all-closed="true" id="example-tabs">
+          <li class="tabs-title is-active"><a href="#java-ee7" aria-selected="true">Servlet 3 & Java API for WebSocket 1</a></li>
+          <li class="tabs-title"><a href="#spring-webflux-5">Spring WebFlux 5</a></li>
+          <li class="tabs-title"><a href="#spring-mvc-4">Spring MVC 4</a></li>
+          <li class="tabs-title"><a href="#vert-x-3">Vert.x 3</a></li>
+          <li class="tabs-title"><a href="#netty-4">Netty 4</a></li>
+          <li class="tabs-title"><a href="#grizzly-2">Grizzly 2</a></li>
+          <li class="tabs-title"><a href="#vert-x-2">Vert.x 2</a></li>
+          <li class="tabs-title"><a href="#atmosphere-2">Atmosphere 2</a></li>
+        </ul>
+        <div class="tabs-content" data-tabs-content="example-tabs">
+          <div class="tabs-panel is-active" id="java-ee7">
+{% capture A %}
+```java
+@WebListener
+public class CettiaInitializer implements ServletContextListener {
+  @Override
+  public void contextInitialized(ServletContextEvent event) {
+    ServletContext context = event.getServletContext();
+    Servlet asityServlet = new AsityServlet().onhttp(hts);
+    ServletRegistration.Dynamic reg = context.addServlet(AsityServlet.class.getName(), asityServlet);
+    reg.setAsyncSupported(true);
+    reg.addMapping("/cettia");
+
+    ServerContainer container = (ServerContainer) context.getAttribute(ServerContainer.class.getName());
+    ServerEndpointConfig.Configurator configurator = new ServerEndpointConfig.Configurator() {
+      public <T> T getEndpointInstance(Class<T> endpointClass) {
+        AsityServerEndpoint asityServerEndpoint = new AsityServerEndpoint().onwebsocket(wts);
+        return endpointClass.cast(asityServerEndpoint);
+      }
+    };
+    try {
+      container.addEndpoint(ServerEndpointConfig.Builder.create(AsityServerEndpoint.class, "/cettia").configurator(configurator).build());
+    } catch (DeploymentException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Override
+  public void contextDestroyed(ServletContextEvent sce) {}
+}
+```
+{% endcapture %}{{ A | markdownify }}
+          </div>
+          <div class="tabs-panel" id="spring-webflux-5">
+{% capture panel %}
+```java
+@SpringBootApplication
+@EnableWebFlux
+public class Application {
+  @Bean
+  public RouterFunction<ServerResponse> httpMapping() {
+    AsityHandlerFunction asityHandlerFunction = new AsityHandlerFunction().onhttp(hts);
+
+    return RouterFunctions.route(
+      path("/cettia")
+        // Excludes WebSocket handshake requests
+        .and(headers(headers -> !"websocket".equalsIgnoreCase(headers.asHttpHeaders().getUpgrade()))), asityHandlerFunction);
+  }
+
+  @Bean
+  public HandlerMapping wsMapping() {
+    AsityWebSocketHandler asityWebSocketHandler = new AsityWebSocketHandler().onwebsocket(wts);
+    Map<String, WebSocketHandler> map = new LinkedHashMap<>();
+    map.put("/cettia", asityWebSocketHandler);
+
+    SimpleUrlHandlerMapping mapping = new SimpleUrlHandlerMapping();
+    mapping.setUrlMap(map);
+
+    return mapping;
+  }
+
+  @Bean
+  public WebSocketHandlerAdapter webSocketHandlerAdapter() {
+    return new WebSocketHandlerAdapter();
+  }
+
+  public static void main(String[] args) {
+    SpringApplication.run(Application.class, args);
+  }
+}
+```
+{% endcapture %}{{ panel | markdownify }}
+          </div>
+          <div class="tabs-panel" id="spring-mvc-4">
+{% capture panel %}
+```java
+@SpringBootApplication
+@EnableWebMvc
+@EnableWebSocket
+public class Application implements WebSocketConfigurer {
+  @Bean
+  public HandlerMapping httpMapping() {
+    AsityController asityController = new AsityController().onhttp(hts);
+    AbstractHandlerMapping mapping = new AbstractHandlerMapping() {
+      @Override
+      protected Object getHandlerInternal(HttpServletRequest request) {
+        // Check whether a path equals '/cettia'
+        return "/cettia".equals(request.getRequestURI()) &&
+          // Delegates WebSocket handshake requests to a webSocketHandler bean
+          !"websocket".equalsIgnoreCase(request.getHeader("upgrade")) ? asityController : null;
+      }
+    };
+    mapping.setOrder(Ordered.HIGHEST_PRECEDENCE);
+    return mapping;
+  }
+
+  @Override
+  public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+    AsityWebSocketHandler asityWebSocketHandler = new AsityWebSocketHandler().onwebsocket(wts);
+    registry.addHandler(asityWebSocketHandler, "/cettia");
+  }
+
+  public static void main(String[] args) {
+    SpringApplication.run(Application.class);
+  }
+}
+```
+{% endcapture %}{{ panel | markdownify }}
+          </div>
+          <div class="tabs-panel" id="vert-x-3">
+{% capture panel %}
+```java
+public class CettiaVerticle extends AbstractVerticle {
+  @Override
+  public void start() {
+    HttpServer httpServer = vertx.createHttpServer();
+    AsityRequestHandler asityRequestHandler = new AsityRequestHandler().onhttp(hts);
+    httpServer.requestHandler(request -> {
+      if (request.path().equals("/cettia")) {
+        asityRequestHandler.handle(request);
+      }
+    });
+    AsityWebSocketHandler asityWebsocketHandler = new AsityWebSocketHandler().onwebsocket(wts);
+    httpServer.websocketHandler(socket -> {
+      if (socket.path().equals("/cettia")) {
+        asityWebsocketHandler.handle(socket);
+      }
+    });
+    httpServer.listen(8080);
+  }
+}
+```
+{% endcapture %}{{ panel | markdownify }}
+          </div>
+          <div class="tabs-panel" id="netty-4">
+{% capture panel %}
+```java
+public class CettiaServer {
+  public static void main(String[] args) throws Exception {
+    EventLoopGroup bossGroup = new NioEventLoopGroup();
+    EventLoopGroup workerGroup = new NioEventLoopGroup();
+    try {
+      ServerBootstrap bootstrap = new ServerBootstrap();
+      bootstrap.group(bossGroup, workerGroup)
+        .channel(NioServerSocketChannel.class)
+        .childHandler(new ChannelInitializer<SocketChannel>() {
+          @Override
+          public void initChannel(SocketChannel ch) {
+            AsityServerCodec asityServerCodec = new AsityServerCodec() {
+              @Override
+              protected boolean accept(HttpRequest req) {
+                return URI.create(req.uri()).getPath().equals("/cettia");
+              }
+            };
+            asityServerCodec.onhttp(hts).onwebsocket(wts);
+
+            ChannelPipeline pipeline = ch.pipeline();
+            pipeline.addLast(new HttpServerCodec()).addLast(asityServerCodec);
+          }
+        });
+      Channel channel = bootstrap.bind(8080).sync().channel();
+      channel.closeFuture().sync();
+    } finally {
+      workerGroup.shutdownGracefully();
+      bossGroup.shutdownGracefully();
+    }
+  }
+}
+```
+{% endcapture %}{{ panel | markdownify }}
+          </div>
+          <div class="tabs-panel" id="grizzly-2">
+{% capture panel %}
+```java
+public class CettiaServer {
+  public static void main(String[] args) throws Exception {
+    HttpServer httpServer = HttpServer.createSimpleServer();
+    ServerConfiguration config = httpServer.getServerConfiguration();
+    config.addHttpHandler(new AsityHttpHandler().onhttp(hts), "/cettia");
+    NetworkListener listener = httpServer.getListener("grizzly");
+    listener.registerAddOn(new WebSocketAddOn());
+    WebSocketEngine.getEngine().register("", "/cettia", new AsityWebSocketApplication().onwebsocket(wts));
+    httpServer.start();
+
+    System.in.read();
+  }
+}
+```
+{% endcapture %}{{ panel | markdownify }}
+          </div>
+          <div class="tabs-panel" id="vert-x-2">
+{% capture panel %}
+```java
+public class CettiaVerticle extends Verticle {
+  @Override
+  public void start() {
+    HttpServer httpServer = vertx.createHttpServer();
+    RouteMatcher httpMatcher = new RouteMatcher();
+    httpMatcher.all("/cettia", new AsityRequestHandler().onhttp(hts));
+    httpServer.requestHandler(httpMatcher);
+    AsityWebSocketHandler websocketHandler = new AsityWebSocketHandler().onwebsocket(wts);
+    httpServer.websocketHandler(socket -> {
+      if (socket.path().equals("/cettia")) {
+        websocketHandler.handle(socket);
+      }
+    });
+    httpServer.listen(8080);
+  }
+}
+```
+{% endcapture %}{{ panel | markdownify }}
+          </div>
+          <div class="tabs-panel" id="atmosphere-2">
+{% capture panel %}
+```java
+@WebListener
+public class CettiaInitializer implements ServletContextListener {
+  @Override
+  public void contextInitialized(ServletContextEvent event) {
+    ServletContext context = event.getServletContext();
+    Servlet asityServlet = new AsityAtmosphereServlet().onhttp(hts).onwebsocket(wts);
+    ServletRegistration.Dynamic reg = context.addServlet(AsityAtmosphereServlet.class.getName(), asityServlet);
+    reg.setAsyncSupported(true);
+    reg.setInitParameter(ApplicationConfig.DISABLE_ATMOSPHEREINTERCEPTOR, Boolean.TRUE.toString());
+    reg.addMapping("/cettia");
+  }
+
+  @Override
+  public void contextDestroyed(ServletContextEvent sce) {}
+}
+```
+{% endcapture %}{{ panel | markdownify }}
+            </div>
+          </div>

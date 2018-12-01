@@ -6,6 +6,12 @@ layout: default
   <div class="grid-x">
     <div class="cell">
       <div id="content">
+        <nav aria-label="You are here:" role="navigation">
+          <ul class="breadcrumbs">
+            <li><a href="/"><img src="/cettia-logo.svg" alt="Home"> Home</a></li>
+            <li><span class="show-for-sr">Current: </span> {{page.title}}</li>
+          </ul>
+        </nav>
         {{ content }}
       </div>
     </div>
