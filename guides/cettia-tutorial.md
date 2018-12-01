@@ -4,12 +4,6 @@ title: "Building Real-Time Web Applications With Cettia"
 description: "An introductory tutorial to Cettia. It explains the reason behind key design decisions that the Cettia team have made in the Cettia, as well as various patterns and features required to build real-time oriented applications without compromise with Cettia."
 ---
 
-<nav aria-label="You are here:" role="navigation">
-  <ul class="breadcrumbs">
-    <li><a href="/">Home</a></li>
-    <li><span class="show-for-sr">Current: </span> {{page.title}}</li>
-  </ul>
-</nav>
 <h1 class="h2">Building Real-Time Web Applications With Cettia</h1>
 
 Table of Contents
