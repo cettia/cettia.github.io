@@ -10,18 +10,29 @@ title: A full-featured real-time web framework for Java
           <!--<img src="/cettia-logo.svg" alt="Home">-->
         <!--</div>-->
         <h1>Cettia</h1>
-        <p>Cettia is a full-featured real-time web framework for Java that you can use to exchange events between server and client in real-time. Cettia works with any web frameworks on the Java Virtual Machine, offers a reliable full duplex message channels, provides elegant patterns, and scales horizontally using messaging passing, which makes it fast and enjoyable to build real-time web applications.</p>
+        <p>Cettia is a full-featured real-time web framework for Java that you can use to exchange events between server and client in real-time. Cettia works with any web frameworks on the Java Virtual Machine, scales horizontally using messaging passing, and provides reliable full duplex message channels and elegant patterns, which makes it fast and enjoyable to build real-time web applications.</p>
         <ul class="menu">
           <li><a href="/guides/getting-started">Getting started</a></li>
           <li><a href="/guides/cettia-tutorial">Learn more</a></li>
         </ul>
         <p>Currently Cettia Java Server v1.2.0 and Cettia JavaScript Client v1.0.1</p>
+        <h5>Latest posts</h5>
+        <p>
+          {% assign post = site.posts[0] %}
+          <a href="{{ post.url }}">
+            {% if post.title contains 'Alpha' or post.title contains 'Beta' or post.title contains 'RC' %}
+            {{ post.title }}
+            {% else %}
+            {{ post.title }}
+            {% endif %}
+          </a> on <time>{{ post.date | date_to_string }}</time>
+        </p>
       </section>
       <section>
-        <h3>Web framework agnostic</h3>
+        <h3>Use whatever web framework you prefer</h3>
         <p>Cettia is designed not just to run on any web framework seamlessly on the JVM but also not to degrade the underlying framework's performance. Almost all popular web frameworks in Java are supported: Java EE (Servlet and Java API for WebSocket), Spring WebFlux, Spring Web MVC, Vert.x, Grizzly, Netty, Atmosphere, and so on.</p>
-        <p>TODO Tab - integration examples per framework</p>
-        <p><a href="">See these in action</a></p>
+        {% include framework-examples.html %}
+        <p><a href="https://github.com/cettia/cettia-starter-kit" target="_blank">See it in action</a></p>
       </section>
       <section>
         <h3>WebSocket, JSON and switch statement are not enough</h3>
@@ -70,19 +81,25 @@ server.find(tag("username", username)).tag("room-201").find(tag("mobile")).send(
 {% endcapture %}{{ panel | markdownify }}
       </section>
       <section>
-        <h3>Not all disconnections are the same</h3>
-        <p>The Cettia socket lifecycle is designed to be unaffected by frequent temporary disconnections which happens commonly especially in the mobile environment. Declaratively decide and collect missed events to recover and send them on the next connection.</p>
+        <h3>Recover missed events declaratively</h3>
+        <p>The Cettia socket lifecycle is designed to be unaffected by frequent temporary disconnections which happen commonly especially in the mobile environment. Declaratively decide and collect missed events to recover and send them on the next connection.</p>
 {% capture panel %}
 ```java
 Queue<Object[]> queue = new ConcurrentLinkedQueue<>();
-socket.oncache(args -> queue.offer(args));
+socket.oncache(args -> {
+  if (!"market-price".equals(args[0])) {
+    queue.offer(args);
+  }
+});
 socket.onopen(v -> {
   while (socket.state() == ServerSocket.State.OPENED && !queue.isEmpty()) {
     Object[] args = queue.poll();
     socket.send((String) args[0], args[1], (Action<?>) args[2], (Action<?>) args[3]);
   }
 });
-socket.ondelete(v -> queue.forEach(args -> System.out.println(socket + " missed event - name: " + args[0] + ", data: " + args[1])));
+socket.ondelete(v -> {
+  emailService.sendMissedEventsMessage(queue);
+});
 ```
 {% endcapture %}{{ panel | markdownify }}
       </section>
@@ -102,65 +119,13 @@ topic.addMessageListener(message -> server.messageAction().on(message.getMessage
 {% endcapture %}{{ panel | markdownify }}
       </section>
       <section>
-        <h2>Latest announcements</h2>
-        <ul>
-          {% for post in site.posts %}
-          {% if post.title contains 'released' %}
-          <li>
-            <a href="{{ post.url }}">
-              {% if post.title contains 'Alpha' or post.title contains 'Beta' or post.title contains 'RC' %}
-              {{ post.title }}
-              {% else %}
-              <strong>{{ post.title }}</strong>
-              {% endif %}
-            </a> on <time>{{ post.date | date_to_string }}</time>
-          </li>
-          {% endif %}
-          {% endfor %}
-        </ul>
-      </section>
-      <section>
-        <h2>Community</h2>
+        <h2>Get Involved</h2>
         <p>As an open source project licensed under Apache License 2.0, Cettia has started since 2011 with the name of jQuery Stream (a jQuery plugin for HTTP streaming to demonstrate Servlet 3.0's Async Servlet with IE 6) by Donghwan Kim and grown into a full-featured real-time web framework for Java with love and support from the community. If you are interested and would like to be more involved, feel free to join the community and share your feedback.</p>
         <ul class="menu">
           <li><a href="/blog" target="_blank">Blog</a></li>
           <li><a href="https://github.com/cettia" target="_blank">GitHub</a></li>
           <li><a href="https://twitter.com/flowersits" target="_blank">Twitter</a></li>
           <li><a href="http://groups.google.com/group/cettia" target="_blank">Mailing list</a></li>
-        </ul>
-      </section>
-      <hr>
-      <section>
-        <h2 id="resources">Resources</h2>
-        <p>Here are helpful resources produced by a growing community.</p>
-        <h3 class="h4">Guides</h3>
-        <ul>
-          <li><a href="/guides/getting-started" target="_blank">Getting started</a> - A summary of an introductory tutorial to Cettia for quick start.</li>
-          <li><a href="/guides/cettia-tutorial/" target="_blank">Building Real-Time Web Applications With Cettia</a> - An introductory tutorial to Cettia.</li>
-        </ul>
-        <h3 class="h4">Examples</h3>
-        <ul>
-          <li><a href="https://github.com/cettia/cettia-starter-kit" target="_blank">Cettia starter kit</a> - A starter kit based on Servlet 3 and Java WebSocket API 1.</li>
-          <li><a href="https://github.com/ralscha/cettia-demo" target="_blank">ralscha/cettia-demo</a> - A collection of Cettia and Spring 5 demo applications by Ralph Schaer.</li>
-        </ul>
-      </section>
-      <section>
-        <h2 id="changelog">Releases</h2>
-        <p>Here are release announcements for Cettia subprojects.</p>
-        <ul>
-          {% for post in site.posts %}
-            {% if post.title contains 'released' %}
-            <li>
-              <a href="{{ post.url }}">
-              {% if post.title contains 'Alpha' or post.title contains 'Beta' or post.title contains 'RC' %}
-                {{ post.title }}
-              {% else %}
-                <strong>{{ post.title }}</strong>
-              {% endif %}
-              </a> on <time>{{ post.date | date_to_string }}</time>
-            </li>
-            {% endif %}
-          {% endfor %}
         </ul>
       </section>
     </div>
