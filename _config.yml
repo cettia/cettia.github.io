@@ -14,9 +14,10 @@ plugins:
   - jekyll-seo-tag
   - jekyll-avatar
 sass:
-    style: compressed
+  style: compressed
 twitter:
   username: flowersits
+logo: /cettia-logo.svg
 social:
   links:
     - https://github.com/cettia

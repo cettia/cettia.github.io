@@ -1,14 +1,14 @@
 ---
 layout: guide
 title: "Getting Started With Cettia"
-description: "TODO An introductory tutorial to Cettia. It explains the reason behind key design decisions that the Cettia team have made in the Cettia, as well as various patterns and features required to build real-time oriented applications without compromise with Cettia."
+description: "This is a summary of a tutorial, Building Real-Time Web Applications With Cettia, for quick start."
 ---
 
 <h1 class="h2" id="getting-started">Getting Started</h1>
 
-This is a summary of a tutorial, TODO <a href="/guides/cettia-tutorial/" target="_blank">Building Real-Time Web Applications With Cettia</a>, for quick start. You may want to read the tutorial for better understanding of Cettia. It covers the reason behind key design decisions that the Cettia team have made in the Cettia as well as the features required to create real-time oriented web applications with Cettia.
+This is a summary of a tutorial, [Building Real-Time Web Applications With Cettia](/guides/cettia-tutorial/), for quick start, which covers the features required to create real-time oriented web applications with Cettia. We recommend to read the tutorial if you want better understanding of Cettia.
 
-The result of the tutorial, the Cettia starter kit, is available in <a href="https://github.com/cettia/cettia-starter-kit" target="_blank">the GitHub repository</a>. If you have Java 8+ and Maven 3+ installed, you can run the example by cloning or downloading the repository and typing the following maven command.
+The result of the tutorial, the Cettia starter kit, is available in <a href="https://github.com/cettia/cettia-starter-kit" target="_blank">the GitHub repository</a>. If you have Java 8+ and Maven 3+ installed, you can run the example by cloning or downloading the repository and running Jetty server with the following maven command.
 
 {% capture panel %}
 ```shell
@@ -238,15 +238,13 @@ Cettia defines the temporary disconnection as one that is followed by reconnecti
 
 {% capture panel %}
 ```java
-Queue<Object[]> queue = new ConcurrentLinkedQueue<>();
-socket.oncache(args -> queue.offer(args));
-socket.onopen(v -> {
-  while (socket.state() == ServerSocket.State.OPENED && !queue.isEmpty()) {
-    Object[] args = queue.poll();
-    socket.send((String) args[0], args[1], (Action<?>) args[2], (Action<?>) args[3]);
-  }
-});
-socket.ondelete(v -> queue.forEach(args -> System.out.println(socket + " missed event - name: " + args[0] + ", data: " + args[1])));
+List<Object[]> cache = new CopyOnWriteArrayList<>();
+socket.oncache((Object[] args) -> cache.add(args));
+socket.onopen(v -> cache.forEach(args -> {
+  cache.remove(args);
+  socket.send((String) args[0], args[1], (Action<?>) args[2], (Action<?>) args[3]);
+}));
+socket.ondelete(v -> cache.forEach(args -> System.out.println(socket + " missed event - name: " + args[0] + ", data: " + args[1])));
 ```
 {% endcapture %}{{ panel | markdownify }}
 
@@ -318,7 +316,7 @@ Here’s an example of a sentence.
 
 {% capture panel %}
 ```java
-server.find(p).send("signout").close();
+server.find(p).send("klose").close();
 ```
 {% endcapture %}{{ panel | markdownify }}
 

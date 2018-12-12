@@ -479,22 +479,20 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 And the following code to the socket handler:
 
 ```java
-Queue<Object[]> queue = new ConcurrentLinkedQueue<>();
-socket.oncache(args -> queue.offer(args));
-socket.onopen(v -> {
-  while (socket.state() == ServerSocket.State.OPENED && !queue.isEmpty()) {
-    Object[] args = queue.poll();
-    socket.send((String) args[0], args[1], (Action<?>) args[2], (Action<?>) args[3]);
-  }
-});
-socket.ondelete(v -> queue.forEach(args -> System.out.println(socket + " missed event - name: " + args[0] + ", data: " + args[1])));
+List<Object[]> cache = new CopyOnWriteArrayList<>();
+socket.oncache((Object[] args) -> cache.add(args));
+socket.onopen(v -> cache.forEach(args -> {
+  cache.remove(args);
+  socket.send((String) args[0], args[1], (Action<?>) args[2], (Action<?>) args[3]);
+}));
+socket.ondelete(v -> cache.forEach(args -> System.out.println(socket + " missed event - name: " + args[0] + ", data: " + args[1])));
 ```
 
 Refer to the socket lifecycle section for the difference between the server's `socket` event and the socket's `open` event, and when the socket's `open` and `delete` events are dispatched. By default, the client reconnects to the server with the delay interval determined by the `reconnect? (lastDelay: number, attempts: number): any` option.
 
-- If the socket has no active connection when the `send` method is called, the `cache` event is fired with an argument array used to call the `send` method. In this event, you can decide and collect events to send on the next reconnection into the `queue`.
-- If an `open` event is fired, flush the `queue` by sending items one by one via a new connection. Even within the `open` event, you should check that the socket is opened so as not to disrupt the `queue`.
-- If a `delete` event is fired and the `queue` is not empty, you have to work with other building blocks of your application according to the user experience you want to provide with the remaining events. For example, a database could be used to store missed events and show them on the next visit to the service. A push notification system could be used to notify a user of missed events, and an SMTP server could be used to send a digest email of missed events.
+- If the socket has no active connection when the `send` method is called, the `cache` event is fired with an argument array used to call the `send` method. In this event, you can decide and collect events to send on the next reconnection into the `cache`.
+- If an `open` event is fired, flush the `cache` by sending and removing each item one by one via a new connection.
+- If a `delete` event is fired and the `cache` is not empty, you have to work with other building blocks of your application according to the user experience you want to provide with the remaining events. For example, a database could be used to store missed events and show them on the next visit to the service. A push notification system could be used to notify a user of missed events, and an SMTP server could be used to send a digest email of missed events.
 
 Note that when writing and submitting socket actions to the server, you don't need to take care of a given socket's state. Even if a socket has no connection and fails to send events, you can safely handle them within the `cache` handler.
 
@@ -621,13 +619,13 @@ Each method on `Sentence` is mapped to a pre-implemented common socket action, s
 All the methods except `close()` are chainable and you can directly handle each socket through `sentence.execute(SerializableAction<ServerSocket> action)` if needed. Here's an example of a sentence.
 
 ```java
-server.find(p).send("signout").close();
+server.find(p).send("klose").close();
 ```
 
 If you still prefer to write a socket action, you can do that like the following.
 
 ```java
-server.find(p, socket -> socket.send("signout").close());
+server.find(p, socket -> socket.send("klose").close());
 ```
 
 Let's bring all these features together and rewrite the above `chat` event handler in the starter kit.
