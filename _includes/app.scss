@@ -132,9 +132,10 @@ ul.menu {
   }
 }
 
-
-.blurred {
-  opacity: 0.65;
+#example-tabs, #example-tabs + .tabs-content {
+  code > span:not(.highlighted) {
+    opacity: 0.5;
+  }
 }
 
 div.explanation  {
