@@ -21,11 +21,7 @@ title: A full-featured real-time web framework for Java
         {% for post in site.posts limit:3 %}
           <li>
             <a href="{{ post.url }}">
-              {% if post.title contains 'Alpha' or post.title contains 'Beta' or post.title contains 'RC' %}
               {{ post.title }}
-              {% else %}
-              {{ post.title }}
-              {% endif %}
             </a> on <time>{{ post.date | date_to_string }}</time>
           </li>
         {% endfor %}
