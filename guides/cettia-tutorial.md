@@ -24,7 +24,7 @@ Table of Contents
   <li><a href="#conclusion" id="markdown-toc-conclusion">Conclusion</a></li>
 </ul>
 
-I started Cettia's predecessor's predecessor (a jQuery plugin for HTTP streaming that I used to demonstrate Servlet 3.0's Async Servlet with IE 6) in 2011. Since then, WebSocket and Asynchronous IO have come into wide use, and it has become easier to develop and maintain real-time web applications in both client and server environments. In the meantime, however, functional and non-functional requirements have become more sophisticated and difficult to meet, and it has become harder to estimate and control the accompanying technical debt as well. In other words, it's still not easy to build enterprise-level real-time web applications quickly and easily.
+We started Cettia's predecessor's predecessor (a jQuery plugin for HTTP streaming used to demonstrate Servlet 3.0's Async Servlet with IE 6) in 2011. Since then, WebSocket and Asynchronous IO have come into wide use, and it has become easier to develop and maintain real-time web applications in both client and server environments. In the meantime, however, functional and non-functional requirements have become more sophisticated and difficult to meet, and it has become harder to estimate and control the accompanying technical debt as well. In other words, it's still not easy to build enterprise-level real-time web applications quickly and easily.
 
 [Cettia](https://cettia.io) is the result of projects that started out as an effort to address these challenges and is a framework to create real-time web applications without compromise:
 
@@ -37,10 +37,6 @@ I started Cettia's predecessor's predecessor (a jQuery plugin for HTTP streaming
 - It is designed not to share data between servers and can be scaled horizontally with ease.
 
 In this tutorial, we will take a look at the features required to create real-time oriented web applications with Cettia and build the Cettia starter kit. The source code for the starter kit is available at [https://github.com/cettia/cettia-starter-kit](https://github.com/cettia/cettia-starter-kit).
-
-<div class="callout">
-  <p>This tutorial covers <a href="/blog/cettia-java-server-1-2-0-released/">Cettia Java Server 1.2.0</a> and <a href="/blog/cettia-javascript-client-1-0-1-released/">Cettia JavaScript Client 1.0.1</a>.</p>
-</div>
 
 ### Setting Up the Project
 

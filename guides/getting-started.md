@@ -6,7 +6,7 @@ description: "This is a summary of a tutorial, Building Real-Time Web Applicatio
 
 <h1 class="h2" id="getting-started">Getting Started</h1>
 
-This is a summary of a tutorial, [Building Real-Time Web Applications With Cettia](/guides/cettia-tutorial/), for quick start, which covers the features required to create real-time oriented web applications with Cettia. We recommend to read the tutorial if you want better understanding of Cettia.
+This is a summary of a tutorial, [Building Real-Time Web Applications With Cettia](/guides/cettia-tutorial/), for quick start. The tutorial covers how to create real-time web applications with Cettia in more depth. We recommend to read it if you want better understanding of Cettia.
 
 The result of the tutorial, the Cettia starter kit, is available in <a href="https://github.com/cettia/cettia-starter-kit" target="_blank">the GitHub repository</a>. If you have Java 8+ and Maven 3+ installed, you can run the example by cloning or downloading the repository and running Jetty server with the following maven command.
 
@@ -40,17 +40,17 @@ Then, you can accept and handle sockets that connect to the server through <code
 {% capture panel %}
 ```java
 Server server = new DefaultServer();
-HttpTransportServer httpAction = new HttpTransportServer().ontransport(server);
-WebSocketTransportServer wsAction = new WebSocketTransportServer().ontransport(server);
+HttpTransportServer hts = new HttpTransportServer().ontransport(server);
+WebSocketTransportServer wts = new WebSocketTransportServer().ontransport(server);
 
 server.onsocket((ServerSocket socket) -> System.out.println(socket));
 
-// javax.servlet.Servlet asityServlet = new AsityServlet().onhttp(httpAction);
-// javax.websocket.Endpoint asityEndpoint = new AsityServerEndpoint().onwebsocket(wsAction);
+// javax.servlet.Servlet asityServlet = new AsityServlet().onhttp(hts);
+// javax.websocket.Endpoint asityEndpoint = new AsityServerEndpoint().onwebsocket(wts);
 ```
 {% endcapture %}{{ panel | markdownify }}
 
-Cettia is based on <a href="http://asity.cettia.io" target="_blank">Asity</a> and compatible with any web framework on the Java Virtual Machine. As you can see in the commend out code, the above application is able to run on any framework as long as you feed <code>httpAction</code> and <code>wsAction</code> with the framework's HTTP request-response exchange and WebSocket connection through bridges per framework provided by Asity like the above <code>asityServlet</code> and <code>asityEndpoint</code>. For the usage of bridge, see Asity's <a href="http://asity.cettia.io/#run-anywhere" target="_blank">Run Anywhere</a> section. Asity supports almost all popular web frameworks in Java: Servlet and Java API for WebSocket, Spring WebFlux, Spring MVC, Grizzly, Vert.x, Netty, Atmosphere, and so on.
+Cettia is based on <a href="http://asity.cettia.io" target="_blank">Asity</a> and compatible with any web framework on the Java Virtual Machine. As you can see in the commend out code, the above application is able to run on any framework as long as you feed <code>hts</code> and <code>wts</code> with the framework's HTTP request-response exchange and WebSocket connection through bridges per framework provided by Asity like the above <code>asityServlet</code> and <code>asityEndpoint</code>. For the usage of bridge, see Asity's <a href="http://asity.cettia.io/#run-anywhere" target="_blank">Run Anywhere</a> section. Asity supports almost all popular web frameworks in Java: Servlet and Java API for WebSocket, Spring WebFlux, Spring MVC, Grizzly, Vert.x, Netty, Atmosphere, and so on.
 
 The tutorial uses Servlet and Java API for WebSocket as a web framework and passes requests whose URI is <code>/cettia</code> to the Cettia server. In other means, the Cettia client can connect to this server through <code>http://127.0.0.1:8080/cettia</code>.
 
@@ -248,11 +248,11 @@ socket.ondelete(v -> cache.forEach(args -> System.out.println(socket + " missed 
 ```
 {% endcapture %}{{ panel | markdownify }}
 
-The <code>cache</code> event above is fired with an argument array used to call the <code>send</code> method, if the socket has no active connection when the <code>send</code> method is called. If there has been no reconnection within one minute since disconnection, the <code>delete</code> event is fired and the lifecycle of socket ended. With the <code>delete</code> event, you can store the miseed events in a database and show them on the next visit.
+The <code>cache</code> event above is fired with an argument array used to call the <code>send</code> method, if the socket has no active connection when the <code>send</code> method is called. If there has been no reconnection within one minute since disconnection, the <code>delete</code> event is fired and the lifecycle of socket ended. With the <code>delete</code> event, you can send an email or push notifications about events which the socket finally missed.
 
 ### Working with Sockets
 
-The most common use case in a real-time web application is to push messages to certain clients, of course. Cettia supports this intuitively by enabling "find sockets and do something with them" without a separate concept like Topic and Broadcaster.
+The most common use case in a real-time web application is to push messages to certain clients, of course. Cettia supports this intuitively by enabling "find sockets and do something with them" pattern without a separate concept like Topic and Broadcaster.
 
 {% capture panel %}
 ```java
@@ -312,7 +312,7 @@ Each method on <code>Sentence</code> is mapped to a pre-implemented common socke
   <dd>Detaches given tags from the socket.</dd>
 </dl>
 
-Here’s an example of a sentence.
+Here’s an example to send a `klose` event to given sockets and close their connections.
 
 {% capture panel %}
 ```java
@@ -322,7 +322,7 @@ server.find(p).send("klose").close();
 
 ### Scaling a Cettia Application
 
-Last but not least is scaling an application. Any publish-subscribe messaging system can be used to scale a Cettia application horizontally, and it doesn't require any modification in the existing application. Here's an example of Hazelcast. Replace <code>Server server = new DefaultServer();</code> with <code>ClusteredServer server = new ClusteredServer();</code>, and add the following dependencies to your application:
+Any publish-subscribe messaging system can be used to scale a Cettia application horizontally, and it doesn't require any modification in the existing application. Here's an example of Hazelcast. Replace <code>Server server = new DefaultServer();</code> with <code>ClusteredServer server = new ClusteredServer();</code>, and add the following dependencies to your application:
 
 {% capture panel %}
 ```xml
