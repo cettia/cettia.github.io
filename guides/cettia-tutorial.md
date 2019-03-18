@@ -1,7 +1,7 @@
 ---
 layout: guide
 title: "Building Real-Time Web Applications With Cettia"
-description: "An introductory tutorial to Cettia. It explains the reason behind key design decisions that the Cettia team have made in the Cettia, as well as various patterns and features required to build real-time oriented applications without compromise with Cettia."
+description: "Cettia reference documentation. It explains the reason behind key design decisions that the Cettia team have made in the Cettia, as well as various patterns and features required to build real-time oriented applications without compromise with Cettia."
 ---
 
 <h1 class="h2">Building Real-Time Web Applications With Cettia</h1>
@@ -36,7 +36,7 @@ We started Cettia's predecessor's predecessor (a jQuery plugin for HTTP streamin
 - It provides a bunch of useful helpers to help write more declarative and readable code.
 - It is designed not to share data between servers and can be scaled horizontally with ease.
 
-In this tutorial, we will take a look at the features required to create real-time oriented web applications with Cettia and build the Cettia starter kit. The source code for the starter kit is available at [https://github.com/cettia/cettia-starter-kit](https://github.com/cettia/cettia-starter-kit).
+This document is originally written as an introductory tutorial to Cettia but now covers all the features of the Cettia. Code snippets covered in the document are partially included in the Cettia starter kit and the source code for the starter kit is available at [https://github.com/cettia/cettia-starter-kit](https://github.com/cettia/cettia-starter-kit).
 
 ### Setting Up the Project
 
@@ -715,6 +715,6 @@ As for deployment, it's just a web application, after all, so you can deploy the
 
 [Cettia](https://cettia.io/) is a full-featured real-time web application framework for Java that you can use to exchange events between server and client in real-time. It is meant for when you run into issues which are tricky to resolve with WebSocket, JSON, and switch statement per se: avoiding repetitive boilerplate code, supporting environments where WebSocket is not available, handling both text and binary data together, recovering missed events, providing multi-device user experience, scaling out an application, and so on. It offers a reliable full duplex message channel and elegant patterns to achieve better user experience in the real-time web, and is compatible with any web frameworks on the Java Virtual Machine.
 
-In this tutorial, we've walked through the reason behind key design decisions that the Cettia team have made in the Cettia, as well as various patterns and features required to build real-time oriented applications without compromise with Cettia, and as a result, we've built the starter kit. The source code for the starter kit is available at [https://github.com/cettia/cettia-starter-kit](https://github.com/cettia/cettia-starter-kit).
+We've walked through the reason behind key design decisions that the Cettia team have made in the Cettia, as well as various patterns and features required to build real-time oriented applications without compromise with Cettia.
 
 If you have any question or feedback, please feel free to share them on [Cettia Groups](http://groups.google.com/group/cettia).
