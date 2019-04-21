@@ -1,355 +1,212 @@
 ---
 layout: guide
-title: "Getting Started With Cettia"
-description: "This is a summary of a tutorial, Building Real-Time Web Applications With Cettia, for quick start."
+title: "Getting Started"
+description: "Learn how to get started with Cettia with the Cettia Starter Kit."
 ---
 
-<h1 class="h2" id="getting-started">Getting Started</h1>
+<h1 class="h2">Getting Started</h1>
 
-This is a summary of a tutorial, [Building Real-Time Web Applications With Cettia](/guides/cettia-tutorial/), for quick start. The tutorial covers how to create real-time web applications with Cettia in more depth. We recommend to read it if you want better understanding of Cettia.
+The easiest way to get started with Cettia is to play with the [Cettia Starter Kit](https://github.com/cettia/cettia-starter-kit) that is a basic chat application made with Cettia.
 
-The result of the tutorial, the Cettia starter kit, is available in <a href="https://github.com/cettia/cettia-starter-kit" target="_blank">the GitHub repository</a>. If you have Java 8+ and Maven 3+ installed, you can run the example by cloning or downloading the repository and running Jetty server with the following maven command.
+![cettia-starter-kit-1555758896147](https://user-images.githubusercontent.com/1095042/56456590-5947a080-63a9-11e9-9155-36d49d33ed4c.gif)
 
-{% capture panel %}
-```shell
-git clone https://github.com/cettia/cettia-starter-kit
-cd cettia-starter-kit
-mvn jetty:run
+### Running the Starter Kit
+
+The starter kit requires Java 8+ and Maven 3+. Clone or download the repository and run `mvn install`.
+
 ```
-{% endcapture %}{{ panel | markdownify }}
+git clone https://github.com/cettia/cettia-starter-kit.git
+cd cettia-starter-kit
+mvn install
+```
 
-Then, open a browser and connect to <a href="http://localhost:8080" target="_blank">http://localhost:8080</a>.
-
-### Setting Up the Project
 #### Server
 
-Add an `io.cettia:cettia-server:1.2.0` (<a href="http://javadoc.io/doc/io.cettia/cettia-server" target="_blank">Javadoc</a>) as a dependency of your application.
+The server example is located in the `example-server` project.
 
+- [`/example-server/pom.xml`](https://github.com/cettia/cettia-starter-kit/blob/master/example-server/pom.xml)
+- [`/example-server/src/main/java/io/cettia/starter/ExampleServerAction.java`](https://github.com/cettia/cettia-starter-kit/blob/master/example-server/src/main/java/io/cettia/starter/ExampleServerAction.java)
+
+To run the example, you should integrate it with a web framework first. The starter kit provides example projects integrated with each web framework supporting Cettia as follows. Pick one according to your favorite framework, enter the project directory, and run the Maven command.
+
+<div class="table-scroll">
 {% capture panel %}
-```xml
-<dependency>
-  <groupId>io.cettia</groupId>
-  <artifactId>cettia-server</artifactId>
-  <version>1.2.0</version>
-</dependency>
-```
+
+| Web framework  | Maven project   | Maven command                    | pom.xml                                                                           | Main class                                                                                                                                                              |
+|----------------|-----------------|----------------------------------|-----------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Atmosphere     | atmosphere2     | `mvn jetty:run`                  | [pom.xml](https://github.com/cettia/cettia-starter-kit/blob/master/atmosphere2/pom.xml)     | [CettiaInitializer](https://github.com/cettia/cettia-starter-kit/blob/master/atmosphere2/src/main/java/io/cettia/starter/atmosphere2/CettiaInitializer.java)  |
+| Grizzly        | grizzly2        | `mvn clean package exec:java`    | [pom.xml](https://github.com/cettia/cettia-starter-kit/blob/master/grizzly2/pom.xml)        | [CettiaServer](https://github.com/cettia/cettia-starter-kit/blob/master/grizzly2/src/main/java/io/cettia/starter/grizzly2/CettiaServer.java)                  |
+| Java EE        | javaee7         | `mvn jetty:run`                  | [pom.xml](https://github.com/cettia/cettia-starter-kit/blob/master/javaee7/pom.xml)         | [CettiaInitializer](https://github.com/cettia/cettia-starter-kit/blob/master/javaee7/src/main/java/io/cettia/starter/javaee7/CettiaInitializer.java)          |
+| Netty          | netty4          | `mvn clean package exec:java`    | [pom.xml](https://github.com/cettia/cettia-starter-kit/blob/master/netty4/pom.xml)          | [CettiaServer](https://github.com/cettia/cettia-starter-kit/blob/master/netty4/src/main/java/io/cettia/starter/netty4/CettiaServer.java)                      |
+| Spring WebFlux | spring-webflux5 | `mvn spring-boot:run`            | [pom.xml](https://github.com/cettia/cettia-starter-kit/blob/master/spring-webflux5/pom.xml) | [CettiaServer](https://github.com/cettia/cettia-starter-kit/blob/master/spring-webflux5/src/main/java/io/cettia/starter/spring5/CettiaServer.java)            |
+| Spring Web MVC | spring-webmvc4  | `mvn spring-boot:run`            | [pom.xml](https://github.com/cettia/cettia-starter-kit/blob/master/spring-webmvc4/pom.xml)  | [CettiaServer](https://github.com/cettia/cettia-starter-kit/blob/master/spring-webmvc4/src/main/java/io/cettia/starter/spring4/CettiaServer.java )            |
+| Vert.x         | vertx2          | `mvn clean package vertx:runMod` | [pom.xml](https://github.com/cettia/cettia-starter-kit/blob/master/vertx2/pom.xml)          | [CettiaServerVerticle](https://github.com/cettia/cettia-starter-kit/blob/master/vertx2/src/main/java/io/cettia/starter/vertx2/CettiaServerVerticle.java)      |
+|                | vertx3          | `mvn clean package exec:java`    | [pom.xml](https://github.com/cettia/cettia-starter-kit/blob/master/vertx3/pom.xml)          | [CettiaServerVerticle](https://github.com/cettia/cettia-starter-kit/blob/master/vertx3/src/main/java/io/cettia/starter/vertx3/CettiaServerVerticle.java)      |
+
 {% endcapture %}{{ panel | markdownify }}
+</div>
 
-Then, you can accept and handle sockets that connect to the server through <code>server.onsocket(socket -&gt; {})</code>.
+Then, it will run a server that listens on port 8080 and exposes an endpoint `/cettia`. For how to integrate Cettia with the framework of your choice, see the above projects' source code and the reference documentation's [Plugging Into the Web Framework](https://cettia.io/guides/cettia-tutorial/#plugging-into-the-web-framework) section.
 
-{% capture panel %}
+#### Web
+
+The browser-based client example is located in the `example-web` project.
+
+- [`/example-web/src/main/webapp/index.html`](https://github.com/cettia/cettia-starter-kit/blob/master/example-web/src/main/webapp/index.html)
+- [`/example-web/src/main/webapp/app.js`](https://github.com/cettia/cettia-starter-kit/blob/master/example-web/src/main/webapp/app.js)
+
+Enter the `example-web` Maven project, start a static web server as follows, and then visit `http://localhost:8070/`.
+
+```
+cd example-web
+mvn jetty:run -Djetty.port=8070
+```
+
+##### On the fly
+
+If you prefer to run code snippets on the fly, open the developer tools on this page, click the console tab and then type `cettia` to the console.
+
+```
+> cettia;
+< {open: function, transport: Object, util: Object}
+```
+
+Then, you should see that the `cettia` object is available. For your information, every page of [https://cettia.io](https://cettia.io) loads the latest version of `cettia` object so that you can play with the `cettia` object at any time.
+
+### Understanding the Example
+
+Here are the user stories implemented in the example.
+
+- As a guest I want to sign in to the application by entering a username only so that I don't have to go through an annoying sign-up process.
+- As a user I want to join the lounge channel automatically after sign in so that I can talk with everyone.
+- As a user I want to send messages to the lounge channel so that everyone can receive my messages.
+- As a user I want to receive messages when others send them to the lounge channel so that I can keep conversation in real-time.
+
+In this guide we will skip explanation about view components and focus on how we can exchange events between the server and the client in real-time.
+
+#### Opening a Socket
+
+Add a `socket` event handler in the server side.
+
 ```java
-Server server = new DefaultServer();
-HttpTransportServer hts = new HttpTransportServer().ontransport(server);
-WebSocketTransportServer wts = new WebSocketTransportServer().ontransport(server);
-
-server.onsocket((ServerSocket socket) -> System.out.println(socket));
-
-// javax.servlet.Servlet asityServlet = new AsityServlet().onhttp(hts);
-// javax.websocket.Endpoint asityEndpoint = new AsityServerEndpoint().onwebsocket(wts);
-```
-{% endcapture %}{{ panel | markdownify }}
-
-Cettia is based on <a href="http://asity.cettia.io" target="_blank">Asity</a> and compatible with any web framework on the Java Virtual Machine. As you can see in the commend out code, the above application is able to run on any framework as long as you feed <code>hts</code> and <code>wts</code> with the framework's HTTP request-response exchange and WebSocket connection through bridges per framework provided by Asity like the above <code>asityServlet</code> and <code>asityEndpoint</code>. For the usage of bridge, see Asity's <a href="http://asity.cettia.io/#run-anywhere" target="_blank">Run Anywhere</a> section. Asity supports almost all popular web frameworks in Java: Servlet and Java API for WebSocket, Spring WebFlux, Spring MVC, Grizzly, Vert.x, Netty, Atmosphere, and so on.
-
-The tutorial uses Servlet and Java API for WebSocket as a web framework and passes requests whose URI is <code>/cettia</code> to the Cettia server. In other means, the Cettia client can connect to this server through <code>http://127.0.0.1:8080/cettia</code>.
-
-#### Client
-
-Load the <code>cettia</code> object the way you want.
-
-<dl>
-  <dt>CDN</dt>
-  <dd>
-{% capture panel %}
-```html
-<script src="https://unpkg.com/cettia-client@1.0.1/cettia-browser.min.js"></script>
-```
-{% endcapture %}{{ panel | markdownify }}
-  </dd>
-  <dt>Webpack</dt>
-  <dd>
-    <div class="grid-x">
-      <div class="cell large-6">
-{% capture panel %}
-```
-npm install cettia-client --save
-```
-{% endcapture %}{{ panel | markdownify }}
-      </div>
-      <div class="cell large-6">
-{% capture panel %}
-```javascript
-var cettia = require("cettia-client/cettia-bundler");
-```
-{% endcapture %}{{ panel | markdownify }}
-      </div>
-    </div>
-  </dd>
-  <dt>Node</dt>
-  <dd>
-    <div class="grid-x">
-      <div class="cell large-6">
-{% capture panel %}
-```
-npm install cettia-client --save
-```
-{% endcapture %}{{ panel | markdownify }}
-      </div>
-      <div class="cell large-6">
-{% capture panel %}
-```javascript
-var cettia = require("cettia-client");
-```
-{% endcapture %}{{ panel | markdownify }}
-      </div>
-    </div>
-  </dd>
-</dl>
-
-Then, you can open a socket pointing to the URI of the Cettia server with <code>cettia.open(uri)</code>.
-
-{% capture panel %}
-```javascript
-var socket = cettia.open("/cettia");
-```
-{% endcapture %}{{ panel | markdownify }}
-
-You may have to use an absolute URI, <code>http://127.0.0.1:8080/cettia</code>, if you use runtimes other than browser like Node.js. If everything is set up correctly, you should be able to see a socket log similar to the following in the server-side.
-
-{% capture panel %}
-```
-ServerSocket@9e14198f-fc59-47b1-9910-6de1174a13b5[state=null,tags=[],attributes={}]
-```
-{% endcapture %}{{ panel | markdownify }}
-
-### Socket Lifecycle
-
-A socket always is in a specific state, such as opened or closed. Its state keeps changing based on the state of the underlying connection, firing one of built-in events. Just know that the communication is possible only in the <code>opened</code> state.
-
-<div class="grid-x grid-margin-x">
-  <div class="cell large-6">
-    <h4>Server</h4>
-    <p>The state transition diagram of a server socket.</p>
-    <p><img src="https://user-images.githubusercontent.com/1095042/39472695-ec3ea126-4d85-11e8-908e-de4bdebf4acb.jpg" alt="server-state-diagram"></p>
-    <p>Tracking the state transition of the server socket.</p>
-{% capture panel %}
-```java
-server.onsocket(socket -> { // By 1
-  Action<Void> log = v -> System.out.println(socket.state());
-  socket.onopen(log); // By 3 and 5
-  socket.onclose(log); // By 2 and 4
-  socket.ondelete(log); // By 6
+server.onsocket((ServerSocket socket) -> {
+  System.out.println(socket + " is created");
 });
 ```
-{% endcapture %}{{ panel | markdownify }}
-  </div>
-  <div class="cell large-6">
-    <h4>Client</h4>
-    <p>The state transition diagram of a client socket.</p>
-    <p><img src="https://user-images.githubusercontent.com/1095042/39466008-7ec29c5c-4d61-11e8-9845-bf7d2ede131c.jpg" alt="client-state-diagram"></p>
-    <p>Tracking the state transition of the client socket.</p>
-{% capture panel %}
+
+Then, in the client, open a socket side adding a `username` parameter to the query string of the URI.
+
 ```javascript
-var log = arg => console.log(socket.state(), arg);
-socket.on("connecting", log); // By 1 and 6
-socket.on("open", log); // By 3
-socket.on("close", log); // By 2, 4, and 7
-socket.on("waiting", log); // By 5
+const uri = `http://localhost:8080/cettia?username=${encodeURIComponent(username)}`;
+const socket = cettia.open(uri);
 ```
-{% endcapture %}{{ panel | markdownify }}
-  </div>
-</div>
 
-### Attributes and Tags
+For convenience sake, in the rest of the guide, we will assume that a `socket` is already opened. For the details, see the reference documentation's [Opening a Socket](https://cettia.io/guides/cettia-tutorial/#opening-a-socket).
 
-In order to store information regarding socket like username in a socket and find sockets based on the stored information, Cettia provides attributes and tags per socket. They are analogous to <code>data-*</code> attributes and <code>class</code> attribute defined in HTML, respectively.
+#### Tracking the Socket Lifecycle
 
-<div class="grid-x grid-margin-x">
-  <div class="cell large-6">
-    <h4>Attributes</h4>
-    <p>An attributes and its sugar methods on <code>ServerSocket</code> are as follows.</p>
-    <dl>
-      <dt><code>Map&lt;String, Object&gt; attributes()</code></dt>
-      <dd>Returns an attributes of the socket.</dd>
-      <dt><code>Object get(key)</code></dt>
-      <dd>Returns the value mapped to the given name.</dd>
-      <dt><code>ServerSocket set(key, value)</code></dt>
-      <dd>Associates the value with the given name in the socket.</dd>
-      <dt><code>ServerSocket remove(key)</code></dt>
-      <dd>Removes the mapping associated with the given name.</dd>
-    </dl>
-  </div>
-  <div class="cell large-6">
-    <h4>Tags</h4>
-    <p>A tags and its sugar methods on <code>ServerSocket</code> are as follows.</p>
-    <dl>
-      <dt><code>Set&lt;String&gt; tags()</code></dt>
-      <dd>Returns a tags of the socket.</dd>
-      <dt><code>ServerSocket tag(tags...)</code></dt>
-      <dd>Attaches given tags to the socket.</dd>
-      <dt><code>ServerSocket untag(tags...)</code></dt>
-      <dd>Detaches given tags from the socket.</dd>
-    </dl>
-  </div>
-</div>
+Register the following built-in event handlers to track each side of socket.
 
-### Sending and Receiving Events
+The server-side:
 
-A unit of exchange between the Cettia client and the Cettia server in real-time is the event. You can define and use your own events as long as the event name isn't duplicated with built-in events. Here's the echo event handler where any received echo event is sent back.
-
-<div class="grid-x grid-margin-x">
-  <div class="cell large-6">
-    <h4>Server</h4>
-{% capture panel %}
 ```java
-socket.on("echo", (Object data) -> socket.send("echo", data));
-```
-{% endcapture %}{{ panel | markdownify }}
-  </div>
-  <div class="cell large-6">
-    <h4>Client</h4>
-{% capture panel %}
-```javascript
-socket.on("echo", data => socket.send("echo", data));
-```
-{% endcapture %}{{ panel | markdownify }}
-  </div>
-</div>
-
-In the server side, the allowed types for the event data are not just <code>Object</code>, but determined by Jackson, a JSON processor used by Cettia internally. If an event data is supposed to be one of the primitive types, you can cast and use it with the corresponding wrapper class, and if it’s supposed to be an object like List or Map and you prefer POJOs, you can convert and use it with JSON library like Jackson. It might look like this:
-
-{% capture panel %}
-```java
-socket.on("event", data -> {
-  Model model = objectMapper.convertValue(data, Model.class);
-  Set<ConstraintViolation<Model>> violations = validator.validate(model);
-  // ...
+server.onsocket((ServerSocket socket) -> {
+  Action<Void> logState = v -> System.out.println(socket + " transitions to " + socket.state());
+  // If it performs the handshake successfully, or the connection is recovered by the client reconnection
+  socket.onopen(logState);
+  // If it fails to perform the handshake, or the connection is disconnected for some reason
+  socket.onclose(logState);
+  // After one minute has elapsed since disconnection
+  socket.ondelete(logState);
 });
 ```
-{% endcapture %}{{ panel | markdownify }}
 
+The client-side:
 
-An event data can be basically anything as long as it is serializable, regardless of whether data is binary or text. If at least one of the properties of the event data is <code>byte[]</code> or <code>ByteBuffer</code> in the server, <code>Buffer</code> in Node or <code>ArrayBuffer</code> in the browser, the event data is internally treated as binary, and that binary property is given as a <code>ByteBuffer</code> in the server, a <code>Buffer</code> in Node, and an <code>ArrayBuffer</code> in the browser.
+```javascript
+const addSystemMessage = text => addMessage({sender: "system", text});
+socket.on("connecting", () => addSystemMessage("The socket starts a connection."));
+socket.on("open", () => addSystemMessage("The socket establishes a connection."));
+socket.on("close", () => addSystemMessage("All transports failed to connect or the connection was disconnected."));
+socket.on("waiting", (delay) => addSystemMessage(`The socket will reconnect after ${delay} ms`));
+```
 
-### Disconnection Handling
+`addMessage` is a function to add a message to the message list by manipulating the DOM. If you are in the console, declare the function instead, as follows.
 
-Cettia defines the temporary disconnection as one that is followed by reconnection within 60 seconds, and designs a socket's lifecycle to be unaffected by temporary disconnections, to support environments where temporary disconnections happen frequently just like the mobile environment. Here's an example to send events failed due to disconnection on the next connection.
+```javascript
+const addMessage = ({sender, text}) => console.log(`${sender} sends ${text}`);
+```
 
-{% capture panel %}
+For the details including state transition diagrams, see the reference documentation's [Socket Lifecycle](https://cettia.io/guides/cettia-tutorial/#socket-lifecycle).
+
+#### Storing Information in a Socket
+
+A server-side socket can have custom properties in the form of a key-value pair and a set element.
+
+```java 
+server.onsocket((ServerSocket socket) -> {
+  // Sets a username
+  socket.set("username", findParam(socket.uri(), "username"));
+  // Joins the lounge channel where everyone gets together
+  socket.tag("channel:lounge");
+});
+```
+
+See the reference documentation's [Attributes and Tags](https://cettia.io/guides/cettia-tutorial/#attributes-and-tags) for the details.
+
+#### Working with Sockets
+
+To send an event to certain sockets in the server, write a socket predicate that selects which sockets to handle, and pass it to `find()`, and write a socket action that sends an event to the given socket, and pass it to `execute()`. The server will find sockets that matches the given predicate and execute the given action passing found sockets one by one.
+
 ```java
-List<Object[]> cache = new CopyOnWriteArrayList<>();
-socket.oncache((Object[] args) -> cache.add(args));
-socket.onopen(v -> cache.forEach(args -> {
-  cache.remove(args);
-  socket.send((String) args[0], args[1], (Action<?>) args[2], (Action<?>) args[3]);
-}));
-socket.ondelete(v -> cache.forEach(args -> System.out.println(socket + " missed event - name: " + args[0] + ", data: " + args[1])));
+server.onsocket((ServerSocket socket) -> {
+  socket.on("message", (Map<String, Object> input) -> {
+    String text = (String) input.get("text");
+
+    Map<String, Object> output = new LinkedHashMap<>();
+    output.put("sender", socket.get("username"));
+    output.put("text", text);
+
+    System.out.println(socket.get("username") + "@" + socket.id() + " sends '" + text + "' to the lounge");
+    server.find(s -> s.tags().contains("channel:lounge")).execute(s -> s.send("message", output));
+  });
+});
 ```
-{% endcapture %}{{ panel | markdownify }}
 
-The <code>cache</code> event above is fired with an argument array used to call the <code>send</code> method, if the socket has no active connection when the <code>send</code> method is called. If there has been no reconnection within one minute since disconnection, the <code>delete</code> event is fired and the lifecycle of socket ended. With the <code>delete</code> event, you can send an email or push notifications about events which the socket finally missed.
+Unless you need to deal with a socket passed to a socket predicate and a socket action directly, you can rewrite the above code more concisely with predefined predicates and convenient methods as follows. 
 
-### Working with Sockets
-
-The most common use case in a real-time web application is to push messages to certain clients, of course. Cettia supports this intuitively by enabling "find sockets and do something with them" pattern without a separate concept like Topic and Broadcaster.
-
-{% capture panel %}
 ```java
-server.find(socket -> /* find sockets */).execute(socket -> /* do something with them */);
+server.onsocket((ServerSocket socket) -> {
+  socket.on("message", (Map<String, Object> input) -> {
+    // ...
+    // With 'import static io.cettia.ServerSocketPredicates.tag;'
+    server.find(tag("channel:lounge")).send("message", output);
+  });
+});
 ```
-{% endcapture %}{{ panel | markdownify }}
 
-<code>server.find(predicate)</code> finds a certain set of sockets that matches the given predicate and returns an instance of fluent interface called <code>Sentence</code>. And <code>sentence.execute(action)</code> allows to deal with the sockets through the passed socket action. Here's an example to send a chat event to every socket in the server.
+In the client side, register a `message` event handler 
 
-{% capture panel %}
-```java
-server.find(socket -> true).execute(socket -> socket.send("chat", "Hi, there"));
+```javascript
+socket.on("message", message => addMessage(message));
 ```
-{% endcapture %}{{ panel | markdownify }}
 
-Along with <code>server.find</code> and <code>sentence.execute</code>, Cettia offers the following pre-defined predicates and socket actions through <code>ServerSocketPredicates</code> and <code>Sentence</code>, respectively, to make the code even more expressive and readable.
+And send a `message` event with with a message, `text`. You will see all sockets joined the lounge channel receive the message.
 
-#### ServerSocketPredicates
-
-The following are static methods to create socket predicates defined in <code>ServerSocketPredicates</code>.
-
-<dl>
-  <dt><code>all()</code></dt>
-  <dd>A predicate that always matches.</dd>
-  <dt><code>attr(String key, Object value)</code></dt>
-  <dd>A predicate that tests the socket attributes against the given key-value pair.</dd>
-  <dt><code>id(ServerSocket socket)</code></dt>
-  <dd>A predicate that tests the socket id against the given socket's id.</dd>
-  <dt><code>id(String id)</code></dt>
-  <dd>A predicate that tests the socket id against the given socket id.</dd>
-  <dt><code>tag(String... tags)</code></dt>
-  <dd>A predicate that tests the socket tags against the given tags.</dd>
-</dl>
-
-Here’s an example to find sockets whose username is the same except the <code>socket</code>. Assume the <code>attr</code> and <code>id</code> are statically imported from the <code>ServerSocketPredicates</code> class.
-
-{% capture panel %}
-```java
-ServerSocketPredicate p = attr("username", username).and(id(socket).negate());
+```javascript
+socket.send("message", {text});
 ```
-{% endcapture %}{{ panel | markdownify }}
 
-#### Sentence
+For the details, See the reference documentation's [Working with Sockets](https://cettia.io/guides/cettia-tutorial/#working-with-sockets) and [Advanced Sockets Handling](https://cettia.io/guides/cettia-tutorial/#advanced-sockets-handling) sections.
 
-Each method on <code>Sentence</code> is mapped to a pre-implemented common socket action, so if the method is executed, its mapped action is executed with sockets matching the sentence’s predicate. Here is a list of methods on the sentence.
+### Conclusion
 
-<dl>
-  <dt><code>close()</code></dt>
-  <dd>Closes the socket.</dd>
-  <dt><code>send(String event)</code></dt>
-  <dd>Sends a given event without data through the socket.</dd>
-  <dt><code>send(String event, Object data)</code></dt>
-  <dd>Sends a given event with the given data through the socket.</dd>
-  <dt><code>tag(String... tags)</code></dt>
-  <dd>Attaches given tags to the socket.</dd>
-  <dt><code>untag(String... tags) </code></dt>
-  <dd>Detaches given tags from the socket.</dd>
-</dl>
+In this guide, we walked through basic features of Cettia with the [Cettia Starter Kit](https://github.com/cettia/cettia-starter-kit); opening a socket, tracking the socket lifecycle, storing information in a socket, and working with sockets. To learn more about Cettia, including 
 
-Here’s an example to send a `klose` event to given sockets and close their connections.
+- How to run an application on your favorite web framework
+- What types are allowed for event data
+- How to use POJOs as event data
+- How to scale an application
+- How to recover missed events, and so on
 
-{% capture panel %}
-```java
-server.find(p).send("klose").close();
-```
-{% endcapture %}{{ panel | markdownify }}
-
-### Scaling a Cettia Application
-
-Any publish-subscribe messaging system can be used to scale a Cettia application horizontally, and it doesn't require any modification in the existing application. Here's an example of Hazelcast. Replace <code>Server server = new DefaultServer();</code> with <code>ClusteredServer server = new ClusteredServer();</code>, and add the following dependencies to your application:
-
-{% capture panel %}
-```xml
-<dependencies>
-  <dependency>
-    <groupId>com.hazelcast</groupId>
-    <artifactId>hazelcast</artifactId>
-    <version>3.9.3</version>
-  </dependency>
-  <dependency>
-    <groupId>com.hazelcast</groupId>
-    <artifactId>hazelcast-client</artifactId>
-    <version>3.9.3</version>
-  </dependency>
-</dependencies>
-```
-{% endcapture %}{{ panel | markdownify }}
-
-Then place the following Hazelcast configuration after <code>ClusteredServer server = new ClusteredServer();</code>.
-
-{% capture panel %}
-```java
-HazelcastInstance hazelcast = HazelcastInstanceFactory.newHazelcastInstance(new Config());
-ITopic<Map<String, Object>> topic = hazelcast.getTopic("cettia");
-server.onpublish(message -> topic.publish(message));
-topic.addMessageListener(message -> server.messageAction().on(message.getMessageObject()));
-```
-{% endcapture %}{{ panel | markdownify }}
-
-If you start up the server with different port such as 8090, you should see servers listening to 8080 and 8090 form a a cluster of Hazelcast nodes. This means that a chat event sent from a client connected to the server on 8080 propagates to clients connected to the server on 8090 as well as 8080.
+Take a look at the reference documentation – [Building Real-Time Web Applications With Cettia](https://cettia.io/guides/cettia-tutorial). If you have any questions, please let us know on the [Cettia Groups](http://groups.google.com/group/cettia).
