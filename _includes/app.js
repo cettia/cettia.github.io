@@ -1,3 +1,7 @@
+if (typeof console !== "undefined") {
+  console.log("`cettia` object has loaded", cettia);
+}
+
 $(document).foundation();
 $("#content :header, #index h2, #index h3").each(function() {
   var $this = $(this);

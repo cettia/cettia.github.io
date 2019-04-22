@@ -36,13 +36,13 @@ We started Cettia's predecessor's predecessor (a jQuery plugin for HTTP streamin
 - It provides a bunch of useful helpers to help write more declarative and readable code.
 - It is designed not to share data between servers and can be scaled horizontally with ease.
 
-This document is originally written as an introductory tutorial to Cettia but now covers all the features of the Cettia. Code snippets covered in the document are partially included in the Cettia starter kit and the source code for the starter kit is available at [https://github.com/cettia/cettia-starter-kit](https://github.com/cettia/cettia-starter-kit).
+This document is originally written as an introductory tutorial to Cettia but now covers all the features of the Cettia as a reference document. Code snippets covered in the document are partially included in the Cettia starter kit and the source code for the starter kit is available at [https://github.com/cettia/cettia-starter-kit](https://github.com/cettia/cettia-starter-kit).
 
 ### Setting Up the Project
 
-First, be sure that you have Java 8+ and Maven 3+ installed. According to statistics from Maven Central, Servlet 3 and Java WebSocket API 1 are the most-used web frameworks in writing Cettia applications, so we will use them to build the Cettia starter kit. Of course, you can use other frameworks like Spring, Vert.x, and Netty as you will see later.
+First, be sure that you have Java 8+ and Maven 3+ installed. According to statistics from Maven Central, Servlet 3 and Java WebSocket API 1 are the most-used web frameworks in writing Cettia applications, so we will use them to build an example project. Of course, you can use other frameworks like Spring, Vert.x, and Netty as you will see later.
 
-Create a directory called `starter-kit`. We will write and manage only the following three files in the directory:
+Create a directory called an `example`. We will write and manage only the following three files in the directory:
 
 1. `pom.xml`: the Maven project descriptor.
 
@@ -54,8 +54,8 @@ Create a directory called `starter-kit`. We will write and manage only the follo
             xmlns="http://maven.apache.org/POM/4.0.0"
             xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
      <modelVersion>4.0.0</modelVersion>
-     <groupId>io.cettia.starter</groupId>
-     <artifactId>cettia-starter-kit</artifactId>
+     <groupId>io.cettia</groupId>
+     <artifactId>cettia-example</artifactId>
      <version>0.0.1-SNAPSHOT</version>
      <packaging>war</packaging>
      <properties>
@@ -107,12 +107,12 @@ Create a directory called `starter-kit`. We will write and manage only the follo
 
     To start up the server on port 8080, run `mvn jetty:run`. This Maven command is all we do with Maven in this tutorial. If you can achieve it with other build tools such as Gradle, it's absolutely fine to do that.
 
-1. `src/main/java/io/cettia/starter/CettiaConfigListener.java`: a Java class to play with the Cettia server.
+1. `src/main/java/io/cettia/CettiaInitializer.java`: a Java class to play with the Cettia server.
 
     `ServletContext` is a context object to represent a web application in a servlet container, and we can access it when the web application initialization process is starting by implementing a `ServletContextListener#contextInitialized` method. Within the method, we will set up and play with Cettia.
 
     ```java
-   package io.cettia.starter;
+   package io.cettia;
 
    import javax.servlet.ServletContext;
    import javax.servlet.ServletContextEvent;
@@ -120,7 +120,7 @@ Create a directory called `starter-kit`. We will write and manage only the follo
    import javax.servlet.annotation.WebListener;
 
    @WebListener
-   public class CettiaConfigListener implements ServletContextListener {
+   public class CettiaInitializer implements ServletContextListener {
      @Override
      public void contextInitialized(ServletContextEvent event) {}
 
@@ -138,7 +138,7 @@ Create a directory called `starter-kit`. We will write and manage only the follo
     ```html
     <!DOCTYPE html>
     <title>index</title>
-    <script src="https://unpkg.com/cettia-client@1.0.1/cettia-browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cettia-client/cettia-browser.min.js"></script>
     ```
 
     We will use the console only on this page, accessed through [http://127.0.0.1:8080](http://127.0.0.1:8080), to play with the `cettia` object interactively, rather than editing and refreshing the page. Otherwise, you can use bundlers such as Webpack or other runtimes like Node.js as follows.
@@ -272,7 +272,7 @@ Detailed architecture will be explained later. TODO add an architectural diagram
 
 ### Opening a Socket
 
-Let's jump back to the code. With Asity, we wrote `httpAction` to handle HTTP request-response exchange and `wsAction` to handle WebSocket connection, plugged them into Servlet and Java API for WebSocket, and map them to `/cettia`. Transport servers provided by Cettia, `HttpTransportServer` and `WebSocketTransportServer`, are implementations of `Action<ServerHttpExchange>` and `Action<ServerWebSocket>` and produce HTTP-based streaming and long polling transport and WebSocket transport, respecrively, according to Cettia Transport Protocol. These produced transports are passed into the `Server` and used to create and maintain `ServerSocket`s.
+Let's jump back to the code. With Asity, we wrote `httpAction` to handle HTTP request-response exchange and `wsAction` to handle WebSocket connection, plugged them into Servlet and Java API for WebSocket, and map them to `/cettia`. Transport servers provided by Cettia, `HttpTransportServer` and `WebSocketTransportServer`, are implementations of `Action<ServerHttpExchange>` and `Action<ServerWebSocket>` and produce HTTP-based streaming and long polling transport and WebSocket transport, respectively, according to Cettia Transport Protocol. These produced transports are passed into the `Server` and used to create and maintain `ServerSocket`s.
 
 Add the following imports:
 
@@ -284,7 +284,7 @@ import io.cettia.transport.http.HttpTransportServer;
 import io.cettia.transport.websocket.WebSocketTransportServer;
 ```
 
-Replace the Asity part in the `CettiaConfigListener#contextInitialized` method with the following Cettia part.
+Replace the Asity part in the `CettiaInitializer#contextInitialized` method with the following Cettia part.
 
 ```java
 // Cettia part
@@ -329,7 +329,7 @@ We will discuss features to deal with these tasks and flesh out the socket handl
 
 A socket always is in a specific state, such as opened or closed, and its state keeps changing based on the state of the underlying transport. Cettia defines the state transition diagram for the client socket and the server socket and provides various built-in events, which allows fine-grained handling of a socket when a state transition occurs. If you make good use of these diagrams and built-in events, you can easily handle stateful sockets in an event-driven way without having to manage their states by yourself.
 
-Add the following code to the socket handler in the `CettiaConfigListener`. It logs the socket's state when a state transition occurs.
+Add the following code to the socket handler in the `CettiaInitializer`. It logs the socket's state when a state transition occurs.
 
 ```java
 Action<Void> logState = v -> System.out.println(socket + " " + socket.state());
@@ -624,7 +624,7 @@ If you still prefer to write a socket action, you can do that like the following
 server.find(p, socket -> socket.send("klose").close());
 ```
 
-Let's bring all these features together and rewrite the above `chat` event handler in the starter kit.
+Let's bring all these features together and rewrite the above `chat` event handler in the example.
 
 ```java
 // import static io.cettia.ServerSocketPredicates.all;
@@ -669,7 +669,7 @@ import io.cettia.ClusteredServer;
 import java.util.Map;
 ```
 
-Replace the first line of the Cettia part in the starter kit, `Server server = new DefaultServer();`, with the following line:
+Replace the first line of the Cettia part in the example, `Server server = new DefaultServer();`, with the following line:
 
 ```java
 ClusteredServer server = new ClusteredServer();
@@ -680,7 +680,7 @@ ClusteredServer server = new ClusteredServer();
 1. `onpublish(Action<Map<String,Object>> action)` - The server intercepts the `find` method calls to the wrapped server, converts them to messages and passes them to the argument action. The action should publish a passed message to the cluster.
 1. `messageAction()` - This action accepts a published message and calls the wrapped server's `find` method. Its `on(Map<String,Object> message)` method should be called with a message when it arrives from the cluster.
 
-Just to give you an idea, with `server.onpublish(message -> server.messageAction().on(message));`, `ClusteredServer` will behave exactly the same as `DefaultServer`. Append the following code to the `CettiaConfigListener#contextInitialized` method:
+Just to give you an idea, with `server.onpublish(message -> server.messageAction().on(message));`, `ClusteredServer` will behave exactly the same as `DefaultServer`. Append the following code to the `CettiaInitializer#contextInitialized` method:
 
 ```java
 // Hazelcast part
