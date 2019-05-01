@@ -235,6 +235,7 @@ In this guide, we walked through basic features of Cettia with the [Cettia Start
 
 - How to run an application on your favorite web framework
 - What types are allowed for event data
+- How to handle binary data
 - How to use POJOs as event data
 - How to scale an application
 - How to recover missed events, and so on
