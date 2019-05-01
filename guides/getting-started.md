@@ -160,10 +160,11 @@ socket.on("close", () => addSystemMessage("All transports failed to connect or t
 socket.on("waiting", (delay) => addSystemMessage(`The socket will reconnect after ${delay} ms`));
 ```
 
-`addMessage` is a function to add a message to the message list by manipulating the DOM. If you are in the console, declare the function instead, as follows.
+`addMessage` is a function to add a message to the message list by manipulating the DOM. If you are in the console, declare the following function and register it as a `message` event handler, as follows.
 
 ```javascript
 const addMessage = ({sender, text}) => console.log(`${sender} sends ${text}`);
+socket.on("message", addMessage);
 ```
 
 For the details including state transition diagrams, see the reference documentation's [Socket Lifecycle](https://cettia.io/guides/cettia-tutorial/#socket-lifecycle).
