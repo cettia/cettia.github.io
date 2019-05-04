@@ -73,7 +73,7 @@ If you prefer to run code snippets on the fly, open the developer tools on this 
 
 Then, you should see that the `cettia` object is available. For your information, every page of [https://cettia.io](https://cettia.io) loads the latest version of `cettia` object so that you can play with the `cettia` object at any time.
 
-### React Native
+#### React Native
 
 **Note** It uses Cettia JavaScript Client 1.1.0-SNAPSHOT.
 
@@ -90,13 +90,13 @@ npm install
 
 Then, you can run the example with React Native CLI as follows.
 
-#### iOS
+##### iOS
 
 ```
 react-native run-ios
 ```
 
-#### Android
+##### Android
 
 ```
 react-native run-android

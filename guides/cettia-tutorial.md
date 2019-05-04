@@ -438,7 +438,14 @@ socket.on("echo", data => console.log(data));
 
 As we decided to use the console, you can type and run code snippets, e.g.: `socket.send("echo", {text: "I'm a text", binary: new TextEncoder().encode("I'm a binary")}).send("echo", "It's also chainable")` and watch results on the fly. Try it on your console.
 
-As the example suggests, event data can be basically anything as long as it is serializable, regardless of whether data is binary or text. If at least one of the properties of the event data is `byte[]` or `ByteBuffer` in the server, `Buffer` in Node or `ArrayBuffer` in the browser, the event data is treated as binary and MessagePack format is used instead of JSON format, and the binary property is given as a `ByteBuffer` in the server, a `Buffer` in Node and an `ArrayBuffer` in the browser. In short, you can exchange event data, including binary data, with no issue.
+As the example suggests, event data can be basically anything as long as it is serializable, regardless of whether data is binary or text. If at least one of the properties of the event data to send is one of the following,
+
+- `byte[]` or `ByteBuffer` in the server.
+- `Buffer` (Node.js only), `ArrayBuffer`, or Typed Arrays in the client.
+
+The event data is treated as binary and [MessagePack](https://msgpack.org/) format is used instead of JSON. By default, the binary property is given as a `ByteBuffer` in the server, a `Buffer` in Node and an `Uint8Array` in the browser. There is a great article by Ralph that walks you through how you can exchange Protocol Buffer messages between the client and the server: [Real-time messaging with Cettia and Spring Boot](https://golb.hplar.ch/2019/01/cettia-springboot.html#todo-example) If you want to deal with binary data with Cettia, we strongly recommend that you read the article.
+
+In short, you can exchange event data, including binary data, with no issue.
 
 ### Acknowledgement
 
