@@ -6,7 +6,7 @@ author: flowersinthesand
 
 Cettia JavaScript Client 1.1.0 has been released with many improvements including React Native support.
 
-#### React Native support
+### React Native support
 
 One of the key pieces of the 2019 roadmap is to support mobile application development. As the first milestone React Native support has been added. In React Native, you can load a `cettia` object as you would in a bundler such as Webpack. (React Native internally uses a bundler called Metro) The rest is the same. Use Cettia as you would when creating a webapp.
 
