@@ -161,7 +161,7 @@ Create a directory called an `example`. We will write and manage only the follow
 
 ### Plugging Into the Web Framework
 
-Before diving into the Cettia, let's take a look at the web framework agnostic nature of Cettia first. To enable greater freedom of choice on a technical stack, Cettia is designed to run on any web framework seamlessly on the JVM without degrading the underlying framework's performance; this is achieved by creating the [Asity](https://asity.cettia.io) project. Asity is a lightweight abstraction layer for Java web frameworks and supports almost all popular web frameworks in Java: Servlet and Java API for WebSocket, Spring WebFlux, Spring Web MVC, Grizzly, Vert.x, Netty, Atmosphere, and so on.
+Before diving into the Cettia, let's take a look at the web framework agnostic nature of Cettia first. To enable greater freedom of choice on a technical stack, Cettia is designed to run on any web framework seamlessly on the JVM without degrading the underlying framework's performance; this is achieved by creating the [Asity](https://asity.cettia.io) project. Asity is a lightweight abstraction layer for Java web frameworks and supports almost all popular web frameworks in Java: Servlet and Java API for WebSocket, Spring WebFlux, Spring Web MVC, Play Framework, Grizzly, Vert.x, Netty, Atmosphere, and so on.
 
 Asity defines a 'web fragment' as a component that receives HTTP request-response or WebSocket connection like a controller in MVC but is able to be compatible with any web framework on the JVM. At the code level, a web fragment is a set of `Action`s to handle `ServerHttpExchange` or `ServerWebSocket`, which represents HTTP request-response exchange and WebSocket connection, respectively.
 

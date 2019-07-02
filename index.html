@@ -29,7 +29,7 @@ title: A full-featured real-time web framework for Java
       </section>
       <section>
         <h3>Use whatever web framework you prefer</h3>
-        <p>Cettia is designed not just to run on any web framework seamlessly on the JVM but also not to degrade the underlying framework's performance. Almost all popular web frameworks in Java are supported: Java EE (Servlet and Java API for WebSocket), Spring WebFlux, Spring Web MVC, Vert.x, Grizzly, Netty, Atmosphere, and so on.</p>
+        <p>Cettia is designed not just to run on any web framework seamlessly on the JVM but also not to degrade the underlying framework's performance. Almost all popular web frameworks in Java are supported: Java EE (Servlet and Java API for WebSocket), Spring WebFlux, Spring Web MVC, Play Framework, Vert.x, Grizzly, Netty, Atmosphere, and so on.</p>
         <div class="explanation">
           <p>Plug transport servers into your favorite web framework.</p>
 {% capture panel %}
@@ -40,7 +40,7 @@ io.cettia.transport.websocket.WebSocketTransportServer wts = new WebSocketTransp
 ```
 {% endcapture %}{{ panel | markdownify }}
           {% include framework-examples.html %}
-          <!--<p><a href="https://github.com/cettia/cettia-starter-kit" target="_blank">See it in action</a></p>-->
+          <p><a href="https://github.com/cettia/cettia-starter-kit" target="_blank">Check out working examples</a></p>
         </div>
       </section>
       <section>

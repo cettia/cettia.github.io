@@ -2,6 +2,7 @@
           <li class="tabs-title is-active"><a href="#java-ee7" aria-selected="true">Servlet 3 & Java API for WebSocket 1</a></li>
           <li class="tabs-title"><a href="#spring-webflux-5">Spring WebFlux 5</a></li>
           <li class="tabs-title"><a href="#spring-mvc-4">Spring MVC 4</a></li>
+          <li class="tabs-title"><a href="#play-2">Play Framework 2</a></li>
           <li class="tabs-title"><a href="#vert-x-3">Vert.x 3</a></li>
           <li class="tabs-title"><a href="#netty-4">Netty 4</a></li>
           <li class="tabs-title"><a href="#grizzly-2">Grizzly 2</a></li>
@@ -113,6 +114,27 @@ public class Application implements WebSocketConfigurer {
 
   public static void main(String[] args) {
     SpringApplication.run(Application.class);
+  }
+}
+```
+{% endcapture %}{{ panel | markdownify }}
+          </div>
+          <div class="tabs-panel" id="play-2">
+{% capture panel %}
+```java
+public class CettiaController extends Controller {
+  private final ActorSystem actorSystem;
+  private final Materializer materializer;
+
+  @Inject
+  public CettiaController(ActorSystem actorSystem, Materializer materializer) {
+    this.actorSystem = actorSystem;
+    this.materializer = materializer;
+  }
+
+  public WebSocket websocket() {
+    WebSocket asityWebSocket = new AsityWebSocket(actorSystem, materializer).onwebsocket(wts);
+    return asityWebSocket;
   }
 }
 ```
